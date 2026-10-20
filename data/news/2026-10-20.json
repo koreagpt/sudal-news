@@ -1,77 +1,84 @@
 {
   "date": "2026-10-20",
-  "generated_at": "2026-10-20T02:59:07.247137+00:00",
-  "mode": "basic",
-  "model": null,
+  "generated_at": "2026-10-20T03:41:01.570145+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
   "items": [
     {
-      "title": "미국, 연방기관서 딥시크 퇴출…기반 기술 활용 외부 서비스도 포함",
-      "summary": "",
-      "comment": "",
-      "category": "AI 뉴스",
-      "link": "https://www.aitimes.com/news/articleView.html?idxno=216417",
+      "title": "텐센트, 챗GPT·클로드 기억 잇는 기술 공개",
+      "summary": "텐센트가 AI 도구 간 대화와 작업 기록을 공유하는 오픈소스 ‘하이 메모리 2.0’을 공개했습니다. 도구를 바꿔도 기존 맥락을 이어가는 기술입니다.",
+      "comment": "챗봇 바꿀 때마다 업무 설명 다시 하던 거, 나만 지쳤나.",
+      "category": "연구·기술",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216413",
       "source": "AI타임스",
-      "original_title": "미국, 연방기관서 딥시크 퇴출…기반 기술 활용 외부 서비스도 포함",
+      "original_title": "텐센트, 챗봇마다 저장하던 AI 메모리 통합...클로드·챗GPT에서 공유",
       "lang": "ko",
-      "published": "2026-10-19T20:29:07+00:00"
+      "published": "2026-10-19T08:54:24+00:00"
     },
     {
-      "title": "오픈AI 회의실 도청 전 직원, 사우디 왕실과 취업 논의...보석 신청은 기각",
-      "summary": "",
-      "comment": "",
-      "category": "AI 뉴스",
-      "link": "https://www.aitimes.com/news/articleView.html?idxno=216430",
-      "source": "AI타임스",
-      "original_title": "오픈AI 회의실 도청 전 직원, 사우디 왕실과 취업 논의...보석 신청은 기각",
+      "title": "벤츠 AI 음성인식, 챗GPT·빙과 연동",
+      "summary": "국내 벤츠 음성인식이 챗GPT·빙과 연동되는 AI 음성인식으로 바뀌었습니다. 새로 출시된 GLC·CLA 전기차 등에 적용됐습니다.",
+      "comment": "운전 중 복잡한 부탁도 말로 끝내면 한결 편하겠네.",
+      "category": "서비스·제품",
+      "link": "https://www.bloter.net/news/articleView.html?idxno=676069",
+      "source": "블로터",
+      "original_title": "국내 벤츠 AI 음성인식...“햄버거 먹고 가자” 알아듣네 [카미경]",
       "lang": "ko",
-      "published": "2026-10-20T02:56:23+00:00"
+      "published": "2026-10-20T00:53:49+00:00"
     },
     {
-      "title": "네이버, 검색 결과에 AI '관련질문' 확대…AI가 후속 질문 먼저 제안",
-      "summary": "",
-      "comment": "",
-      "category": "AI 뉴스",
-      "link": "https://www.etnews.com/20261020000157",
-      "source": "전자신문",
-      "original_title": "네이버, 검색 결과에 AI '관련질문' 확대…AI가 후속 질문 먼저 제안",
+      "title": "노인 홀리는 AI 가짜의사…건강 영상 주의",
+      "summary": "많이 본 영상 4건 중 1건이 허구라는 보도가 나왔습니다. 노인을 현혹하는 ‘AI 가짜의사’ 문제를 다뤘습니다.",
+      "comment": "부모님이 보내준 건강 영상, 의사부터 확인해 보자.",
+      "category": "정책·사회",
+      "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5xMEdOb1l2aGNNSkdPSDBUOXFVT1NaVXA0YlkxRmJ6NWdIWXdaa0lDalBUU2c0bUJZbEVVQS1UcS1pZUhWdkYtX3dyeWMtRnByT2JDWTg4blBHNHlWMXBHVmdOSGthTlVEelJ6emQ2RmdQUQ?oc=5",
+      "source": "의협신문",
+      "original_title": "노인 홀리는 'AI 가짜의사', 많이 본 영상 4건 중 1건이 '허구'",
       "lang": "ko",
-      "published": "2026-10-20T02:26:02+00:00"
+      "published": "2026-10-20T03:27:04+00:00"
     },
     {
-      "title": "[AI 활용팁] 챗GPT 닷을 아이폰 위젯과 액션 버튼으로 호출하기",
-      "summary": "",
-      "comment": "",
-      "category": "AI 뉴스",
-      "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5uaWhOUGl5Rm9DdFczbEtGWFZ4WjEwTUpXNU8wdm5ENU5lRDViUDlOVHVKMkRJaU9pVlV1TGFxaXNSLU9zOWVfLThNSXh2OVk?oc=5",
-      "source": "AI 매터스",
-      "original_title": "[AI 활용팁] 챗GPT 닷을 아이폰 위젯과 액션 버튼으로 호출하기",
-      "lang": "ko",
-      "published": "2026-10-20T02:47:59+00:00"
+      "title": "광고·추적에 지친 이용자들, AI로 TV 정리",
+      "summary": "일부 스마트TV 이용자가 AI 에이전트로 불필요한 소프트웨어를 제거하고 있습니다. 광고와 추적, 느린 화면 조작에 대한 불만이 배경입니다.",
+      "comment": "TV도 군더더기 정리가 필요했네. 따라 하기엔 신중하자.",
+      "category": "업무활용",
+      "link": "https://techcrunch.com/2026/10/19/people-are-using-ai-to-make-their-smart-tvs-dumb-again/",
+      "source": "TechCrunch",
+      "original_title": "People are using AI to make their smart TVs dumb again",
+      "lang": "en",
+      "published": "2026-10-19T16:13:22+00:00"
     },
     {
-      "title": "\"출시도 전에 베낄라\"…게임 업계, 'AI 복제' 우려에 비상",
-      "summary": "",
-      "comment": "",
-      "category": "AI 뉴스",
-      "link": "https://zdnet.co.kr/view/?no=20261020093050",
+      "title": "MS, 기업에 AI 에이전트 감시 필요성 강조",
+      "summary": "마이크로소프트가 AI 에이전트를 내부자 위협에 비유했습니다. 기업이 직원들의 에이전트 사용을 면밀히 살펴야 한다고 강조했습니다.",
+      "comment": "일 잘하는 AI라도 회사 자료 접근 권한은 따져보자.",
+      "category": "정책·사회",
+      "link": "https://techcrunch.com/2026/10/19/microsoft-says-ai-agents-are-like-insider-threats-as-frontier-models-cant-be-trusted/",
+      "source": "TechCrunch",
+      "original_title": "Microsoft says AI agents are like insider threats as ‘frontier models can’t be trusted’",
+      "lang": "en",
+      "published": "2026-10-19T22:04:28+00:00"
+    },
+    {
+      "title": "일본 기차역 화장실, AI 로봇 청소 실증",
+      "summary": "JR동일본이 도쿄 아카바네역에서 AI 로봇 청소 실증에 나섭니다. 로봇이 청소하고 AI와 센서가 이용·오염 상태로 청소 시점과 장소를 판단합니다.",
+      "comment": "사람 손 많이 가는 청소부터 도와주면 반갑지.",
+      "category": "업무활용",
+      "link": "https://zdnet.co.kr/view/?no=20261020105028",
       "source": "지디넷코리아",
-      "original_title": "\"출시도 전에 베낄라\"…게임 업계, 'AI 복제' 우려에 비상",
+      "original_title": "일본 기차역 화장실 청소, AI 로봇이 맡는다",
       "lang": "ko",
-      "published": "2026-10-20T00:56:19+00:00"
-    },
-    {
-      "title": "[현장] \"로봇 AI, 아직 '챗GPT 모멘트' 안 왔다..범용성이 핵심\"",
-      "summary": "",
-      "comment": "",
-      "category": "AI 뉴스",
-      "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1PTDZwMi0tdTEyRkFYdmVRRzNlVnZvUjVhMG1SUEdFUTdXdms4YzVUcG5RX1JLRExhSWZHandBNkZWNmxUeHB0SktYQ0szdGJOWlJfVmpJYUtCWEVxYllCSGtNSlE?oc=5",
-      "source": "포쓰저널",
-      "original_title": "[현장] \"로봇 AI, 아직 '챗GPT 모멘트' 안 왔다..범용성이 핵심\"",
-      "lang": "ko",
-      "published": "2026-10-20T02:31:58+00:00"
+      "published": "2026-10-20T01:50:28+00:00"
     }
   ],
-  "webtoon_suggestion": null,
+  "webtoon_suggestion": {
+    "idea": "1컷 수달 사원이 챗GPT에 업무 배경을 길게 설명하고, 2컷 클로드로 옮겼다가 같은 설명에 지치고, 3컷 동료가 AI 기억 공유 기술 소식을 보여주자, 4컷 수달이 '내 인수인계도 한 번이면 좋겠다'며 커피잔을 든다.",
+    "link": "https://www.aitimes.com/news/articleView.html?idxno=216413",
+    "source": "AI타임스",
+    "original_title": "텐센트, 챗봇마다 저장하던 AI 메모리 통합...클로드·챗GPT에서 공유",
+    "lang": "ko",
+    "published": "2026-10-19T08:54:24+00:00"
+  },
   "feeds": {
     "aitimes": {
       "fetched": 50,
@@ -80,12 +87,12 @@
     },
     "gnews_kr": {
       "fetched": 100,
-      "kept": 96,
+      "kept": 95,
       "error": null
     },
     "zdnet_kr": {
       "fetched": 30,
-      "kept": 9,
+      "kept": 12,
       "error": null
     },
     "bloter": {
@@ -94,9 +101,9 @@
       "error": null
     },
     "etnews": {
-      "fetched": 30,
-      "kept": 7,
-      "error": null
+      "fetched": 0,
+      "kept": 0,
+      "error": "URLError: <urlopen error timed out>"
     },
     "openai": {
       "fetched": 1300,
@@ -118,5 +125,17 @@
       "kept": 6,
       "error": null
     }
+  },
+  "webtoon_status": {
+    "ok": false,
+    "attempts": 2,
+    "topic": "텐센트, 챗봇마다 저장하던 AI 메모리 통합...클로드·챗GPT에서 공유",
+    "source": "AI타임스",
+    "problems": [
+      "2컷 오른쪽 문서에 대본에 없는 손글씨 형태의 판독 불가능한 글자들이 들어가 있습니다.",
+      "2컷 문서의 판독 불가능한 글자를 삭제하고 글자 없는 도형이나 선으로 대체하세요."
+    ],
+    "made_at": "2026-10-20T12:41+09:00",
+    "title": "설명도 이사 중"
   }
 }
