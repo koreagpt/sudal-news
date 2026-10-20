@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-20",
+  "generated_at": "2026-10-20T01:58:14.206609+00:00",
+  "mode": "basic",
+  "model": null,
+  "items": [
+    {
+      "title": "미국, 연방기관서 딥시크 퇴출…기반 기술 활용 외부 서비스도 포함",
+      "summary": "",
+      "comment": "",
+      "category": "AI 뉴스",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216417",
+      "source": "AI타임스",
+      "original_title": "미국, 연방기관서 딥시크 퇴출…기반 기술 활용 외부 서비스도 포함",
+      "lang": "ko",
+      "published": "2026-10-19T20:29:07+00:00"
+    },
+    {
+      "title": "구글, AI 성능 스스로 높이는 자기개선 프레임워크 ‘하네스²’ 공개",
+      "summary": "",
+      "comment": "",
+      "category": "AI 뉴스",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216410",
+      "source": "AI타임스",
+      "original_title": "구글, AI 성능 스스로 높이는 자기개선 프레임워크 ‘하네스²’ 공개",
+      "lang": "ko",
+      "published": "2026-10-19T09:01:15+00:00"
+    },
+    {
+      "title": "[써보고서] 챗GPT와 첫 마라톤 훈련…전문가 조언 더해 안전히 기록 단축",
+      "summary": "",
+      "comment": "",
+      "category": "AI 뉴스",
+      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9MUU9DY243TXlHNjFwZXcwWUtQN2tUTUdMT1psY2I2cmxTZ201VDRHcDVwUGN5bEN4Mi1lQW5uRjcwQ1NhZkNVS0ZEY3EwcnA0aF9FQ2xR?oc=5",
+      "source": "지디넷코리아",
+      "original_title": "[써보고서] 챗GPT와 첫 마라톤 훈련…전문가 조언 더해 안전히 기록 단축",
+      "lang": "ko",
+      "published": "2026-10-20T01:06:12+00:00"
+    },
+    {
+      "title": "베스핀글로벌, '2026 산업별 AX 고객 사례집' 발간…성과 수치 공개",
+      "summary": "",
+      "comment": "",
+      "category": "AI 뉴스",
+      "link": "https://www.etnews.com/20261020000131",
+      "source": "전자신문",
+      "original_title": "베스핀글로벌, '2026 산업별 AX 고객 사례집' 발간…성과 수치 공개",
+      "lang": "ko",
+      "published": "2026-10-20T01:29:36+00:00"
+    },
+    {
+      "title": "KAIST, 구름에 가린 위성영상 '빈 틈' 메우는 AI 개발...국방 분야도 활용 기대",
+      "summary": "",
+      "comment": "",
+      "category": "AI 뉴스",
+      "link": "https://www.etnews.com/20261020000109",
+      "source": "전자신문",
+      "original_title": "KAIST, 구름에 가린 위성영상 '빈 틈' 메우는 AI 개발...국방 분야도 활용 기대",
+      "lang": "ko",
+      "published": "2026-10-20T01:13:57+00:00"
+    },
+    {
+      "title": "\"출시도 전에 베낄라\"…게임 업계, 'AI 복제' 우려에 비상",
+      "summary": "",
+      "comment": "",
+      "category": "AI 뉴스",
+      "link": "https://zdnet.co.kr/view/?no=20261020093050",
+      "source": "지디넷코리아",
+      "original_title": "\"출시도 전에 베낄라\"…게임 업계, 'AI 복제' 우려에 비상",
+      "lang": "ko",
+      "published": "2026-10-20T00:56:19+00:00"
+    }
+  ],
+  "webtoon_suggestion": null,
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 32,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 100,
+      "kept": 98,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 9,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 11,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 30,
+      "kept": 4,
+      "error": null
+    },
+    "openai": {
+      "fetched": 1300,
+      "kept": 1,
+      "error": null
+    },
+    "google_ai": {
+      "fetched": 20,
+      "kept": 0,
+      "error": null
+    },
+    "techcrunch_ai": {
+      "fetched": 20,
+      "kept": 14,
+      "error": null
+    },
+    "verge_ai": {
+      "fetched": 10,
+      "kept": 6,
+      "error": null
+    }
+  }
+}

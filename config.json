@@ -1,0 +1,36 @@
+{
+  "site": {
+    "name": "수달일보",
+    "kicker": "한국GPT협회 수달 사원의",
+    "tagline": "한국GPT협회에 다니는 수달 사원이 매일 아침 골라오는 AI 뉴스",
+    "reporter": {
+      "name": "수달 사원",
+      "role": "AI 뉴스 담당",
+      "employee_no": "GPT-0001",
+      "intro": "늘 피곤하지만 AI 뉴스만큼은 매일 아침 꼬박꼬박 챙겨 와요."
+    },
+    "base_url": "",
+    "publisher": "한국GPT협회",
+    "publisher_line": "기업강의 · 온라인교육",
+    "publisher_url": "",
+    "contact_text": "AI 교육 문의"
+  },
+  "curation": {
+    "count": 6,
+    "window_hours": 36,
+    "fallback_window_hours": 72,
+    "max_candidates": 60,
+    "model": "claude-opus-5-5"
+  },
+  "feeds": [
+    {"id": "aitimes", "name": "AI타임스", "url": "https://www.aitimes.com/rss/allArticle.xml", "lang": "ko", "ai_only": true},
+    {"id": "gnews_kr", "name": "구글뉴스", "url": "https://news.google.com/rss/search?q=%EC%83%9D%EC%84%B1%ED%98%95AI%20OR%20%EC%B1%97GPT%20OR%20%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5%20when%3A1d&hl=ko&gl=KR&ceid=KR%3Ako", "lang": "ko", "ai_only": true},
+    {"id": "zdnet_kr", "name": "지디넷코리아", "url": "https://feeds.feedburner.com/zdkorea", "lang": "ko", "ai_only": false},
+    {"id": "bloter", "name": "블로터", "url": "https://www.bloter.net/rss/allArticle.xml", "lang": "ko", "ai_only": false},
+    {"id": "etnews", "name": "전자신문", "url": "https://rss.etnews.com/Section902.xml", "lang": "ko", "ai_only": false},
+    {"id": "openai", "name": "OpenAI", "url": "https://openai.com/news/rss.xml", "lang": "en", "ai_only": true},
+    {"id": "google_ai", "name": "Google AI 블로그", "url": "https://blog.google/technology/ai/rss/", "lang": "en", "ai_only": true},
+    {"id": "techcrunch_ai", "name": "TechCrunch", "url": "https://techcrunch.com/category/artificial-intelligence/feed/", "lang": "en", "ai_only": true},
+    {"id": "verge_ai", "name": "The Verge", "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", "lang": "en", "ai_only": true}
+  ]
+}

@@ -1,0 +1,492 @@
+/* 수달일보 — 수달 사원 톤: 크림 종이, 베이지 털, 남색 카디건, 형광펜 노랑 */
+:root {
+  color-scheme: light;
+  --paper: #fbf6ec;
+  --paper-deep: #f3ead9;
+  --card: #ffffff;
+  --ink: #2a2420;
+  --ink-soft: #5b5149;
+  --muted: #8a7d71;
+  --navy: #2c3553;
+  --fur: #a88a6a;
+  --fur-light: #e8dac6;
+  --brown: #6b4a2f;
+  --marker: #f7dc86;
+  --line: rgba(42, 36, 32, 0.85);
+  --radius: 16px;
+  --display: "Jua", "Pretendard Variable", sans-serif;
+  --body: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+a { color: inherit; }
+
+img { max-width: 100%; display: block; }
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+
+mark {
+  background: linear-gradient(transparent 58%, var(--marker) 58%);
+  color: inherit;
+  padding: 0 2px;
+}
+
+/* ---------- 제호 ---------- */
+.masthead {
+  text-align: center;
+  padding: 32px 0 20px;
+  border-bottom: 2px solid var(--line);
+  margin-bottom: 24px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.kicker {
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  letter-spacing: 0.2px;
+}
+
+.kicker strong {
+  color: #fff;
+  background: var(--navy);
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin-right: 2px;
+  font-weight: 700;
+}
+
+/* 수달 사원의 사원증 — 웹툰 속 목걸이 사원증과 같은 모티프 */
+.badge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 74px;
+  padding: 0 0 6px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  transform: rotate(-5deg);
+  box-shadow: 3px 3px 0 var(--fur-light);
+}
+
+.badge::before { /* 목걸이 줄 구멍 */
+  content: "";
+  position: absolute;
+  top: 19px;
+  width: 16px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--paper-deep);
+}
+
+.badge-org {
+  width: 100%;
+  background: var(--navy);
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  text-align: center;
+  padding: 3px 0 13px;
+  line-height: 1.2;
+}
+
+.badge img {
+  width: 52px;
+  height: 52px;
+  margin-top: -6px;
+  border-radius: 6px;
+  border: 1.5px solid var(--line);
+  background: var(--paper-deep);
+}
+
+.badge-name {
+  margin-top: 3px;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.wordmark {
+  font-family: var(--display);
+  font-size: 44px;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  background: linear-gradient(transparent 62%, var(--marker) 62%);
+  padding: 0 4px;
+}
+
+.tagline {
+  margin: 12px auto 2px;
+  max-width: 22em;
+  text-wrap: balance;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+.dateline {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.2px;
+}
+
+.jump {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 6px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+html { scroll-behavior: smooth; }
+.news { scroll-margin-top: 16px; }
+
+/* ---------- 섹션 공통 ---------- */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 12px;
+}
+
+.section-head h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 24px;
+  margin: 0;
+}
+
+.toon-name,
+.count {
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* ---------- 오늘의 웹툰 ---------- */
+.toon { margin-bottom: 36px; }
+
+.toon-frame {
+  display: block;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 4px 4px 0 var(--fur-light);
+}
+
+.toon-frame img { width: 100%; height: auto; }
+
+.toon-note {
+  margin: 10px 2px 0;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.toon-note a { color: var(--ink-soft); }
+
+/* ---------- 뉴스 카드 ---------- */
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 18px 14px;
+  box-shadow: 4px 4px 0 var(--fur-light);
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.num {
+  font-family: var(--display);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--fur);
+}
+
+.cat {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
+  border-radius: 999px;
+  padding: 1px 9px;
+}
+
+.card h3 {
+  font-size: 18px;
+  line-height: 1.45;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.card h3 a { text-decoration: none; }
+.card h3 a:hover { text-decoration: underline; text-decoration-color: var(--marker); text-decoration-thickness: 4px; }
+
+.summary {
+  margin: 0 0 10px;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+/* 수달 한마디 — 웹툰 말풍선처럼 */
+.comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 4px 0 10px;
+}
+
+.comment img {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+}
+
+.comment p {
+  position: relative;
+  margin: 0;
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 7px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.comment p::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 11px;
+  width: 10px;
+  height: 10px;
+  background: var(--paper);
+  border-left: 1.5px solid var(--line);
+  border-bottom: 1.5px solid var(--line);
+  transform: rotate(45deg);
+}
+
+.source {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.source a {
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.empty {
+  text-align: center;
+  padding: 32px 16px;
+  border: 2px dashed var(--fur);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+}
+
+.empty p { margin: 4px 0; }
+
+/* ---------- 지난 호 ---------- */
+.archive ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.archive a {
+  display: block;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 16px;
+  text-decoration: none;
+}
+
+.a-date { display: block; color: var(--muted); font-size: 13px; }
+.a-head { display: block; font-weight: 600; }
+
+/* ---------- 바닥글 ---------- */
+.footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid var(--line);
+  text-align: center;
+}
+
+.archive-link {
+  display: table;
+  margin: 0 auto;
+  font-family: var(--display);
+  font-size: 18px;
+  text-decoration: none;
+  padding: 8px 20px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  box-shadow: 3px 3px 0 var(--fur-light);
+}
+
+.idcard {
+  max-width: 320px;
+  margin: 28px auto 18px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: left;
+  box-shadow: 4px 4px 0 var(--fur-light);
+}
+
+.idcard-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--navy);
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+.idcard-top span { font-size: 12px; opacity: 0.8; letter-spacing: 2px; }
+
+.idcard-body {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 14px 6px;
+}
+
+.idcard-body img {
+  flex: none;
+  width: 76px;
+  height: 76px;
+  border-radius: 8px;
+  border: 1.5px solid var(--line);
+  background: var(--paper-deep);
+}
+
+.idcard dl { margin: 0; display: grid; gap: 2px; font-size: 14px; }
+.idcard dl div { display: flex; gap: 10px; }
+.idcard dt { color: var(--muted); width: 28px; flex: none; }
+.idcard dd { margin: 0; font-weight: 600; }
+
+.idcard-intro {
+  margin: 0;
+  padding: 6px 14px 14px;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+}
+
+.org {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.org strong { color: var(--ink); }
+
+.contact {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.fine {
+  margin: 0 auto;
+  max-width: 460px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 400px) {
+  .wordmark { font-size: 38px; }
+  .badge { width: 66px; }
+  .badge img { width: 46px; height: 46px; }
+  .card { padding: 16px 14px 12px; }
+}
+
+/* ---------- 운영자용 게시글 복사 ---------- */
+.share-help { color: var(--ink-soft); font-size: 14px; margin: 0 0 20px; }
+.share-day { margin-bottom: 28px; }
+
+.share-day textarea {
+  width: 100%;
+  font: 14px/1.6 var(--body);
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.copy {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  font: 700 16px var(--body);
+  color: #fff;
+  background: var(--navy);
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+}
