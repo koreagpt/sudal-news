@@ -73,7 +73,9 @@ SCRIPT_SCHEMA = {
 REVIEW_INSTRUCTIONS = """너는 웹툰 검수자다. 첨부된 첫 번째 이미지는 새로 그린 4컷 웹툰, 두 번째 이미지는 주인공 수달 사원의 인물 기준 그림이다.
 아래 기준으로 엄격하게 확인하고, 애매하면 통과시키지 않는다.
 - 위에서 아래로 컷이 정확히 4개인가.
-- 대본의 한국어 글자(제목, 말풍선, 마무리 문구)가 한 글자도 틀리지 않고 읽히는가. 깨진 글자, 없는 글자, 엉뚱한 글자, 대본에 없는 글자가 있으면 text_errors에 적는다.
+- 함께 준 '그려야 할 글자' 목록(제목, 말풍선, 마무리 문구, 하단 안내·출처)이 한 글자도 틀리지 않고 읽히는가. 깨진 글자, 빠진 글자, 엉뚱한 글자, 목록에 없는 읽히는 글자가 있으면 text_errors에 적는다.
+- 문장부호(마침표, 쉼표, 말줄임표, 물음표)만 조금 다른 것은 오류가 아니다.
+- 배경 소품(서류, 화면, 메모)의 읽을 수 없는 선이나 장식 무늬는 오류가 아니다. 다만 깨진 한글처럼 보이는 글자가 눈에 띄게 크면 오류다.
 - 모든 컷의 수달이 인물 기준과 같은 캐릭터인가 (베이지 털, 크림색 주둥이, 남색 카디건, 흰 셔츠, 사원증).
 - 실존 회사 로고나 실존 인물 얼굴처럼 보이는 것이 없는가.
 problems에는 다시 그릴 때 고쳐야 할 점을 짧게 적는다."""
@@ -137,21 +139,22 @@ Layout from top to bottom:
 - Footer on a cream background: two lines of large bold Korean text, first line "{script['closing_line1']}" in dark navy, second line "{script['closing_line2']}" in dark brown with a yellow highlighter stripe.
 - Tiny grey text at the very bottom: left "{NOTE}", right "소재: {source_name}".
 
-Text rules: render every Korean string exactly as written, character by character. Put dialogue in white rounded speech bubbles with dark outlines whose tails point to the speaker. Do not add any other text, English words, signatures, watermarks, brand logos or real people."""
+Text rules: render every Korean string exactly as written, character by character. Put dialogue in white rounded speech bubbles with dark outlines whose tails point to the speaker. Documents, papers, phone and laptop screens in the scenes show only simple icons, blocks or lines, never letters. Do not add any other text, English words, signatures, watermarks, brand logos or real people."""
     if feedback:
         prompt += "\n\nThe previous attempt had these problems. Fix them:\n- " + "\n- ".join(feedback)
     return prompt
 
 
-def review(model: str, image: Path, character: Path, script: dict) -> dict:
-    expected = [script["title"], script["subtitle"]]
+def review(model: str, image: Path, character: Path, script: dict, source_name: str) -> dict:
+    expected = [f"제목: {script['title']}", f"부제: {script['subtitle']}"]
     for number, panel in enumerate(script["panels"], 1):
-        expected += [f"{number}컷 {bubble['speaker']}: {bubble['text']}" for bubble in panel["bubbles"]]
-    expected += [script["closing_line1"], script["closing_line2"]]
+        expected += [f"{number}컷 말풍선 ({bubble['speaker']}): {bubble['text']}" for bubble in panel["bubbles"]]
+    expected += [f"마무리 1: {script['closing_line1']}", f"마무리 2: {script['closing_line2']}",
+                 f"하단 왼쪽 작은 글씨: {NOTE}", f"하단 오른쪽 작은 글씨: 소재: {source_name}"]
     content = [{
         "role": "user",
         "content": [
-            {"type": "input_text", "text": "대본의 글자:\n" + "\n".join(expected)},
+            {"type": "input_text", "text": "그려야 할 글자 (이 밖의 읽히는 글자는 없어야 함):\n" + "\n".join(expected)},
             llm.image_part(image),
             llm.image_part(character),
         ],
@@ -192,6 +195,7 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
 
     script = write_script(settings["script_model"], source)
     status["title"] = script["title"]
+    status["script"] = script  # 검수에서 떨어져도 대본은 남겨 둔다 (사람이 시안을 직접 채택할 때 사용)
     drafts = project / "data" / "drafts"
     drafts.mkdir(parents=True, exist_ok=True)
     feedback: list[str] = []
@@ -205,7 +209,7 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
         )
         draft = drafts / f"{day}-try{attempt}.jpg"
         draft.write_bytes(image)
-        verdict = review(settings["review_model"], draft, references[0], script)
+        verdict = review(settings["review_model"], draft, references[0], script, source.get("source", ""))
         feedback = verdict["text_errors"] + verdict["problems"]
         status["problems"] = feedback
         if verdict["passed"]:
