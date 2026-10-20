@@ -1,2 +1,2 @@
-anthropic>=1.15
+openai>=3.35
 pillow>=11

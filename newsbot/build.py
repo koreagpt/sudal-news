@@ -225,12 +225,47 @@ def share_text(site: dict, day: str, news: dict) -> str:
     items = news.get("items", [])
     lines = [f"🦦 {_brand_name(site)} | {_korean_date(day, long=False)}", f"오늘의 AI 뉴스 {len(items)}건", ""]
     lines += [f"{number}. {item['title']}" for number, item in enumerate(items, 1)]
-    lines += ["", "👉 4컷 웹툰과 뉴스 요약 보기" if news.get("mode") == "claude" else "👉 4컷 웹툰과 뉴스 보기", url]
+    lines += ["", "👉 4컷 웹툰과 뉴스 요약 보기" if any(item.get("summary") for item in items) else "👉 4컷 웹툰과 뉴스 보기", url]
     return "\n".join(lines)
 
 
-def render_share(site, days, newses, root="../") -> str:
+def _webtoon_panel(site, day, news, webtoons, root) -> str:
+    """운영자용: 오늘 웹툰 상태와 다시 만들기 안내."""
+    toon, is_today = _webtoon_for(day, webtoons)
+    status = news.get("webtoon_status")
+    if is_today and toon:
+        head = f'<p class="toon-state ok">오늘 웹툰 완성: <strong>{escape(toon["title"])}</strong></p>'
+        preview = (f'<a class="toon-thumb" href="{root}webtoons/{escape(toon["image"])}" target="_blank" rel="noopener">'
+                   f'<img src="{root}webtoons/{escape(toon["image"])}" alt="{escape(toon["alt"])}" loading="lazy"></a>')
+    else:
+        reason = ""
+        if status and status.get("problems"):
+            reason = "<br>이유: " + escape(" / ".join(status["problems"][:3]))
+        elif not status:
+            reason = "<br>이유: 웹툰 자동 생성이 아직 실행되지 않았어요 (OpenAI 키 확인)."
+        shown = f'지금 페이지에는 {_korean_date(toon["date"], long=False)} 웹툰이 나와요.' if toon else ""
+        head = f'<p class="toon-state warn">오늘 웹툰을 만들지 못했어요. {shown}{reason}</p>'
+        preview = ""
+    redo = ""
+    if site.get("repo"):
+        url = f"https://github.com/{site['repo']}/actions/workflows/daily.yml"
+        redo = f"""
+  <details class="redo">
+    <summary>웹툰 다시 만들기</summary>
+    <ol>
+      <li><a href="{url}" target="_blank" rel="noopener">GitHub 실행 화면</a>을 엽니다 (GitHub 앱에서도 돼요).</li>
+      <li><strong>Run workflow</strong> → mode에서 <strong>webtoon</strong>을 고릅니다.</li>
+      <li>다른 뉴스로 만들려면 topic에 뉴스 번호(1~6)를 적습니다.</li>
+      <li><strong>Run workflow</strong>를 누르고 3~5분 뒤 이 페이지를 새로고침합니다.</li>
+    </ol>
+  </details>"""
+    return f'\n<section class="toon-admin">{head}{preview}{redo}\n</section>'
+
+
+def render_share(site, days, newses, webtoons, root="../") -> str:
     blocks = []
+    if days:
+        blocks.append(_webtoon_panel(site, max(days), newses[max(days)], webtoons, root))
     for day in sorted(days, reverse=True)[:7]:
         text = share_text(site, day, newses[day])
         blocks.append(f"""
@@ -307,7 +342,7 @@ def build(project: Path, config: dict) -> Path:
         render_day(site, today, newses.get(today), webtoons, len(days) or 1, "", "", og_image(today)),
         encoding="utf-8",
     )
-    for name, html in (("archive", render_archive(site, days, newses)), ("share", render_share(site, days, newses))):
+    for name, html in (("archive", render_archive(site, days, newses)), ("share", render_share(site, days, newses, webtoons))):
         (out / name).mkdir(exist_ok=True)
         (out / name / "index.html").write_text(html, encoding="utf-8")
     return out

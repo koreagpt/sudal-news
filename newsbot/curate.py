@@ -1,15 +1,15 @@
 """후보 기사 중 오늘의 뉴스를 고르고 한국어로 요약한다.
 
-ANTHROPIC_API_KEY가 있으면 Claude가 선별·요약하고,
+OPENAI_API_KEY가 있으면 GPT가 선별·요약하고,
 없거나 실패하면 키워드 점수로 고르는 기본 모드로 동작한다.
 """
 from __future__ import annotations
 
-import json
 import math
-import os
 import re
 from datetime import datetime, timezone
+
+from . import llm
 
 CATEGORIES = ["서비스·제품", "업무활용", "연구·기술", "기업·투자", "정책·사회", "교육"]
 
@@ -82,35 +82,19 @@ def _source_entry(item: dict) -> dict:
     }
 
 
-def curate_with_claude(candidates: list[dict], count: int, model: str) -> dict:
-    import anthropic  # 기본 모드만 쓸 때는 SDK 없이도 동작하도록 여기서 불러온다
-
-    client = anthropic.Anthropic()
-    response = client.beta.messages.create(
-        model=model,
-        max_tokens=16000,
-        system=SYSTEM_PROMPT,
-        messages=[{
-            "role": "user",
-            "content": (
-                f"오늘의 후보 기사 {len(candidates)}개다. 이 중 {count}개를 골라 작성 규칙대로 정리해줘. "
-                f"candidate_id는 대괄호 안 번호다. 독자에게 가장 흥미로운 순서로 정렬해줘.\n\n"
-                + _candidate_block(candidates)
-            ),
-        }],
-        output_config={
-            "effort": "medium",
-            "format": {"type": "json_schema", "schema": _schema(count)},
-        },
-        betas=["server-side-fallback-2026-07-01"],
-        fallbacks="default",
+def curate_with_gpt(candidates: list[dict], count: int, model: str, effort: str | None = None) -> dict:
+    data = llm.ask_json(
+        model,
+        SYSTEM_PROMPT,
+        (
+            f"오늘의 후보 기사 {len(candidates)}개다. 이 중 {count}개를 골라 작성 규칙대로 정리해줘. "
+            f"candidate_id는 대괄호 안 번호다. 독자에게 가장 흥미로운 순서로 정렬해줘.\n\n"
+            + _candidate_block(candidates)
+        ),
+        _schema(count),
+        "daily_news",
+        effort,
     )
-    if response.stop_reason == "refusal":
-        raise RuntimeError("Claude가 요청을 거절했습니다.")
-    if response.stop_reason == "max_tokens":
-        raise RuntimeError("응답이 max_tokens에서 잘렸습니다.")
-    text = next(block.text for block in response.content if block.type == "text")
-    data = json.loads(text)
 
     items, used = [], set()
     for entry in data["items"]:
@@ -134,7 +118,7 @@ def curate_with_claude(candidates: list[dict], count: int, model: str) -> dict:
     pick = data.get("webtoon") or {}
     if 0 <= pick.get("candidate_id", -1) < len(candidates):
         webtoon = {"idea": pick["idea"].strip(), **_source_entry(candidates[pick["candidate_id"]])}
-    return {"mode": "claude", "model": response.model, "items": items, "webtoon_suggestion": webtoon}
+    return {"mode": "gpt", "model": model, "items": items, "webtoon_suggestion": webtoon}
 
 
 # ---- 기본 모드 (API 없이 키워드 점수) ----
@@ -173,16 +157,12 @@ def curate_basic(candidates: list[dict], count: int) -> dict:
     return {"mode": "basic", "model": None, "items": items, "webtoon_suggestion": None}
 
 
-def has_credentials() -> bool:
-    return bool(os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN"))
-
-
-def curate(candidates: list[dict], count: int, model: str, use_claude: bool = True) -> dict:
-    if use_claude and has_credentials():
+def curate(candidates: list[dict], count: int, model: str, use_ai: bool = True, effort: str | None = None) -> dict:
+    if use_ai and llm.has_key():
         try:
-            return curate_with_claude(candidates, count, model)
+            return curate_with_gpt(candidates, count, model, effort)
         except Exception as error:
-            print(f"[경고] Claude 선별 실패, 기본 모드로 진행합니다: {type(error).__name__}: {error}")
-    elif use_claude:
-        print("[안내] ANTHROPIC_API_KEY가 없어 기본 모드(키워드 선별, 요약 없음)로 진행합니다.")
+            print(f"[경고] GPT 선별 실패, 기본 모드로 진행합니다: {type(error).__name__}: {error}")
+    elif use_ai:
+        print("[안내] OPENAI_API_KEY가 없어 기본 모드(키워드 선별, 요약 없음)로 진행합니다.")
     return curate_basic(candidates, count)

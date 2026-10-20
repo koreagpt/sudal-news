@@ -3,13 +3,17 @@ name: 수달일보 발행
 on:
   schedule:
     - cron: "30 21 * * *"  # 매일 06:30 (한국 시간). GitHub 사정에 따라 수십 분 늦어질 수 있음
-  workflow_dispatch:       # Actions 탭에서 수동 실행
+  workflow_dispatch:       # Actions 탭(또는 GitHub 앱)에서 수동 실행
     inputs:
       mode:
-        description: "full = 뉴스 새로 수집, build = 페이지만 다시 생성"
+        description: "full = 뉴스+웹툰 새로, webtoon = 웹툰만 다시, build = 페이지만 다시"
         default: full
         type: choice
-        options: [full, build]
+        options: [full, webtoon, build]
+      topic:
+        description: "웹툰 소재로 쓸 뉴스 번호 (비우면 AI가 고름)"
+        required: false
+        default: ""
   push:                    # 웹툰·디자인을 바꿔 올리면 페이지만 다시 생성
     branches: [main]
     paths: ["data/webtoons/**", "data/webtoons.json", "static/**", "newsbot/**", "config.json"]
@@ -45,28 +49,38 @@ jobs:
       - id: pages
         uses: actions/configure-pages@v5
 
-      - name: 뉴스 수집·페이지 생성
+      - name: 뉴스·웹툰·페이지 생성
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
+          MODE: ${{ github.event_name == 'push' && 'build' || inputs.mode || 'full' }}
+          TOPIC: ${{ inputs.topic }}
         run: |
-          if [ "${{ github.event_name }}" = "push" ] || [ "${{ inputs.mode }}" = "build" ]; then
-            python daily.py --build-only
-          else
-            python daily.py
-          fi
+          case "$MODE" in
+            build)   python daily.py --build-only ;;
+            webtoon) python daily.py --webtoon-only ${TOPIC:+--topic "$TOPIC"} ;;
+            *)       python daily.py ${TOPIC:+--topic "$TOPIC"} ;;
+          esac
 
-      - name: 오늘 뉴스 기록 저장
+      - name: 오늘 기록 저장
         if: github.event_name != 'push' && inputs.mode != 'build'
         run: |
           git config user.name "sudal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/news
+          git add data/news data/webtoons data/webtoons.json
           if ! git diff --cached --quiet; then
             git commit -m "수달일보 $(TZ=Asia/Seoul date +%F) 발행"
             git pull --rebase
             git push
           fi
+
+      - name: 검수 전 웹툰 시안 보관 (실패 원인 확인용)
+        if: always() && hashFiles('data/drafts/*.jpg') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: webtoon-drafts
+          path: data/drafts/
+          retention-days: 7
 
       - uses: actions/upload-pages-artifact@v3
         with:
