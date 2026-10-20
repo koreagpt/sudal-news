@@ -46,6 +46,8 @@ python daily.py
 - 대본은 컷마다 알려줄 것(beat), 샷 크기, 장소, 배경 밀도(establishing/context/contact/none), 시선·손·자세 연기를 정합니다.
 - 검수는 글자·수달 동일성에 더해 조연이 주인공과 헷갈리지 않는지 확인하고, 시선·접촉 문제는 기록합니다.
 
+- **조연 기준 시트** (`data/reference/cast-sheet.jpg`): 수달·너구리 대리·거북 팀장의 키 비교, 측면, 표정 3종. 매일 작화의 세 번째 참고 이미지로 쓰이고, 조연이 나오는 날은 검수에도 함께 보냅니다. 조연 설정을 바꾸면 Actions에서 `castsheet` 모드로 다시 그립니다.
+
 인물이나 장소를 바꾸고 싶으면 이 파일만 고치면 다음 웹툰부터 반영됩니다.
 
 ## 옵션
@@ -55,6 +57,7 @@ python daily.py --basic                    # GPT 없이 기본 모드 (웹툰 �
 python daily.py --webtoon-only             # 오늘 뉴스는 두고 웹툰만 다시
 python daily.py --webtoon-only --topic 3   # 오늘 3번 뉴스로 웹툰 다시
 python daily.py --build-only               # 수집 없이 페이지만 다시
+python daily.py --cast-sheet               # 조연 기준 시트 새로 그리기
 python daily.py --date 2026-10-21
 ```
 

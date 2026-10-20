@@ -211,7 +211,7 @@ Style: {style['profile']} Shapes: {style['shape']} Lines: {style['line']} Color:
 Main character: the otter office worker from the first reference image (character sheet). Keep these identical in every panel: {'; '.join(main['fixed'])}.
 Allowed changes: {'; '.join(main['allowed_variation'])}.
 Never: {'; '.join(main['forbidden'])}.
-Supporting characters (draw exactly as described, clearly different species and silhouette from the otter):
+Supporting characters (draw exactly as in the third reference image, the cast model sheet; clearly different species and silhouette from the otter):
 {cast_lines}
 No other otters. Background extras, if any, are simple silhouettes.
 
@@ -229,7 +229,8 @@ Text rules: render every Korean string exactly as written, character by characte
     return prompt
 
 
-def review(model: str, image: Path, character: Path, script: dict, source_name: str, bible: dict) -> dict:
+def review(model: str, image: Path, character: Path, script: dict, source_name: str, bible: dict,
+           cast_sheet: Path | None = None) -> dict:
     expected = [f"제목: {script['title']}", f"부제: {script['subtitle']}"]
     for number, panel in enumerate(script["panels"], 1):
         expected += [f"{number}컷 말풍선 ({bubble['speaker']}): {bubble['text']}" for bubble in panel["bubbles"]]
@@ -246,6 +247,9 @@ def review(model: str, image: Path, character: Path, script: dict, source_name: 
             llm.image_part(character),
         ],
     }]
+    if cast and cast_sheet and cast_sheet.exists():  # 조연이 나오는 날만 세 번째로 조연 기준 시트를 붙인다
+        content[0]["content"].append({"type": "input_text", "text": "세 번째 이미지는 조연 기준 시트다. 조연이 이 그림과 같은지 확인한다."})
+        content[0]["content"].append(llm.image_part(cast_sheet))
     result = llm.ask_json(model, REVIEW_INSTRUCTIONS, content, REVIEW_SCHEMA, "webtoon_review", "low")
     result["passed"] = (
         result["panel_count"] == 4
@@ -324,7 +328,8 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
         )
         draft = drafts / f"{day}-try{attempt}.jpg"
         draft.write_bytes(image)
-        verdict = review(settings["review_model"], draft, references[0], script, source.get("source", ""), bible)
+        verdict = review(settings["review_model"], draft, references[0], script, source.get("source", ""), bible,
+                         project / bible["cast_sheet"] if bible.get("cast_sheet") else None)
         feedback = verdict["text_errors"] + verdict["problems"]
         status["acting_notes"] = verdict["acting_notes"]
         status["problems"] = feedback
