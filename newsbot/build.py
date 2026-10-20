@@ -25,10 +25,10 @@ def _time(iso: str) -> str:
 
 def _webtoon_for(day: str, webtoons: list[dict]):
     """그날 웹툰, 없으면 그 이전 가장 최근 웹툰."""
-    past = [toon for toon in webtoons if toon["date"] <= day]
+    past = [(toon["date"], order, toon) for order, toon in enumerate(webtoons) if toon["date"] <= day]
     if not past:
         return None, False
-    toon = max(past, key=lambda toon: toon["date"])
+    toon = max(past, key=lambda entry: entry[:2])[2]  # 같은 날이면 나중에 추가된 웹툰
     return toon, toon["date"] == day
 
 
