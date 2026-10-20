@@ -1,0 +1,27 @@
+name: 수달일보 아침 메일
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 매일 09:00 (한국 시간). GitHub 사정에 따라 조금 늦어질 수 있음
+  workflow_dispatch:     # Actions 탭에서 바로 보내 보기
+
+permissions:
+  contents: read
+
+jobs:
+  mail:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 오늘 게시글 메일 보내기
+        env:
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          MAIL_SERVER: ${{ secrets.MAIL_SERVER }}
+        run: python mail_today.py

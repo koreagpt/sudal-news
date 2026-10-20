@@ -95,6 +95,18 @@ python -m http.server 8765 --directory public
 - 웹툰 이미지·디자인·설정을 바꿔 올리면 페이지만 다시 만듭니다.
 - 매일 봇이 `data/`에 기록을 올리므로, 이 폴더에서 고치기 전에 `git pull`을 먼저 합니다.
 
+## 아침 메일 (09:00)
+
+`.github/workflows/mail.yml`이 매일 09:00(한국 시간)에 오늘 게시글(날짜 주소 포함)과 카톡 썸네일을 운영자 메일로 보냅니다. 아침 발행이 실패한 날은 "아직 발행이 안 됐어요" 메일이 갑니다.
+
+GitHub 비밀값 (Settings → Secrets and variables → Actions)
+- `MAIL_TO`: 받는 주소 (쉼표로 여러 명)
+- `MAIL_USERNAME`: 보내는 메일 계정 (Gmail 또는 Google Workspace 주소)
+- `MAIL_PASSWORD`: 그 계정의 **앱 비밀번호** (일반 비밀번호 아님)
+- `MAIL_SERVER`: 선택. Gmail이 아니면 그 메일의 SMTP 주소 (465 포트)
+
+비밀값이 없으면 메일 단계는 조용히 건너뜁니다. Actions → "수달일보 아침 메일" → Run workflow 로 바로 보내 볼 수 있습니다.
+
 ## 오픈채팅방에 올리기
 
 1. `배포주소/share/` 를 엽니다 (운영자용, 검색엔진 비노출).
