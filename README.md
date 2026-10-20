@@ -71,7 +71,7 @@ python -m http.server 8765 --directory public
 
 - [x] 1단계: 뉴스 수집·선별·요약, 수달 사원 브랜드 페이지, 지난 호 목록, 첫 웹툰(장보기까지 AI에게?) 연결
 - [x] 2단계 준비: 카톡 미리보기 썸네일, 오픈채팅방 복사 페이지, 매일 자동 실행·배포 설정
-- [ ] 2단계 연결: GitHub 저장소 생성·Pages 켜기·첫 실행
+- [x] 2단계 연결: https://koreagpt.github.io/sudal-news (저장소 koreagpt/sudal-news), 매일 06:30 자동 발행 확인
 - [ ] 3단계: 웹툰 자동 생성 + 확인 후 게시 화면
 - [ ] 4단계: 클릭 측정
 
