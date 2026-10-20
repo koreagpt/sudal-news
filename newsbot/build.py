@@ -311,10 +311,14 @@ def build(project: Path, config: dict) -> Path:
         shutil.rmtree(out)
     shutil.copytree(project / "static", out / "static")
     (out / "webtoons").mkdir(parents=True)
-    for toon in webtoons:
-        shutil.copy2(project / "data" / "webtoons" / toon["image"], out / "webtoons" / toon["image"])
-
     thumbnails = og.available()
+    for toon in webtoons:  # 게시용 웹툰에만 협회 로고를 얹는다 (data/의 원본은 그대로)
+        source, target = project / "data" / "webtoons" / toon["image"], out / "webtoons" / toon["image"]
+        if thumbnails:
+            og.stamp_badge(source, target, site["publisher"])
+        else:
+            shutil.copy2(source, target)
+
     if not thumbnails:
         print("[안내] Pillow나 한글 글꼴이 없어 카톡 썸네일 대신 웹툰 원본을 미리보기로 씁니다.")
 

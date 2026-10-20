@@ -216,7 +216,7 @@ Supporting characters (draw exactly as in the third reference image, the cast mo
 No other otters. Background extras, if any, are simple silhouettes.
 
 Layout from top to bottom:
-- Header on a cream background: large bold rounded Korean title "{script['title']}" with a soft yellow highlighter stripe behind it, and a smaller subtitle "{script['subtitle']}" under it.
+- Header on a cream background: large bold rounded Korean title "{script['title']}" with a soft yellow highlighter stripe behind it, and a smaller subtitle "{script['subtitle']}" under it. Keep the title centered and leave the top-right corner of the header (the right 22% of the width) completely empty cream for a logo that will be added later.
 - Four stacked horizontal panels with thin dark borders and small gutters. Keep each location's fixed layout consistent between panels.
 {chr(10).join(panels)}
 - Footer on a cream background: two lines of large bold Korean text, first line "{script['closing_line1']}" in dark navy, second line "{script['closing_line2']}" in dark brown with a yellow highlighter stripe.

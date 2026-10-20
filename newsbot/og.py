@@ -39,6 +39,30 @@ def available() -> bool:
         return False
 
 
+def stamp_badge(src: Path, dst: Path, text: str) -> None:
+    """웹툰 오른쪽 위(제목 줄)에 사이트와 같은 남색 협회 칩을 얹어 dst에 저장한다. 원본은 그대로 둔다."""
+    from PIL import Image, ImageDraw
+
+    image = Image.open(src).convert("RGB")
+    width = image.width
+    height = round(width * 0.046)           # 1024px 기준 약 47px
+    scale = 4                                # 크게 그려 줄여서 가장자리를 매끄럽게
+    font = _font(round(height * 0.52) * scale)
+    pad_x = round(height * 0.42) * scale
+    probe = ImageDraw.Draw(Image.new("L", (1, 1)))
+    text_w = probe.textlength(text, font=font)
+    chip_w, chip_h = round(text_w + pad_x * 2), height * scale
+    chip = Image.new("RGBA", (chip_w, chip_h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(chip)
+    draw.rounded_rectangle((0, 0, chip_w - 1, chip_h - 1), round(chip_h * 0.24), fill=NAVY + (255,))
+    draw.text((chip_w / 2, chip_h / 2), text, font=font, fill="white", anchor="mm")
+    chip = chip.resize((round(chip_w / scale), height), Image.LANCZOS)
+    margin = round(width * 0.03)
+    image.paste(chip, (width - chip.width - margin, margin), chip)
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    image.save(dst, quality=88, optimize=True, progressive=True)
+
+
 def make(out: Path, webtoon: Path | None, crop, publisher: str, name: str, date_label: str, news_count: int) -> None:
     from PIL import Image, ImageDraw
 

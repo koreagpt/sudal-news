@@ -78,7 +78,8 @@ python -m http.server 8765 --directory public
 ## 설정 (`config.json`)
 
 - `site.base_url`: 배포 주소. 카카오톡 미리보기에 쓰입니다.
-- `site.links`: 바닥글의 교육 안내 버튼 (기업교육 kgpt.or.kr, 온라인교육 gptkoreaclass.com).
+- `site.links`: 바닥글 버튼 (기업교육 kgpt.or.kr, 온라인교육 gptkoreaclass.com, AI 정보 블로그 blog.naver.com/mtckr).
+- 게시용 웹툰 오른쪽 위에는 빌드할 때 "한국GPT협회" 로고 칩이 자동으로 들어갑니다 (`newsbot/og.py`의 `stamp_badge`). `data/webtoons/`의 원본은 로고 없이 보관합니다.
 - `site.repo`: 복사 페이지의 "웹툰 다시 만들기" 안내에 쓰는 GitHub 저장소.
 - `feeds`: 뉴스 소스. `ai_only: false`인 일반 IT 매체는 AI 키워드가 있는 기사만 고릅니다.
 
