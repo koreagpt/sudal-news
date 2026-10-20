@@ -441,13 +441,28 @@ html { scroll-behavior: smooth; }
 
 .org strong { color: var(--ink); }
 
-.contact {
-  display: inline-block;
-  margin-bottom: 10px;
-  color: var(--navy);
-  font-weight: 700;
-  font-size: 14px;
+.org-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 4px 0 16px;
 }
+
+.org-link {
+  flex: 1;
+  max-width: 155px;
+  padding: 11px 12px;
+  background: var(--navy);
+  color: #fff;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  box-shadow: 3px 3px 0 var(--fur-light);
+}
+
+.org-link:hover { filter: brightness(1.15); }
 
 .fine {
   margin: 0 auto;

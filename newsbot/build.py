@@ -91,10 +91,12 @@ def _masthead(site: dict, root: str, dateline: str, jump: str = "") -> str:
 def _footer(site: dict, root: str) -> str:
     publisher = escape(site["publisher"])
     reporter = site.get("reporter", {})
-    contact = ""
-    if site.get("publisher_url"):
-        contact = (f'<a class="contact" href="{escape(site["publisher_url"])}" target="_blank" rel="noopener">'
-                   f'{escape(site.get("contact_text", "문의하기"))} <span aria-hidden="true">↗</span></a>')
+    links = "".join(
+        f'<a class="org-link" href="{escape(link["url"])}" target="_blank" rel="noopener">'
+        f'{escape(link["label"])} <span aria-hidden="true">↗</span></a>'
+        for link in site.get("links", [])
+    )
+    contact = f'\n  <nav class="org-links" aria-label="{publisher} 교육 안내">{links}</nav>' if links else ""
     return f"""
 <footer class="footer">
   <a class="archive-link" href="{root}archive/index.html">지난 {escape(site["name"])} 보기</a>
@@ -110,7 +112,7 @@ def _footer(site: dict, root: str) -> str:
     </div>
     <p class="idcard-intro">“{escape(reporter.get("intro", ""))}”</p>
   </section>
-  <p class="org"><strong>{publisher}</strong> {escape(site["publisher_line"])}</p>{contact}
+  <p class="org"><strong>{publisher}</strong>에서 AI를 배워 보세요</p>{contact}
   <p class="fine">{escape(_brand_name(site))}는 {publisher}가 매일 아침 전하는 AI 뉴스 브리핑입니다.
   기사의 저작권은 각 언론사에 있으며, 요약은 AI가 작성해 원문과 다를 수 있습니다.</p>
 </footer>

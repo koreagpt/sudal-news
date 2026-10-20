@@ -62,7 +62,7 @@ python -m http.server 8765 --directory public
 ## 설정 (`config.json`)
 
 - `site.base_url`: 배포 주소. 카카오톡 미리보기에 쓰입니다.
-- `site.publisher_url`: 협회 홈페이지 주소. 넣으면 바닥글에 "AI 교육 문의" 링크가 생깁니다.
+- `site.links`: 바닥글의 교육 안내 버튼 (기업교육 kgpt.or.kr, 온라인교육 gptkoreaclass.com).
 - `site.repo`: 복사 페이지의 "웹툰 다시 만들기" 안내에 쓰는 GitHub 저장소.
 - `feeds`: 뉴스 소스. `ai_only: false`인 일반 IT 매체는 AI 키워드가 있는 기사만 고릅니다.
 

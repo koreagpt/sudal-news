@@ -12,9 +12,17 @@
     "base_url": "https://koreagpt.github.io/sudal-news",
     "publisher": "한국GPT협회",
     "publisher_line": "기업강의 · 온라인교육",
-    "publisher_url": "",
-    "contact_text": "AI 교육 문의",
-    "repo": "koreagpt/sudal-news"
+    "repo": "koreagpt/sudal-news",
+    "links": [
+      {
+        "label": "기업교육",
+        "url": "https://kgpt.or.kr/"
+      },
+      {
+        "label": "온라인교육",
+        "url": "https://gptkoreaclass.com/"
+      }
+    ]
   },
   "curation": {
     "count": 6,
