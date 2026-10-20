@@ -79,11 +79,17 @@ def main(argv=None) -> int:
     parser.add_argument("--build-only", action="store_true", help="수집 없이 페이지만 다시 생성")
     parser.add_argument("--webtoon-only", action="store_true", help="오늘 뉴스는 두고 웹툰만 다시 만들기")
     parser.add_argument("--topic", type=int, help="웹툰 소재로 쓸 뉴스 번호(1부터)")
+    parser.add_argument("--cast-sheet", action="store_true", help="조연 기준 시트를 새로 그리기 (가끔 한 번)")
     args = parser.parse_args(argv)
 
     config = json.loads((PROJECT / "config.json").read_text(encoding="utf-8"))
     day = args.date or datetime.now(KST).date().isoformat()
-    if args.webtoon_only:
+    if args.cast_sheet:
+        if not llm.has_key():
+            print("OPENAI_API_KEY가 없어 조연 기준 시트를 그릴 수 없습니다.")
+            return 1
+        webtoon.make_cast_sheet(PROJECT, config)
+    elif args.webtoon_only:
         path = PROJECT / "data" / "news" / f"{day}.json"
         if not path.exists():
             print(f"{day} 뉴스가 없어 웹툰을 만들 수 없습니다. 먼저 python daily.py 를 실행하세요.")

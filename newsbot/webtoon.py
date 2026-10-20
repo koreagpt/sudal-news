@@ -257,6 +257,32 @@ def review(model: str, image: Path, character: Path, script: dict, source_name: 
     return result
 
 
+def make_cast_sheet(project: Path, config: dict) -> Path:
+    """조연 기준 시트를 한 번 그려 data/reference/cast-sheet.jpg 로 저장한다 (매일 웹툰의 참고 이미지용)."""
+    settings, bible = config["webtoon"], load_bible(project)
+    style, main = bible["style"], bible["main"]
+    cast = "\n".join(
+        f"- {c['species']} ({c['name']}): {c['look']} Personality: {c['personality']}" for c in bible["cast"]
+    )
+    prompt = f"""Create a character model sheet on a plain cream background, in exactly the same art style as the second reference image.
+Style: {style['profile']} Shapes: {style['shape']} Lines: {style['line']} Color: {style['color']}
+
+Top row: a height line-up of three full-body characters standing side by side, front view, neutral pose:
+1. The otter office worker from the first reference image, unchanged ({'; '.join(main['fixed'])}).
+2 and 3. These supporting office workers, clearly different species and silhouettes from the otter:
+{cast}
+
+Bottom row: for each supporting character only, a side view full body plus three head close-ups (neutral, excited, thoughtful), lined up under that character.
+
+Keep every character's colors, clothes, glasses and proportions identical everywhere on the sheet. No text, no labels, no names, no logos, no background scenery."""
+    references = [project / path for path in settings["references"][:2]]
+    image = llm.draw(settings["image_model"], prompt, references, "1536x1024", "high")
+    target = project / "data" / "reference" / "cast-sheet.jpg"
+    target.write_bytes(image)
+    print(f"조연 기준 시트 저장 → {target.relative_to(project)}")
+    return target
+
+
 def _og_crop(path: Path) -> list[int]:
     """카톡 썸네일에 쓸 윗부분(제목과 1~2컷) 영역."""
     from PIL import Image
