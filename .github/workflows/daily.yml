@@ -9,10 +9,10 @@ on:
   workflow_dispatch:       # Actions 탭(또는 GitHub 앱)에서 수동 실행
     inputs:
       mode:
-        description: "full = 뉴스+웹툰 새로, webtoon = 웹툰만 다시, build = 페이지만 다시, castsheet = 조연 기준 시트 새로"
+        description: "full = 뉴스+웹툰 새로, webtoon = 웹툰만 다시, build = 페이지만 다시, castsheet = 조연 기준 시트 새로, webtoontest = 웹툰 시험(게시 안 함)"
         default: full
         type: choice
-        options: [full, webtoon, build, castsheet]
+        options: [full, webtoon, build, castsheet, webtoontest]
       topic:
         description: "웹툰 소재로 쓸 뉴스 번호 (비우면 AI가 고름)"
         required: false
@@ -63,12 +63,13 @@ jobs:
             build)   python daily.py --build-only ;;
             webtoon) python daily.py --webtoon-only ${TOPIC:+--topic "$TOPIC"} ;;
             castsheet) python daily.py --cast-sheet ;;
+            webtoontest) python daily.py --webtoon-only --no-save ${TOPIC:+--topic "$TOPIC"} ;;
             scheduled) python daily.py --if-missing ;;
             *)       python daily.py ${TOPIC:+--topic "$TOPIC"} ;;
           esac
 
       - name: 오늘 기록 저장
-        if: github.event_name != 'push' && inputs.mode != 'build'
+        if: github.event_name != 'push' && inputs.mode != 'build' && inputs.mode != 'webtoontest'
         run: |
           git config user.name "sudal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

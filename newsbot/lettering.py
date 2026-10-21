@@ -66,10 +66,27 @@ def _wrap(text: str, font, max_width: float) -> list[str]:
     return lines
 
 
-def bubble_size(text: str, page_width: int) -> tuple[int, int, list[str]]:
-    """말풍선 크기(px)와 줄바꿈 결과. 글자 크기는 페이지 폭에 비례."""
-    font = _font(round(page_width * 0.03))
-    lines = _wrap(text, font, page_width * 0.27)
+def merge_bubbles(script: dict) -> dict:
+    """한 컷에서 같은 사람이 연달아 하는 말은 말풍선 하나에 줄을 바꿔 담는다 (읽는 순서가 꼬이지 않게)."""
+    merged = {**script, "panels": []}
+    for panel in script["panels"]:
+        bubbles = []
+        for bubble in panel["bubbles"]:
+            if bubbles and bubbles[-1]["speaker"] == bubble["speaker"]:
+                bubbles[-1] = {**bubbles[-1], "text": bubbles[-1]["text"] + "\n" + bubble["text"]}
+            else:
+                bubbles.append(dict(bubble))
+        merged["panels"].append({**panel, "bubbles": bubbles})
+    return merged
+
+
+BUBBLE_SHAPES = [(0.27, 1.0), (0.21, 1.0), (0.34, 1.0), (0.21, 0.9), (0.16, 0.9)]  # (줄 너비 비율, 글자 크기 배율)
+
+
+def bubble_size(text: str, page_width: int, wrap: float = 0.27, scale: float = 1.0) -> tuple[int, int, list[str]]:
+    """말풍선 크기(px)와 줄바꿈 결과. 글자 크기는 페이지 폭에 비례. 줄바꿈 문자는 그대로 지킨다."""
+    font = _font(round(page_width * 0.03 * scale))
+    lines = [line for paragraph in text.split("\n") for line in _wrap(paragraph, font, page_width * wrap)]
     line_h = font.size * 1.38
     text_w = max(font.getlength(line) for line in lines)
     pad_x, pad_y = font.size * 1.1, font.size * 0.8
@@ -143,14 +160,15 @@ def compose(art_path: Path, out_path: Path, script: dict, layout: list[list[dict
               font=_font(round(width * 0.03) * S), fill=SOFT_INK, anchor="ms")
 
     # 말풍선
-    bubble_font = _font(round(width * 0.03) * S)
-    line_h = bubble_font.size * 1.38
     for panel_index, ((p_top, p_bottom), bubbles) in enumerate(zip(panels, layout)):
         p_top_page, p_bottom_page = p_top + offset, p_bottom + offset
         p_h = p_bottom_page - p_top_page
         script_bubbles = script["panels"][panel_index]["bubbles"]
         for bubble, spec in zip(script_bubbles, bubbles):
-            w, h, lines = bubble_size(bubble["text"], width)
+            wrap, scale = spec.get("wrap", 0.27), spec.get("scale", 1.0)
+            w, h, lines = bubble_size(bubble["text"], width, wrap, scale)
+            bubble_font = _font(round(width * 0.03 * scale) * S)
+            line_h = bubble_font.size * 1.38
             margin = round(width * 0.045)  # 컷 테두리에서 띄우는 간격
             cx = min(max(spec["cx"] * width, margin + w / 2), width - margin - w / 2)
             cy = min(max(p_top_page + spec["cy"] * p_h, p_top_page + margin * 0.75 + h / 2), p_bottom_page - margin * 0.75 - h / 2)
@@ -177,3 +195,88 @@ def compose(art_path: Path, out_path: Path, script: dict, layout: list[list[dict
     page.paste(layer, (0, 0), layer)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     page.save(out_path, quality=90, optimize=True, progressive=True)
+
+
+# ---------- 말풍선 자리 계산 ----------
+
+def _overlap(a, b) -> float:
+    return max(0.0, min(a[2], b[2]) - max(a[0], b[0])) * max(0.0, min(a[3], b[3]) - max(a[1], b[1]))
+
+
+def _match(name: str, heads: list[dict]):
+    for head in heads:
+        if head["name"] and (head["name"] in name or name in head["name"]):
+            return head
+    return None
+
+
+def place_bubbles(width: int, panel_h: int, bubbles: list[tuple[str, str]], heads: list[dict],
+                  keep_clear: list[tuple]) -> list[dict]:
+    """얼굴 위치를 보고 말풍선 자리를 계산한다.
+
+    heads: [{"name", "box": 머리 (x0, y0, x1, y1), "body": 몸 전체 상자(선택), "mouth": (x, y)}] — 컷 안의 픽셀 좌표.
+    규칙: 어떤 얼굴도 가리지 않기 → 몸·중요한 소품도 되도록 피하고 빈 배경에 → 말하는 인물 가까이
+          → 다른 인물보다 말하는 인물에 더 가깝게
+          → 같은 컷의 말풍선끼리 겹치지 않고 읽는 순서(위→아래, 왼→오) 유지 → 위쪽 선호.
+    bubbles: [(대사, 화자)]. 말풍선 모양(줄 너비·글자 크기)을 여러 가지로 시험해 가장 덜 가리는 자리를 고른다.
+    돌려주는 값은 compose()가 쓰는 비율 좌표(cx·tail_x는 페이지 폭, cy·tail_y는 컷 높이 기준)와
+    고른 모양(wrap, scale), 얼굴을 가린 비율(face_overlap: 말풍선 넓이 대비)이다.
+    """
+    margin_x, margin_y = width * 0.045, width * 0.034
+    pad = width * 0.012
+    grown = [(h["box"][0] - pad, h["box"][1] - pad, h["box"][2] + pad, h["box"][3] + pad) for h in heads]
+    bodies = [tuple(h["body"]) for h in heads if h.get("body")]
+    placed, layout = [], []
+    for index, (text, speaker) in enumerate(bubbles):
+        head = _match(speaker, heads)
+        if head:
+            hx, hy = (head["box"][0] + head["box"][2]) / 2, (head["box"][1] + head["box"][3]) / 2
+            mouth = head["mouth"]
+        else:  # 화면 속 목소리 등 얼굴이 없으면 컷 위쪽 가운데를 기준으로
+            hx, hy, mouth = width / 2, panel_h * 0.55, (width / 2, panel_h * 0.6)
+        best, best_cost = None, None
+        for shape_index, (wrap, scale) in enumerate(BUBBLE_SHAPES):
+          w, h, _ = bubble_size(text, width, wrap, scale)
+          area = w * h
+          steps_x = max(int((width - 2 * margin_x - w) / (width * 0.02)), 0)
+          steps_y = max(int((panel_h - 2 * margin_y - h) / (panel_h * 0.03)), 0)
+          for sx in range(steps_x + 1):
+              cx = margin_x + w / 2 + sx * width * 0.02
+              for sy in range(steps_y + 1):
+                  cy = margin_y + h / 2 + sy * panel_h * 0.03
+                  rect = (cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2)
+                  if any(_overlap(rect, (p[0] - 10, p[1] - 10, p[2] + 10, p[3] + 10)) for p in placed):
+                      continue
+                  cost = 60 * sum(_overlap(rect, g) for g in grown) / area
+                  cost += 15 * sum(_overlap(rect, k) for k in keep_clear) / area
+                  cost += 6 * sum(_overlap(rect, b) for b in bodies) / area
+                  to_speaker = math.hypot(cx - hx, cy - hy)
+                  cost += 3.0 * to_speaker / width
+                  for other in heads:  # 다른 인물에 더 가까우면 꼬리가 헷갈린다
+                      if other is head:
+                          continue
+                      ox, oy = (other["box"][0] + other["box"][2]) / 2, (other["box"][1] + other["box"][3]) / 2
+                      if math.hypot(cx - ox, cy - oy) < to_speaker:
+                          cost += 2.5
+                  if placed:  # 읽는 순서: 다음 말풍선은 앞 말풍선의 오른쪽이나 아래에
+                      prev = placed[-1]
+                      prev_cx, prev_cy = (prev[0] + prev[2]) / 2, (prev[1] + prev[3]) / 2
+                      clearly_below = rect[1] >= prev[3] - h * 0.25
+                      if not clearly_below and cx < prev_cx:
+                          cost += 4.0
+                      if cy < prev_cy - h * 0.5:
+                          cost += 2.0
+                  cost += 1.2 * cy / panel_h
+                  cost += 0.35 * shape_index  # 기본 모양을 우선
+                  if best_cost is None or cost < best_cost:
+                      face = sum(_overlap(rect, g) for g in grown) / area
+                      best, best_cost = (cx, cy, rect, wrap, scale, face), cost
+        if best is None:  # 둘 곳이 없으면 위쪽 가운데
+            w, h, _ = bubble_size(text, width)
+            cx, cy = width / 2, margin_y + h / 2
+            best = (cx, cy, (cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2), 0.27, 1.0, 1.0)
+        placed.append(best[2])
+        layout.append({"cx": best[0] / width, "cy": best[1] / panel_h,
+                       "tail_x": mouth[0] / width, "tail_y": mouth[1] / panel_h,
+                       "wrap": best[3], "scale": best[4], "face_overlap": round(best[5], 3)})
+    return layout

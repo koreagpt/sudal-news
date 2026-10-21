@@ -55,7 +55,7 @@ def make_news(config: dict, day: str, use_ai: bool) -> dict:
     return news
 
 
-def make_webtoon(config: dict, day: str, news: dict, topic: int | None) -> None:
+def make_webtoon(config: dict, day: str, news: dict, topic: int | None, save: bool = True) -> None:
     if not config.get("webtoon", {}).get("enabled"):
         return
     if not llm.has_key():
@@ -63,11 +63,14 @@ def make_webtoon(config: dict, day: str, news: dict, topic: int | None) -> None:
         return
     print("오늘의 웹툰을 만듭니다.")
     try:
-        status = webtoon.make(PROJECT, config, day, news, topic)
+        status = webtoon.make(PROJECT, config, day, news, topic, save)
     except Exception as error:  # 웹툰이 실패해도 뉴스 발행은 계속한다
         print(f"[경고] 웹툰 생성 실패: {type(error).__name__}: {error}")
         status = {"ok": False, "problems": [f"{type(error).__name__}: {error}"],
                   "made_at": datetime.now(KST).isoformat(timespec="minutes")}
+    if not save:
+        print(json.dumps({k: v for k, v in status.items() if k != "script"}, ensure_ascii=False, indent=2))
+        return
     news["webtoon_status"] = status
     _save(PROJECT / "data" / "news" / f"{day}.json", news)
 
@@ -79,6 +82,7 @@ def main(argv=None) -> int:
     parser.add_argument("--build-only", action="store_true", help="수집 없이 페이지만 다시 생성")
     parser.add_argument("--webtoon-only", action="store_true", help="오늘 뉴스는 두고 웹툰만 다시 만들기")
     parser.add_argument("--topic", type=int, help="웹툰 소재로 쓸 뉴스 번호(1부터)")
+    parser.add_argument("--no-save", action="store_true", help="웹툰 시험 실행: 게시하지 않고 data/drafts/에만 남김")
     parser.add_argument("--cast-sheet", action="store_true", help="조연 기준 시트를 새로 그리기 (가끔 한 번)")
     parser.add_argument("--if-missing", action="store_true", help="오늘 호가 이미 있으면 새로 만들지 않고 페이지만 생성 (예약 재시도용)")
     args = parser.parse_args(argv)
@@ -98,7 +102,7 @@ def main(argv=None) -> int:
         if not path.exists():
             print(f"{day} 뉴스가 없어 웹툰을 만들 수 없습니다. 먼저 python daily.py 를 실행하세요.")
             return 1
-        make_webtoon(config, day, json.loads(path.read_text(encoding="utf-8")), args.topic)
+        make_webtoon(config, day, json.loads(path.read_text(encoding="utf-8")), args.topic, save=not args.no_save)
     elif not args.build_only:
         news = make_news(config, day, use_ai=not args.basic)
         if not args.basic:

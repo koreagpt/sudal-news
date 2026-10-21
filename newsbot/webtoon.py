@@ -152,14 +152,15 @@ REVIEW_SCHEMA = {
     "additionalProperties": False,
 }
 
-LAYOUT_INSTRUCTIONS = """너는 웹툰 식자 담당이다. 글자 없이 그려진 컷 이미지들을 보고, 각 말풍선을 놓을 자리를 정한다.
-- 좌표는 그 컷 이미지 안의 비율(왼쪽 위 0,0 ~ 오른쪽 아래 1,1)이다. cx, cy는 말풍선 중심, tail_x, tail_y는 말하는 인물의 입 위치.
-- 말풍선 크기(컷 대비 너비·높이 비율)를 함께 준다. 그 크기의 상자가 컷 밖으로 나가지 않고, 얼굴·눈·손·중요한 소품을 가리지 않는 빈 배경(벽, 창, 하늘, 바닥, 천장) 위에 오게 한다.
-- 말풍선은 가능하면 말하는 인물 쪽 위에 둔다. 같은 컷의 말풍선끼리 겹치지 않게 하고, 읽는 순서대로 위·왼쪽에서 아래·오른쪽으로 놓는다.
-- 'AI'처럼 화면 속 목소리는 꼬리를 화면 쪽으로 향하게 한다.
-- feedback이 있으면 그 문제를 반드시 고친다."""
+REGION_INSTRUCTIONS = """너는 웹툰 식자 담당의 보조다. 글자 없이 그려진 컷 이미지마다 인물 위치를 표시한다.
+- 좌표는 그 컷 이미지 안의 비율(왼쪽 위 0,0 ~ 오른쪽 아래 1,1)이다.
+- characters: 컷에 보이는 대본 인물마다 name(대본에 적힌 이름 그대로), 머리 상자(head_x0~head_y1, 귀까지 포함),
+  몸 전체 상자(body_x0~body_y1), 입 위치(mouth_x, mouth_y). 화자가 'AI'면 그 화면이나 휴대전화를 머리 상자로, 화면 가운데를 입으로 한다.
+- keep_clear: 말풍선이 가리면 안 되는 것(물건을 쥔 손, 가리키는 손끝, 이야기에 중요한 화면·서류)의 상자.
+- feedback이 있으면 지난번 말풍선이 가린 부분을 keep_clear에 꼭 넣는다."""
 
-LAYOUT_SCHEMA = {
+BOX = {"type": "number"}
+REGION_SCHEMA = {
     "type": "object",
     "properties": {
         "panels": {
@@ -167,20 +168,32 @@ LAYOUT_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "bubbles": {
+                    "characters": {
                         "type": "array",
                         "items": {
                             "type": "object",
                             "properties": {
-                                "cx": {"type": "number"}, "cy": {"type": "number"},
-                                "tail_x": {"type": "number"}, "tail_y": {"type": "number"},
+                                "name": {"type": "string"},
+                                "head_x0": BOX, "head_y0": BOX, "head_x1": BOX, "head_y1": BOX,
+                                "body_x0": BOX, "body_y0": BOX, "body_x1": BOX, "body_y1": BOX,
+                                "mouth_x": BOX, "mouth_y": BOX,
                             },
-                            "required": ["cx", "cy", "tail_x", "tail_y"],
+                            "required": ["name", "head_x0", "head_y0", "head_x1", "head_y1",
+                                         "body_x0", "body_y0", "body_x1", "body_y1", "mouth_x", "mouth_y"],
+                            "additionalProperties": False,
+                        },
+                    },
+                    "keep_clear": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {"x0": BOX, "y0": BOX, "x1": BOX, "y1": BOX},
+                            "required": ["x0", "y0", "x1", "y1"],
                             "additionalProperties": False,
                         },
                     },
                 },
-                "required": ["bubbles"],
+                "required": ["characters", "keep_clear"],
                 "additionalProperties": False,
             },
         },
@@ -188,6 +201,7 @@ LAYOUT_SCHEMA = {
     "required": ["panels"],
     "additionalProperties": False,
 }
+FACE_LIMIT = 0.12  # 말풍선이 얼굴을 이보다 많이 가려야만 둘 수 있으면 그림을 다시 그린다
 
 
 def pick_topic(news: dict, topic: int | None = None) -> dict:
@@ -240,8 +254,8 @@ def image_prompt(script: dict, feedback: list[str], bible: dict) -> str:
         panels.append(
             f"Panel {number} ({SHOT_EN[panel['shot']]}; {DENSITY_EN[panel['density']]}). {where}\n"
             f"  Acting: {panel['acting']} Scene: {panel['scene']}\n"
-            f"  Leave clear empty background space (wall, window, ceiling or floor) for {len(panel['bubbles'])} speech bubble(s) "
-            f"near the speaker ({speakers}); keep faces and hands away from that space."
+            f"  Bubble space: leave a clearly empty background area (wall, window or ceiling, about 35% of the panel width "
+            f"and 40% of its height) right above or beside {speakers}'s head for speech bubbles; no faces or hands there."
         )
     cast_lines = "\n".join(f"- {c['name']} ({c['species']}): {c['look']}" for c in cast) or "- none"
 
@@ -265,8 +279,15 @@ No text anywhere: no speech bubbles, no captions, no title, no letters, no numbe
     return prompt
 
 
-def plan_bubbles(model: str, art: Path, panels: list[tuple[int, int]], script: dict, feedback: list[str]) -> list[list[dict]]:
-    """컷마다 말풍선 자리와 꼬리 방향을 정한다 (글자 없는 그림을 보고)."""
+def art_image_width(art: Path) -> int:
+    from PIL import Image
+
+    with Image.open(art) as image:
+        return image.width
+
+
+def detect_regions(model: str, art: Path, panels: list[tuple[int, int]], script: dict, feedback: list[str]) -> list[dict]:
+    """컷마다 인물의 머리·몸·입 위치와 가리면 안 되는 곳을 표시받는다 (픽셀 좌표로 돌려줌)."""
     from PIL import Image
 
     image = Image.open(art).convert("RGB")
@@ -276,25 +297,42 @@ def plan_bubbles(model: str, art: Path, panels: list[tuple[int, int]], script: d
         crop_path = art.with_name(f"{art.stem}-panel{number}.jpg")
         image.crop((0, top, width, bottom)).save(crop_path, quality=85)
         crops.append(crop_path)
-        lines = []
-        for index, bubble in enumerate(panel["bubbles"], 1):
-            w, h, _ = lettering.bubble_size(bubble["text"], width)
-            lines.append(f"  말풍선 {index} ({bubble['speaker']}): \"{bubble['text']}\" — 크기 너비 {w / width:.2f}, 높이 {h / (bottom - top):.2f}")
-        parts.append({"type": "input_text", "text": f"{number}컷 (장면: {panel['acting']})\n" + "\n".join(lines)})
+        names = ", ".join(dict.fromkeys(panel["characters"] + [b["speaker"] for b in panel["bubbles"]]))
+        parts.append({"type": "input_text", "text": f"{number}컷 — 등장·말하는 인물: {names}"})
         parts.append(llm.image_part(crop_path))
     if feedback:
-        parts.append({"type": "input_text", "text": "feedback (지난 배치의 문제):\n- " + "\n- ".join(feedback)})
-    data = llm.ask_json(model, LAYOUT_INSTRUCTIONS, [{"role": "user", "content": parts}], LAYOUT_SCHEMA, "bubble_layout", "low")
+        parts.append({"type": "input_text", "text": "feedback (지난 말풍선 배치의 문제):\n- " + "\n- ".join(feedback)})
+    data = llm.ask_json(model, REGION_INSTRUCTIONS, [{"role": "user", "content": parts}], REGION_SCHEMA, "panel_regions", "low")
     for crop_path in crops:
         crop_path.unlink(missing_ok=True)
 
-    layout = []
-    for panel, planned in zip(script["panels"], data["panels"] + [{"bubbles": []}] * 4):
-        bubbles = planned["bubbles"][: len(panel["bubbles"])]
-        while len(bubbles) < len(panel["bubbles"]):  # 빠진 자리는 위쪽에 차례로 둔다
-            bubbles.append({"cx": 0.25 + 0.5 * (len(bubbles) % 2), "cy": 0.22, "tail_x": 0.5, "tail_y": 0.5})
-        layout.append([{key: min(max(float(value), 0.0), 1.0) for key, value in bubble.items()} for bubble in bubbles])
-    return layout
+    regions = []
+    for (top, bottom), found in zip(panels, data["panels"] + [{"characters": [], "keep_clear": []}] * 4):
+        h = bottom - top
+        clamp = lambda value: min(max(float(value), 0.0), 1.0)  # noqa: E731
+        heads = [{
+            "name": c["name"],
+            "box": (clamp(c["head_x0"]) * width, clamp(c["head_y0"]) * h, clamp(c["head_x1"]) * width, clamp(c["head_y1"]) * h),
+            "body": (clamp(c["body_x0"]) * width, clamp(c["body_y0"]) * h, clamp(c["body_x1"]) * width, clamp(c["body_y1"]) * h),
+            "mouth": (clamp(c["mouth_x"]) * width, clamp(c["mouth_y"]) * h),
+        } for c in found["characters"]]
+        keep = [(clamp(k["x0"]) * width, clamp(k["y0"]) * h, clamp(k["x1"]) * width, clamp(k["y1"]) * h) for k in found["keep_clear"]]
+        regions.append({"heads": heads, "keep_clear": keep})
+    return regions
+
+
+def layout_bubbles(width: int, panels: list[tuple[int, int]], script: dict, regions: list[dict]) -> tuple[list, list[str]]:
+    """표시된 위치로 말풍선 자리를 계산하고, 얼굴을 가릴 수밖에 없는 컷을 알려 준다."""
+    layout, crowded = [], []
+    for number, ((top, bottom), panel, region) in enumerate(zip(panels, script["panels"], regions), 1):
+        bubbles = [(b["text"], b["speaker"]) for b in panel["bubbles"]]
+        placed = lettering.place_bubbles(width, bottom - top, bubbles, region["heads"], region["keep_clear"])
+        layout.append(placed)
+        for bubble, spec in zip(panel["bubbles"], placed):
+            if spec["face_overlap"] > FACE_LIMIT:
+                crowded.append(f"Panel {number}: leave a clearly empty background area (about 35% of the panel width) "
+                               f"above or beside {bubble['speaker']}'s head for a speech bubble; keep other heads away from it.")
+    return layout, crowded
 
 
 def review(model: str, image: Path, character: Path, script: dict, bible: dict, cast_sheet: Path | None = None) -> dict:
@@ -361,7 +399,7 @@ def _og_crop(path: Path) -> list[int]:
     return [left, 0, right, round((right - left) * 570 / 520)]
 
 
-def make(project: Path, config: dict, day: str, news: dict, topic: int | None = None) -> dict:
+def make(project: Path, config: dict, day: str, news: dict, topic: int | None = None, save: bool = True) -> dict:
     """웹툰을 만들어 data/webtoons에 저장하고 결과(성공 여부·시도·문제)를 돌려준다.
 
     1) 대본 → 2) 글자 없는 4컷 작화 → 3) 컷 찾기 → 4) 말풍선 자리 정하기 → 5) 글꼴로 식자 → 6) 검수.
@@ -405,17 +443,27 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
             print(f"  컷 4개를 찾지 못함 ({len(panels)}개) → 다시 그림")
             continue
 
+        lettered = lettering.merge_bubbles(script)  # 같은 사람이 연달아 하는 말은 한 말풍선에
         bubble_feedback: list[str] = []
-        for layout_try in range(1, 4):  # 그림은 그대로 두고 말풍선 자리만 최대 3번 정한다
-            layout = plan_bubbles(settings["review_model"], art, panels, script, bubble_feedback)
+        crowded: list[str] = []
+        for layout_try in range(1, 3):  # 그림은 그대로 두고 말풍선 자리만 최대 2번 계산
+            regions = detect_regions(settings["review_model"], art, panels, lettered, bubble_feedback)
+            layout, crowded = layout_bubbles(art_image_width(art), panels, lettered, regions)
+            if crowded:
+                break
             page = drafts / f"{day}-try{attempt}.jpg"
-            lettering.compose(art, page, script, layout, panels, NOTE, source_name)
+            lettering.compose(art, page, lettered, layout, panels, NOTE, source_name)
             verdict = review(settings["review_model"], page, references[0], script, bible, cast_sheet)
             status["acting_notes"] = verdict["acting_notes"] + [f"엑스트라: {extra}" for extra in verdict["extras"]]
             bubble_feedback = verdict["bubble_issues"]
             if not verdict["art_ok"] or not bubble_feedback:
                 break
-            print(f"  말풍선 자리 조정 {layout_try}회차: {bubble_feedback}")
+            print(f"  말풍선 자리 다시 계산 {layout_try}회차: {bubble_feedback}")
+        if crowded:  # 말풍선 둘 곳이 없는 그림 → 자리를 남기라고 다시 그린다
+            feedback = crowded
+            status["problems"] = crowded
+            print(f"  말풍선 둘 빈 곳이 없음 → 다시 그림: {crowded}")
+            continue
         status["bubble_issues"] = bubble_feedback
         if verdict["art_ok"]:
             status["problems"] = bubble_feedback
@@ -428,6 +476,11 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
         print(f"  검수 미통과: {feedback}")
     else:
         print("  [안내] 검수를 통과한 웹툰이 없어 어제 웹툰을 유지합니다. 시도한 그림은 data/drafts/에 있습니다.")
+        return status
+
+    if not save:  # 시험 실행: 결과는 data/drafts/에만 남긴다
+        status.update(ok=True, image=None, draft=page.name)
+        print(f"  시험 실행 완료 → data/drafts/{page.name} (게시하지 않음)")
         return status
 
     path = project / "data" / "webtoons.json"
