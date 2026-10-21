@@ -353,54 +353,60 @@ def place_bubbles(width: int, panel_h: int, bubbles: list[tuple[str, str]], head
         else:  # 화면 속 목소리 등 얼굴이 없으면 컷 위쪽 가운데를 기준으로
             hx, hy, mouth = width / 2, panel_h * 0.55, (width / 2, panel_h * 0.6)
         best, best_cost = None, None
-        for shape_index, (wrap, scale) in enumerate(BUBBLE_SHAPES):
-          w, h, _ = bubble_size(text, width, wrap, scale)
-          area = w * h
-          steps_x = max(int((width - 2 * margin_x - w) / (width * 0.02)), 0)
-          steps_y = max(int((panel_h - 2 * margin_y - h) / (panel_h * 0.03)), 0)
-          for sx in range(steps_x + 1):
-              cx = margin_x + w / 2 + sx * width * 0.02
-              for sy in range(steps_y + 1):
-                  cy = margin_y + h / 2 + sy * panel_h * 0.03
-                  rect = (cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2)
-                  if any(_overlap(rect, (p[0] - 10, p[1] - 10, p[2] + 10, p[3] + 10)) for p in placed):
-                      continue
-                  # 다른 인물의 얼굴은 절대 가리지 않고, 말하는 사람 얼굴 가장자리(귀 등)는 조금 허용
-                  other_face = sum(_overlap(rect, grow(o)) for o in heads if o is not head) / area
-                  own_face = _overlap(rect, grow(head)) / area if head else 0.0
-                  cost = 60 * other_face + 25 * own_face
-                  cost += 15 * sum(_overlap(rect, k) for k in keep_clear) / area
-                  cost += 6 * sum(_overlap(rect, b) for b in bodies) / area
-                  to_speaker = math.hypot(cx - hx, cy - hy)
-                  cost += 3.0 * to_speaker / width
-                  closer_to_other = False
-                  for other in heads:  # 다른 인물에 더 가까우면 누가 한 말인지 헷갈린다
-                      if other is head:
-                          continue
-                      ox, oy = (other["box"][0] + other["box"][2]) / 2, (other["box"][1] + other["box"][3]) / 2
-                      if math.hypot(cx - ox, cy - oy) < to_speaker:
-                          closer_to_other = True
-                  if closer_to_other:
-                      cost += 8.0
-                  if placed:  # 읽는 순서: 다음 말풍선은 앞 말풍선의 오른쪽이나 아래에
-                      prev = placed[-1]
-                      prev_cx, prev_cy = (prev[0] + prev[2]) / 2, (prev[1] + prev[3]) / 2
-                      clearly_below = rect[1] >= prev[3] - h * 0.25
-                      if not clearly_below and cx < prev_cx:
-                          cost += 4.0
-                      if cy < prev_cy - h * 0.5:
-                          cost += 2.0
-                  cost += 1.2 * cy / panel_h
-                  cost += 0.35 * shape_index  # 기본 모양을 우선
-                  if best_cost is None or cost < best_cost:
-                      best, best_cost = (cx, cy, rect, wrap, scale, other_face + 0.4 * own_face, closer_to_other), cost
+        for strict_order in (True, False):
+          if best is not None:
+              break
+          for shape_index, (wrap, scale) in enumerate(BUBBLE_SHAPES):
+            w, h, _ = bubble_size(text, width, wrap, scale)
+            area = w * h
+            steps_x = max(int((width - 2 * margin_x - w) / (width * 0.02)), 0)
+            steps_y = max(int((panel_h - 2 * margin_y - h) / (panel_h * 0.03)), 0)
+            for sx in range(steps_x + 1):
+                cx = margin_x + w / 2 + sx * width * 0.02
+                for sy in range(steps_y + 1):
+                    cy = margin_y + h / 2 + sy * panel_h * 0.03
+                    rect = (cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2)
+                    if any(_overlap(rect, (p[0] - 10, p[1] - 10, p[2] + 10, p[3] + 10)) for p in placed):
+                        continue
+                    if strict_order and placed and rect[1] < placed[-1][1] - h * 0.1:
+                        continue  # 한국어는 위→아래: 다음 말풍선이 앞 말풍선보다 위로 가지 않는다
+                    # 다른 인물의 얼굴은 절대 가리지 않고, 말하는 사람 얼굴 가장자리(귀 등)는 조금 허용
+                    other_face = sum(_overlap(rect, grow(o)) for o in heads if o is not head) / area
+                    own_face = _overlap(rect, grow(head)) / area if head else 0.0
+                    clear_hit = sum(_overlap(rect, k) for k in keep_clear) / area
+                    cost = 60 * other_face + 45 * own_face
+                    cost += 35 * clear_hit
+                    cost += 6 * sum(_overlap(rect, b) for b in bodies) / area
+                    to_speaker = math.hypot(cx - hx, cy - hy)
+                    cost += 3.0 * to_speaker / width
+                    closer_to_other = False
+                    for other in heads:  # 다른 인물에 더 가까우면 누가 한 말인지 헷갈린다
+                        if other is head:
+                            continue
+                        ox, oy = (other["box"][0] + other["box"][2]) / 2, (other["box"][1] + other["box"][3]) / 2
+                        if math.hypot(cx - ox, cy - oy) < to_speaker:
+                            closer_to_other = True
+                    if closer_to_other:
+                        cost += 8.0
+                    if placed:  # 읽는 순서: 다음 말풍선은 앞 말풍선의 오른쪽이나 아래에
+                        prev = placed[-1]
+                        prev_cx, prev_cy = (prev[0] + prev[2]) / 2, (prev[1] + prev[3]) / 2
+                        clearly_below = rect[1] >= prev[3] - h * 0.25
+                        if not clearly_below and cx < prev_cx:
+                            cost += 4.0
+                        if cy < prev_cy - h * 0.5:
+                            cost += 2.0
+                    cost += 1.2 * cy / panel_h
+                    cost += 0.35 * shape_index  # 기본 모양을 우선
+                    if best_cost is None or cost < best_cost:
+                        best, best_cost = (cx, cy, rect, wrap, scale, other_face + 0.8 * own_face, closer_to_other, clear_hit), cost
         if best is None:  # 둘 곳이 없으면 위쪽 가운데
             w, h, _ = bubble_size(text, width)
             cx, cy = width / 2, margin_y + h / 2
-            best = (cx, cy, (cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2), 0.27, 1.0, 1.0, True)
+            best = (cx, cy, (cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2), 0.27, 1.0, 1.0, True, 1.0)
         placed.append(best[2])
         layout.append({"cx": best[0] / width, "cy": best[1] / panel_h,
                        "tail_x": mouth[0] / width, "tail_y": mouth[1] / panel_h,
                        "wrap": best[3], "scale": best[4], "face_overlap": round(best[5], 3),
-                       "closer_to_other": best[6]})
+                       "closer_to_other": best[6], "clear_overlap": round(best[7], 3)})
     return layout

@@ -363,7 +363,7 @@ def layout_bubbles(width: int, panels: list[tuple[int, int]], script: dict, regi
         placed = lettering.place_bubbles(width, bottom - top, bubbles, region["heads"], region["keep_clear"])
         layout.append(placed)
         for bubble, spec in zip(panel["bubbles"], placed):
-            if spec["face_overlap"] > FACE_LIMIT or spec.get("closer_to_other"):
+            if spec["face_overlap"] > FACE_LIMIT or spec.get("closer_to_other") or spec.get("clear_overlap", 0) > 0.3:
                 crowded.append(f"Panel {number}: leave a clearly empty background area (about 35% of the panel width) "
                                f"above or beside {bubble['speaker']}'s head for a speech bubble; keep other heads away from it.")
     return layout, crowded
