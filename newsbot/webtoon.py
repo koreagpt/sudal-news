@@ -97,6 +97,7 @@ def script_instructions(bible: dict) -> str:
 - acting: 누가 무엇을 보는지(시선), 손이 무엇을 쥐거나 만지는지(접촉), 몸 자세와 표정을 함께 쓴다. 얼굴만으로 감정을 해결하지 않는다.
 - 수달은 연기 습관을 지킨다. 감탄·웃음 같은 큰 변화는 3컷이나 4컷 한 번에 몰아 준다.
 - 같은 크기의 얼굴 클로즈업을 연달아 쓰지 않는다. 롱샷=공간, 미디엄=행동, 클로즈업=감정, 인서트=단서.
+- 말풍선이 있는 컷은 말하는 인물의 얼굴이 보이는 롱샷·미디엄·클로즈업으로 한다. 화면이나 손만 크게 보이는 인서트는 말풍선 둘 곳이 없으니 쓰지 않는다.
 - 조연은 설정집 인물만, 필요할 때만 쓴다. 수달과 같은 종의 다른 캐릭터를 만들지 않는다.
 
 배경 규칙
@@ -187,7 +188,8 @@ REVIEW_SCHEMA = {
 REGION_INSTRUCTIONS = """너는 웹툰 식자 담당의 보조다. 글자 없이 그려진 컷 이미지마다 인물 위치를 표시한다.
 - 좌표는 그 컷 이미지 안의 비율(왼쪽 위 0,0 ~ 오른쪽 아래 1,1)이다.
 - characters: 컷에 보이는 대본 인물마다 name(대본에 적힌 이름 그대로), 머리 상자(head_x0~head_y1, 귀까지 포함),
-  몸 전체 상자(body_x0~body_y1), 입 위치(mouth_x, mouth_y). 화자가 'AI'면 그 화면이나 휴대전화를 머리 상자로, 화면 가운데를 입으로 한다.
+  몸 전체 상자(body_x0~body_y1), 입 위치(mouth_x, mouth_y), 얼굴(눈·코·입)이 보이는지 face_visible. 뒷모습이면 false이고 입 위치는 머리 쪽 가장자리로 한다.
+  화자가 'AI'면 그 화면이나 휴대전화를 머리 상자로, 화면 가운데를 입으로 한다.
 - keep_clear: 말풍선이 가리면 안 되는 것(물건을 쥔 손, 가리키는 손끝, 이야기에 중요한 화면·서류)의 상자.
 - feedback이 있으면 지난번 말풍선이 가린 부분을 keep_clear에 꼭 넣는다."""
 
@@ -209,9 +211,10 @@ REGION_SCHEMA = {
                                 "head_x0": BOX, "head_y0": BOX, "head_x1": BOX, "head_y1": BOX,
                                 "body_x0": BOX, "body_y0": BOX, "body_x1": BOX, "body_y1": BOX,
                                 "mouth_x": BOX, "mouth_y": BOX,
+                                "face_visible": {"type": "boolean"},
                             },
                             "required": ["name", "head_x0", "head_y0", "head_x1", "head_y1",
-                                         "body_x0", "body_y0", "body_x1", "body_y1", "mouth_x", "mouth_y"],
+                                         "body_x0", "body_y0", "body_x1", "body_y1", "mouth_x", "mouth_y", "face_visible"],
                             "additionalProperties": False,
                         },
                     },
@@ -349,21 +352,30 @@ def detect_regions(model: str, art: Path, panels: list[tuple[int, int]], script:
             "box": (clamp(c["head_x0"]) * width, clamp(c["head_y0"]) * h, clamp(c["head_x1"]) * width, clamp(c["head_y1"]) * h),
             "body": (clamp(c["body_x0"]) * width, clamp(c["body_y0"]) * h, clamp(c["body_x1"]) * width, clamp(c["body_y1"]) * h),
             "mouth": (clamp(c["mouth_x"]) * width, clamp(c["mouth_y"]) * h),
+            "face_visible": bool(c.get("face_visible", True)),
         } for c in found["characters"]]
         keep = [(clamp(k["x0"]) * width, clamp(k["y0"]) * h, clamp(k["x1"]) * width, clamp(k["y1"]) * h) for k in found["keep_clear"]]
         regions.append({"heads": heads, "keep_clear": keep})
     return regions
 
 
-def layout_bubbles(width: int, panels: list[tuple[int, int]], script: dict, regions: list[dict]) -> tuple[list, list[str]]:
-    """표시된 위치로 말풍선 자리를 계산하고, 얼굴을 가릴 수밖에 없는 컷을 알려 준다."""
+def layout_bubbles(width: int, panels: list[tuple[int, int]], script: dict, regions: list[dict],
+                   lenient: bool = False) -> tuple[list, list[str]]:
+    """표시된 위치로 말풍선 자리를 계산하고, 얼굴·중요한 소품을 가릴 수밖에 없는 컷을 알려 준다.
+
+    lenient(마지막 시도)면 얼굴을 크게 가리는 경우만 문제로 본다 — 웹툰을 통째로 버리지 않기 위해.
+    """
     layout, crowded = [], []
     for number, ((top, bottom), panel, region) in enumerate(zip(panels, script["panels"], regions), 1):
         bubbles = [(b["text"], b["speaker"]) for b in panel["bubbles"]]
         placed = lettering.place_bubbles(width, bottom - top, bubbles, region["heads"], region["keep_clear"])
         layout.append(placed)
         for bubble, spec in zip(panel["bubbles"], placed):
-            if spec["face_overlap"] > FACE_LIMIT or spec.get("closer_to_other") or spec.get("clear_overlap", 0) > 0.3:
+            if lenient:
+                bad = spec["face_overlap"] > FACE_LIMIT * 2
+            else:
+                bad = spec["face_overlap"] > FACE_LIMIT or spec.get("closer_to_other") or spec.get("clear_overlap", 0) > 0.45
+            if bad:
                 crowded.append(f"Panel {number}: leave a clearly empty background area (about 35% of the panel width) "
                                f"above or beside {bubble['speaker']}'s head for a speech bubble; keep other heads away from it.")
     return layout, crowded
@@ -482,7 +494,8 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
         crowded: list[str] = []
         for layout_try in range(1, 3):  # 그림은 그대로 두고 말풍선 자리만 최대 2번 계산
             regions = detect_regions(settings["review_model"], art, panels, lettered, bubble_feedback)
-            layout, crowded = layout_bubbles(art_image_width(art), panels, lettered, regions)
+            layout, crowded = layout_bubbles(art_image_width(art), panels, lettered, regions,
+                                             lenient=attempt == settings["max_attempts"])
             if crowded:
                 break
             page = drafts / f"{day}-try{attempt}.jpg"

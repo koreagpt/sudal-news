@@ -96,6 +96,10 @@ def _wrap_chars(text: str, font, max_width: float) -> list[str]:
     return lines
 
 
+DEPENDENT_STARTS = ("전에", "전엔", "후에", "뒤에", "때", "것", "거", "수", "줄", "만큼", "대로", "뿐", "듯", "중", "동안",
+                    "위해", "처럼", "같이", "말고", "부터", "까지", "밖에", "만에", "쯤", "씩")
+
+
 def _wrap(text: str, font, max_width: float) -> list[str]:
     """어절 단위로, 가장 적은 줄 수 안에서 줄 길이가 고르게 나뉘도록 줄을 바꾼다.
 
@@ -130,6 +134,10 @@ def _wrap(text: str, font, max_width: float) -> list[str]:
         score = max(widths) - min(widths)
         if len(lines[-1].replace(" ", "")) <= 2:  # 홀로 남은 짧은 끝줄
             score += max_width
+        for line in lines[1:]:  # 앞말에 기대는 말(전에·때·수·것…)로 줄을 시작하면 구가 쪼개진다
+            first = line.split()[0]
+            if any(first.startswith(word) for word in DEPENDENT_STARTS):
+                score += max_width * 0.6
         if best is None or score < best[0]:
             best = (score, lines)
     return best[1] if best else greedy
@@ -286,9 +294,9 @@ def compose(art_path: Path, out_path: Path, script: dict, layout: list[list[dict
             w, h, lines = bubble_size(bubble["text"], width, wrap, scale)
             bubble_font = font_for(bubble["text"], round(width * 0.03 * scale) * S)
             line_h = bubble_font.size * 1.38
-            margin = round(width * 0.045)  # 컷 테두리에서 띄우는 간격
+            margin = round(width * 0.03)  # 컷 테두리에서 띄우는 간격 (배치 계산과 같게)
             cx = min(max(spec["cx"] * width, margin + w / 2), width - margin - w / 2)
-            cy = min(max(p_top_page + spec["cy"] * p_h, p_top_page + margin * 0.75 + h / 2), p_bottom_page - margin * 0.75 - h / 2)
+            cy = min(max(p_top_page + spec["cy"] * p_h, p_top_page + margin + h / 2), p_bottom_page - margin - h / 2)
             box = ((cx - w / 2) * S, (cy - h / 2) * S, (cx + w / 2) * S, (cy + h / 2) * S)
             tail = (spec["tail_x"] * width * S, (p_top_page + spec["tail_y"] * p_h) * S)
             _draw_bubble(layer, box, tail, lines, bubble_font, line_h, is_device(bubble["speaker"]))
@@ -339,11 +347,14 @@ def place_bubbles(width: int, panel_h: int, bubbles: list[tuple[str, str]], head
     돌려주는 값은 compose()가 쓰는 비율 좌표(cx·tail_x는 페이지 폭, cy·tail_y는 컷 높이 기준)와
     고른 모양(wrap, scale), 얼굴을 가린 비율(face_overlap: 말풍선 넓이 대비)이다.
     """
-    margin_x, margin_y = width * 0.045, width * 0.034
+    margin_x, margin_y = width * 0.03, width * 0.03  # 컷 테두리와의 최소 간격
     pad = width * 0.012
     def grow(h):
         return (h["box"][0] - pad, h["box"][1] - pad, h["box"][2] + pad, h["box"][3] + pad)
     bodies = [tuple(h["body"]) for h in heads if h.get("body")]
+    # 뒷모습처럼 얼굴이 안 보이는 머리는 얼굴이 아니라 몸으로 본다 (말풍선이 살짝 덮어도 된다)
+    faces = [h for h in heads if h.get("face_visible", True)]
+    bodies += [tuple(h["box"]) for h in heads if not h.get("face_visible", True)]
     placed, layout = [], []
     for index, (text, speaker) in enumerate(bubbles):
         head = _match(speaker, heads)
@@ -371,8 +382,8 @@ def place_bubbles(width: int, panel_h: int, bubbles: list[tuple[str, str]], head
                     if strict_order and placed and rect[1] < placed[-1][1] - h * 0.1:
                         continue  # 한국어는 위→아래: 다음 말풍선이 앞 말풍선보다 위로 가지 않는다
                     # 다른 인물의 얼굴은 절대 가리지 않고, 말하는 사람 얼굴 가장자리(귀 등)는 조금 허용
-                    other_face = sum(_overlap(rect, grow(o)) for o in heads if o is not head) / area
-                    own_face = _overlap(rect, grow(head)) / area if head else 0.0
+                    other_face = sum(_overlap(rect, grow(o)) for o in faces if o is not head) / area
+                    own_face = _overlap(rect, grow(head)) / area if head and head in faces else 0.0
                     clear_hit = sum(_overlap(rect, k) for k in keep_clear) / area
                     cost = 60 * other_face + 45 * own_face
                     cost += 35 * clear_hit
