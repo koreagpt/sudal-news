@@ -273,7 +273,7 @@ def compose(art_path: Path, out_path: Path, script: dict, layout: list[list[dict
     # 머리글: 제목(형광펜 밑줄) + 부제. 오른쪽 위는 협회 로고 자리로 비운다.
     title_size = round(width * 0.068)
     title_font = font_for(script["title"], title_size * S)
-    while title_font.getlength(script["title"]) > width * 0.56 * S and title_size > 30:
+    while title_font.getlength(script["title"]) > width * 0.52 * S and title_size > 30:
         title_size -= 2
         title_font = font_for(script["title"], title_size * S)
     title_w = title_font.getlength(script["title"])
