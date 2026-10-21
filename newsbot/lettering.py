@@ -93,33 +93,70 @@ def bubble_size(text: str, page_width: int, wrap: float = 0.27, scale: float = 1
     return round(text_w + pad_x * 2), round(line_h * len(lines) + pad_y * 2), lines
 
 
-def _draw_bubble(draw, box, tail, lines, font, line_h):
-    """흰 말풍선 + 말하는 쪽을 가리키는 꼬리 + 가운데 정렬 글자."""
+def _bezier(a, control, b, steps=10):
+    return [((1 - t) ** 2 * a[0] + 2 * (1 - t) * t * control[0] + t ** 2 * b[0],
+             (1 - t) ** 2 * a[1] + 2 * (1 - t) * t * control[1] + t ** 2 * b[1]) for t in (i / steps for i in range(steps + 1))]
+
+
+def _tail_polygon(box, tail):
+    """말풍선 안쪽에서 시작해 말하는 사람 쪽으로 매끈하게 뻗는 꼬리 (살짝 휜 쐐기 모양)."""
     x0, y0, x1, y1 = box
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     half_w, half_h = (x1 - x0) / 2, (y1 - y0) / 2
+    dx, dy = tail[0] - cx, tail[1] - cy
+    distance = math.hypot(dx, dy) or 1.0
+    ux, uy = dx / distance, dy / distance
+    edge = min(half_w / max(abs(ux), 1e-3), half_h / max(abs(uy), 1e-3))  # 중심에서 풍선 테두리까지
+    length = min(max(distance - edge - 16 * SCALE, 0) * 0.7, 58 * SCALE)  # 얼굴에 닿기 전에 끝낸다
+    if length < 10 * SCALE:
+        return None
+    base = min(min(half_w, half_h) * 0.62, 36 * SCALE)
+    px, py = -uy, ux
+    root = (cx + ux * (edge - base * 0.9), cy + uy * (edge - base * 0.9))  # 풍선 안쪽 깊숙이에서 시작
+    tip = (cx + ux * (edge + length), cy + uy * (edge + length))
+    left = (root[0] + px * base / 2, root[1] + py * base / 2)
+    right = (root[0] - px * base / 2, root[1] - py * base / 2)
+    bend = base * 0.18  # 한쪽으로 살짝 휘게
+    mid_l = ((left[0] + tip[0]) / 2 + px * bend, (left[1] + tip[1]) / 2 + py * bend)
+    mid_r = ((right[0] + tip[0]) / 2 + px * bend * 0.4, (right[1] + tip[1]) / 2 + py * bend * 0.4)
+    return _bezier(left, mid_l, tip) + _bezier(tip, mid_r, right)[1:]
+
+
+def _draw_bubble(layer, box, tail, lines, font, line_h):
+    """말풍선과 꼬리를 한 덩어리 모양으로 만든 뒤 테두리를 한 번에 둘러 이음매가 없게 그린다."""
+    from PIL import Image, ImageDraw, ImageFilter
+
+    x0, y0, x1, y1 = box
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     outline = round(2.6 * SCALE)
-    radius = min(half_h, half_w, 34 * SCALE)
-    tail_shapes = None
-    if tail:
-        dx, dy = tail[0] - cx, tail[1] - cy
-        distance = math.hypot(dx, dy) or 1.0
-        ux, uy = dx / distance, dy / distance
-        edge = min(half_w / max(abs(ux), 1e-3), half_h / max(abs(uy), 1e-3))  # 중심에서 풍선 테두리까지
-        length = min(max(distance - edge, 0) * 0.55, 46 * SCALE)
-        if length > 6 * SCALE:
-            base = min(half_w, half_h) * 0.45
-            depth = edge - 10 * SCALE                       # 꼬리 밑동은 풍선 안쪽에서 시작
-            bx, by, px, py = cx + ux * depth, cy + uy * depth, -uy, ux
-            tip = (cx + ux * (edge + length), cy + uy * (edge + length))
-            outer = [(bx + px * base / 2, by + py * base / 2), tip, (bx - px * base / 2, by - py * base / 2)]
-            inner_tip = (cx + ux * (edge + length * 0.6), cy + uy * (edge + length * 0.6))
-            inner = [(bx + px * base * 0.32, by + py * base * 0.32), inner_tip, (bx - px * base * 0.32, by - py * base * 0.32)]
-            tail_shapes = (outer, inner)
-            draw.polygon(outer, fill="white", outline=INK, width=outline)
-    draw.rounded_rectangle(box, radius, fill="white", outline=INK, width=outline)
-    if tail_shapes:  # 풍선 테두리가 꼬리를 가로지르는 부분만 흰색으로 덮는다
-        draw.polygon(tail_shapes[1], fill="white")
+    radius = min((y1 - y0) / 2, (x1 - x0) / 2, 34 * SCALE)
+    tail_poly = _tail_polygon(box, tail) if tail else None
+
+    xs = [x0, x1] + ([p[0] for p in tail_poly] if tail_poly else [])
+    ys = [y0, y1] + ([p[1] for p in tail_poly] if tail_poly else [])
+    margin = outline * 3
+    left = max(int(min(xs)) - margin, 0)
+    top = max(int(min(ys)) - margin, 0)
+    right = min(int(max(xs)) + margin, layer.width)
+    bottom = min(int(max(ys)) + margin, layer.height)
+    size = (right - left, bottom - top)
+
+    ss = 2  # 이 영역만 한 번 더 크게 그려 가장자리를 매끄럽게
+    big = Image.new("L", (size[0] * ss, size[1] * ss), 0)
+    pen = ImageDraw.Draw(big)
+    shift = lambda x, y: ((x - left) * ss, (y - top) * ss)  # noqa: E731
+    pen.rounded_rectangle((*shift(x0, y0), *shift(x1, y1)), radius * ss, fill=255)
+    if tail_poly:
+        pen.polygon([shift(*point) for point in tail_poly], fill=255)
+    shape = big.resize(size, Image.LANCZOS)
+    ring = shape.filter(ImageFilter.MaxFilter(outline * 2 + 1)).filter(ImageFilter.GaussianBlur(0.6))
+
+    region = layer.crop((left, top, right, bottom))
+    region.paste(Image.new("RGBA", size, INK + (255,)), (0, 0), ring)
+    region.paste(Image.new("RGBA", size, (255, 255, 255, 255)), (0, 0), shape)
+    layer.paste(region, (left, top))
+
+    draw = ImageDraw.Draw(layer)
     total = line_h * len(lines)
     for index, line in enumerate(lines):
         draw.text((cx, cy - total / 2 + line_h * (index + 0.5)), line, font=font, fill=INK, anchor="mm")
@@ -174,7 +211,7 @@ def compose(art_path: Path, out_path: Path, script: dict, layout: list[list[dict
             cy = min(max(p_top_page + spec["cy"] * p_h, p_top_page + margin * 0.75 + h / 2), p_bottom_page - margin * 0.75 - h / 2)
             box = ((cx - w / 2) * S, (cy - h / 2) * S, (cx + w / 2) * S, (cy + h / 2) * S)
             tail = (spec["tail_x"] * width * S, (p_top_page + spec["tail_y"] * p_h) * S)
-            _draw_bubble(draw, box, tail, lines, bubble_font, line_h)
+            _draw_bubble(layer, box, tail, lines, bubble_font, line_h)
 
     # 바닥글: 마무리 두 줄 + 작은 안내·출처
     foot_top = header_h + art_area.height
