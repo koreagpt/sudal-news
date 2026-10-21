@@ -535,3 +535,37 @@ html { scroll-behavior: smooth; }
   .org-link { padding: 11px 2px; font-size: 13.5px; letter-spacing: -0.3px; }
   .org-link span { display: none; }
 }
+
+/* ---------- 협회 강의 카드 (뉴스 사이 하루 1개) ---------- */
+.ad-card {
+  background: #fff8e6;
+  border-style: dashed;
+}
+
+.ad-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--navy);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.ad-format {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.ad-hook {
+  margin: 2px 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brown);
+}
+
+.ad-go {
+  background: var(--navy);
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 3px 12px;
+}

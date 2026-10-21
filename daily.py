@@ -15,7 +15,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from newsbot import KST, llm, webtoon
+from newsbot import KST, ads, llm, webtoon
 from newsbot.build import build
 from newsbot.curate import curate
 from newsbot.fetch import balance, collect
@@ -75,6 +75,16 @@ def make_webtoon(config: dict, day: str, news: dict, topic: int | None, save: bo
     _save(PROJECT / "data" / "news" / f"{day}.json", news)
 
 
+def make_ad(config: dict, day: str, news: dict) -> None:
+    """뉴스 사이에 끼울 협회 강의 카드 (매일 다른 강의)."""
+    ad = ads.make(PROJECT, config, day, news, (news.get("webtoon_status") or {}).get("title", ""))
+    if not ad:
+        return
+    news["ad"] = ad
+    _save(PROJECT / "data" / "news" / f"{day}.json", news)
+    print(f"강의 카드: {ad['title']} [{ad['style']}] {ad['hook']}")
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="수달일보 하루치 생성")
     parser.add_argument("--date", help="발행일(YYYY-MM-DD). 기본값: 오늘(한국 시간)")
@@ -83,6 +93,7 @@ def main(argv=None) -> int:
     parser.add_argument("--webtoon-only", action="store_true", help="오늘 뉴스는 두고 웹툰만 다시 만들기")
     parser.add_argument("--topic", type=int, help="웹툰 소재로 쓸 뉴스 번호(1부터)")
     parser.add_argument("--no-save", action="store_true", help="웹툰 시험 실행: 게시하지 않고 data/drafts/에만 남김")
+    parser.add_argument("--ad-only", action="store_true", help="오늘 뉴스는 두고 강의 카드만 다시 고르기")
     parser.add_argument("--cast-sheet", action="store_true", help="조연 기준 시트를 새로 그리기 (가끔 한 번)")
     parser.add_argument("--if-missing", action="store_true", help="오늘 호가 이미 있으면 새로 만들지 않고 페이지만 생성 (예약 재시도용)")
     args = parser.parse_args(argv)
@@ -97,6 +108,12 @@ def main(argv=None) -> int:
             print("OPENAI_API_KEY가 없어 조연 기준 시트를 그릴 수 없습니다.")
             return 1
         webtoon.make_cast_sheet(PROJECT, config)
+    elif args.ad_only:
+        path = PROJECT / "data" / "news" / f"{day}.json"
+        if not path.exists():
+            print(f"{day} 뉴스가 없어 강의 카드를 만들 수 없습니다.")
+            return 1
+        make_ad(config, day, json.loads(path.read_text(encoding="utf-8")))
     elif args.webtoon_only:
         path = PROJECT / "data" / "news" / f"{day}.json"
         if not path.exists():
@@ -107,6 +124,7 @@ def main(argv=None) -> int:
         news = make_news(config, day, use_ai=not args.basic)
         if not args.basic:
             make_webtoon(config, day, news, args.topic)
+        make_ad(config, day, news)
     out = build(PROJECT, config)
     print(f"페이지 생성 완료 → {out / 'index.html'}")
     return 0

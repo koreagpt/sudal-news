@@ -144,6 +144,23 @@ def _webtoon_section(toon: dict | None, is_today: bool, root: str) -> str:
 </section>"""
 
 
+def _ad_card(ad: dict, root: str) -> str:
+    """뉴스 3번 다음에 끼우는 협회 강의 카드 (광고임을 분명히 표시)."""
+    return f"""
+  <li class="card ad-card">
+    <div class="card-meta"><span class="ad-label">협회 강의</span><span class="ad-format">{escape(ad.get("format", ""))}</span></div>
+    <p class="ad-hook">{escape(ad["hook"])}</p>
+    <h3><a href="{escape(ad["url"])}" target="_blank" rel="noopener">{escape(ad["title"])}</a></h3>
+    <p class="summary">{escape(ad["pitch"])}</p>
+    <div class="comment">
+      <img src="{root}static/img/sudal-face.png" alt="수달 사원" width="34" height="34">
+      <p>{escape(ad["comment"])}</p>
+    </div>
+    <p class="source">한국GPT협회 온라인교육
+      <a class="ad-go" href="{escape(ad["url"])}" target="_blank" rel="noopener">강의 보러 가기 <span aria-hidden="true">↗</span></a></p>
+  </li>"""
+
+
 def _news_section(news: dict | None, root: str) -> str:
     items = (news or {}).get("items", [])
     if not items:
@@ -169,6 +186,8 @@ def _news_section(news: dict | None, root: str) -> str:
     <p class="source">{escape(item["source"])} · {_time(item["published"])}
       <a href="{escape(item["link"])}" target="_blank" rel="noopener">원문 보기 <span aria-hidden="true">↗</span></a></p>
   </li>""")
+        if number == min(3, len(items)) and (news or {}).get("ad"):
+            cards.append(_ad_card(news["ad"], root))
     return f"""
 <section class="news" id="news" aria-label="오늘의 AI 뉴스">
   <div class="section-head">
