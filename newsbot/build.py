@@ -317,6 +317,70 @@ document.querySelectorAll('.copy').forEach(function (button) {
     return page.replace("</body>", script + "\n</body>").replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
 
 
+def render_kakao(site, root="../") -> str:
+    """운영자용: 카카오톡 '나에게 보내기' 연결 페이지 (카카오 로그인 Redirect URI).
+
+    REST API 키는 공개 저장소에 두지 않으려고, 연결할 때 이 화면에 직접 붙여 넣게 한다 (브라우저 밖으로 안 나감).
+    """
+    actions = f"https://github.com/{site['repo']}/actions/workflows/kakao.yml" if site.get("repo") else "#"
+    body = f"""
+<section class="toon-admin" id="start">
+  <p class="toon-state"><strong>1. 카카오 연결하기</strong></p>
+  <p class="share-help">카카오 개발자 화면 → 앱 → 플랫폼 키의 <strong>REST API 키</strong>를 붙여 넣고 버튼을 누르세요.
+  키는 이 브라우저에서 카카오 로그인 주소를 만드는 데만 쓰여요.</p>
+  <div class="share-day"><textarea id="rest" rows="1" placeholder="REST API 키 붙여 넣기" autocomplete="off" spellcheck="false"></textarea>
+  <button type="button" class="copy" id="go">카카오로 연결하기</button></div>
+</section>
+<section class="toon-admin" id="done" hidden>
+  <p class="toon-state ok"><strong>2. 인증 코드가 나왔어요</strong> (10분 안에 써 주세요)</p>
+  <div class="share-day"><textarea id="code" readonly rows="3"></textarea>
+  <button type="button" class="copy" id="copy">인증 코드 복사하기</button></div>
+  <ol class="share-help">
+    <li><a href="{actions}" target="_blank" rel="noopener">GitHub 카카오 연결 화면</a>을 엽니다.</li>
+    <li><strong>Run workflow</strong> → code 칸에 복사한 코드를 붙여 넣고 실행합니다.</li>
+    <li>1분쯤 뒤 카카오톡 <strong>나와의 채팅</strong>에 시험 메시지가 오면 끝이에요.</li>
+  </ol>
+</section>
+<section class="toon-admin" id="fail" hidden>
+  <p class="toon-state warn" id="failtext"></p>
+</section>"""
+    script = """
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var show = function (id) { ['start', 'done', 'fail'].forEach(function (s) { document.getElementById(s).hidden = s !== id; }); };
+  if (params.get('code')) {
+    show('done');
+    document.getElementById('code').value = params.get('code');
+    history.replaceState(null, '', location.pathname);  // 주소창·기록에 코드가 남지 않게
+  } else if (params.get('error')) {
+    show('fail');
+    document.getElementById('failtext').textContent = '연결하지 못했어요: ' + (params.get('error_description') || params.get('error')) + ' — 처음부터 다시 해 주세요.';
+  }
+  document.getElementById('go').addEventListener('click', function () {
+    var key = document.getElementById('rest').value.trim();
+    if (!key) { alert('REST API 키를 먼저 붙여 넣어 주세요.'); return; }
+    var redirect = location.origin + location.pathname;
+    location.href = 'https://kauth.kakao.com/oauth/authorize?response_type=code&scope=talk_message'
+      + '&client_id=' + encodeURIComponent(key) + '&redirect_uri=' + encodeURIComponent(redirect);
+  });
+  document.getElementById('copy').addEventListener('click', function () {
+    var area = document.getElementById('code'), button = this;
+    var done = function () { button.textContent = '복사했어요!'; };
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(area.value).then(done); }
+    else { area.select(); document.execCommand('copy'); done(); }
+  });
+})();
+</script>"""
+    page = (
+        _head(site, f"{_brand_name(site)} 카카오톡 연결", "운영자용", root, None, "kakao/")
+        + _masthead(site, root, "카카오톡 나에게 보내기 연결 · 운영자용")
+        + f"\n<main>{body}</main>"
+        + _footer(site, root)
+    )
+    return page.replace("</body>", script + "\n</body>").replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
+
+
 def build(project: Path, config: dict) -> Path:
     site = dict(config["site"])
     site["base_url"] = os.environ.get("SITE_BASE_URL") or site.get("base_url", "")
@@ -367,7 +431,9 @@ def build(project: Path, config: dict) -> Path:
         render_day(site, today, newses.get(today), webtoons, len(days) or 1, "", "", og_image(today)),
         encoding="utf-8",
     )
-    for name, html in (("archive", render_archive(site, days, newses)), ("share", render_share(site, days, newses, webtoons))):
+    pages = (("archive", render_archive(site, days, newses)), ("share", render_share(site, days, newses, webtoons)),
+             ("kakao", render_kakao(site)))
+    for name, html in pages:
         (out / name).mkdir(exist_ok=True)
         (out / name / "index.html").write_text(html, encoding="utf-8")
     return out

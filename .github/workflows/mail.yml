@@ -1,4 +1,4 @@
-name: 수달일보 아침 메일
+name: 수달일보 아침 메일·카톡
 
 on:
   schedule:  # GitHub 예약은 늦거나 빠질 수 있어 여러 번 걸어 둔다. 하루 한 통만 보낸다
@@ -33,16 +33,27 @@ jobs:
           MAIL_SERVER: ${{ secrets.MAIL_SERVER }}
         run: python mail_today.py ${{ github.event_name == 'schedule' && '--once' || '' }}
 
+      - run: pip install cryptography
+
+      - name: 오늘 게시글 카카오톡(나와의 채팅)으로 보내기
+        if: always()  # 메일이 실패해도 카톡은 보낸다
+        continue-on-error: true  # 카톡이 실패해도 메일 기록은 남긴다
+        env:
+          KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
+          KAKAO_TOKEN_KEY: ${{ secrets.KAKAO_TOKEN_KEY }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+        run: python kakao_send.py ${{ github.event_name == 'schedule' && '--once' || '' }}
+
       - name: 보낸 기록 저장
-        if: github.event_name == 'schedule'
+        if: always()
         run: |
           git config user.name "sudal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ -d data/mailed ]; then
-            git add data/mailed
-            if ! git diff --cached --quiet; then
-              git commit -m "아침 메일 $(TZ=Asia/Seoul date +%F) 발송 기록"
-              git pull --rebase
-              git push
-            fi
+          for path in data/mailed data/kakaoed data/kakao_token.enc; do
+            if [ -e "$path" ]; then git add "$path"; fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m "아침 메일·카톡 $(TZ=Asia/Seoul date +%F) 발송 기록"
+            git pull --rebase
+            git push
           fi

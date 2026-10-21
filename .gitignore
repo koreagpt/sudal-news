@@ -3,3 +3,4 @@ data/raw/
 data/drafts/
 __pycache__/
 .env
+.claude/

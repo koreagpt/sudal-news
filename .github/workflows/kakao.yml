@@ -1,0 +1,53 @@
+name: 카카오톡 연결·보내기
+
+on:
+  workflow_dispatch:  # Actions 탭(또는 GitHub 앱)에서 실행
+    inputs:
+      code:
+        description: "처음 연결할 때만: 연결 페이지(/kakao/)에서 받은 인증 코드. 비우면 오늘 게시글을 카톡으로 다시 보냄"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mail
+  cancel-in-progress: false
+
+jobs:
+  kakao:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install cryptography
+
+      - name: 카카오 연결 또는 보내기
+        env:
+          KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
+          KAKAO_TOKEN_KEY: ${{ secrets.KAKAO_TOKEN_KEY }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          CODE: ${{ inputs.code }}
+        run: |
+          if [ -n "$CODE" ]; then
+            echo "::add-mask::$CODE"
+            python kakao_send.py --setup "$CODE"
+          else
+            python kakao_send.py
+          fi
+
+      - name: 토큰 파일 저장
+        run: |
+          git config user.name "sudal-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -e data/kakao_token.enc ]; then git add data/kakao_token.enc; fi
+          if ! git diff --cached --quiet; then
+            git commit -m "카카오 토큰 갱신 (암호화)"
+            git pull --rebase
+            git push
+          fi
