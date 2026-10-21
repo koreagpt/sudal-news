@@ -128,7 +128,8 @@ REVIEW_INSTRUCTIONS = """너는 웹툰 검수자다. 첫 번째 이미지는 완
 - 위에서 아래로 컷이 정확히 4개인가.
 - 그림 속(말풍선·제목·마무리 문구 밖)에 글자, 숫자, 깨진 글씨, 간판 글자, 화면 속 글자, 빈 말풍선이 그려져 있는가. 있으면 art_text에 위치와 함께 적는다. 화면·서류의 단순한 선이나 도형은 괜찮다.
 - 모든 컷의 수달이 인물 기준과 같은 캐릭터인가 (베이지 털, 크림색 주둥이, 남색 카디건, 흰 셔츠, 사원증).
-- 조연이 설정과 맞고 주인공과 헷갈리지 않는가. 주인공과 닮은 다른 수달이 있으면 cast_distinct는 false다. 조연이 없으면 true.
+- 조연이 조연 기준 시트와 같은 모습이고 주인공과 헷갈리지 않는가. 조연이 시트와 눈에 띄게 다르거나, 주인공과 닮은 다른 수달이 있으면 cast_distinct는 false다. 조연이 없으면 true. false면 cast_notes에 어느 컷의 누가 어떻게 다른지 적는다.
+- 대본에 없는 배경 인물·동물(엑스트라)이 보이면 extras에 컷 번호와 함께 적는다. 엑스트라만으로 cast_distinct를 false로 하지 않는다.
 - 실존 회사 로고나 실존 인물 얼굴처럼 보이는 것이 없는가.
 - bubble_issues: 말풍선이 얼굴·눈·손·중요한 소품을 가리는지, 꼬리가 엉뚱한 인물을 가리키는지, 읽는 순서가 헷갈리는지. 컷 번호와 함께 적는다.
 - acting_notes: 시선·접촉·연기에서 아쉬운 점."""
@@ -140,11 +141,13 @@ REVIEW_SCHEMA = {
         "art_text": {"type": "array", "items": {"type": "string"}},
         "character_consistent": {"type": "boolean"},
         "cast_distinct": {"type": "boolean"},
+        "cast_notes": {"type": "array", "items": {"type": "string"}},
+        "extras": {"type": "array", "items": {"type": "string"}},
         "has_real_logo_or_person": {"type": "boolean"},
         "bubble_issues": {"type": "array", "items": {"type": "string"}},
         "acting_notes": {"type": "array", "items": {"type": "string"}},
     },
-    "required": ["panel_count", "art_text", "character_consistent", "cast_distinct",
+    "required": ["panel_count", "art_text", "character_consistent", "cast_distinct", "cast_notes", "extras",
                  "has_real_logo_or_person", "bubble_issues", "acting_notes"],
     "additionalProperties": False,
 }
@@ -251,7 +254,7 @@ Allowed changes: {'; '.join(main['allowed_variation'])}.
 Never: {'; '.join(main['forbidden'])}.
 Supporting characters (exactly as in the cast sheet, clearly different species and silhouette from the otter):
 {cast_lines}
-No other otters. Background extras, if any, are simple silhouettes.
+No other characters at all: no background coworkers, extras or crowds, and no other animals. The office is quiet apart from the named characters.
 
 Page layout: four panels stacked from top to bottom, each a full-width rectangle with a thin dark border and small side margins. Separate the panels with plain cream gutters about 24 pixels tall. Small plain cream margin above the first panel and below the last panel. Keep each location's fixed layout consistent between panels.
 {chr(10).join(panels)}
@@ -408,7 +411,7 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
             page = drafts / f"{day}-try{attempt}.jpg"
             lettering.compose(art, page, script, layout, panels, NOTE, source_name)
             verdict = review(settings["review_model"], page, references[0], script, bible, cast_sheet)
-            status["acting_notes"] = verdict["acting_notes"]
+            status["acting_notes"] = verdict["acting_notes"] + [f"엑스트라: {extra}" for extra in verdict["extras"]]
             bubble_feedback = verdict["bubble_issues"]
             if not verdict["art_ok"] or not bubble_feedback:
                 break
@@ -418,7 +421,8 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
             status["problems"] = bubble_feedback
             break
         feedback = verdict["art_text"] + ([] if verdict["character_consistent"] else ["The otter must match the character sheet exactly."]) \
-            + ([] if verdict["cast_distinct"] else ["Supporting characters must match the cast sheet and never look like the otter."]) \
+            + ([] if verdict["cast_distinct"] else ["Supporting characters must match the cast sheet: " + "; ".join(verdict["cast_notes"])]) \
+            + ([f"Remove background extras: {'; '.join(verdict['extras'])}"] if verdict["extras"] else []) \
             + (["Remove anything that looks like a real logo or real person."] if verdict["has_real_logo_or_person"] else [])
         status["problems"] = feedback
         print(f"  검수 미통과: {feedback}")
