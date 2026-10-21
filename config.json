@@ -112,8 +112,8 @@
     "max_attempts": 2,
     "references": [
       "data/reference/sudal-character.jpg",
-      "data/webtoons/2026-10-20-ai-shopping.jpg",
       "data/reference/cast-sheet.jpg"
-    ]
+    ],
+    "style_reference": "data/webtoons/2026-10-20-ai-shopping.jpg"
   }
 }

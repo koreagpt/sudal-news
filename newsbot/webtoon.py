@@ -10,7 +10,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from . import KST, llm
+from . import KST, lettering, llm
 
 NOTE = "AI 뉴스를 바탕으로 한 가상 상황입니다."
 SHOTS = ["롱샷", "미디엄", "클로즈업", "인서트"]
@@ -123,31 +123,66 @@ def script_schema(bible: dict) -> dict:
     }
 
 
-REVIEW_INSTRUCTIONS = """너는 웹툰 검수자다. 첨부된 첫 번째 이미지는 새로 그린 4컷 웹툰, 두 번째 이미지는 주인공 수달 사원의 인물 기준 그림이다.
-검수 순서: 의도 → 동일성 → 글자 → 시선·접촉 → 연기 → 가독성. 애매하면 통과시키지 않는다.
+REVIEW_INSTRUCTIONS = """너는 웹툰 검수자다. 첫 번째 이미지는 완성된 4컷 웹툰, 두 번째 이미지는 주인공 수달 사원의 인물 기준 그림이다.
+제목, 말풍선, 마무리 문구는 글꼴로 정확히 넣은 것이니 철자는 보지 않는다. 그 대신 아래를 엄격하게 본다. 애매하면 문제로 적는다.
 - 위에서 아래로 컷이 정확히 4개인가.
-- 함께 준 '그려야 할 글자' 목록(제목, 말풍선, 마무리 문구, 하단 안내·출처)이 한 글자도 틀리지 않고 읽히는가. 깨진 글자, 빠진 글자, 엉뚱한 글자, 목록에 없는 읽히는 글자가 있으면 text_errors에 적는다.
-- 문장부호(마침표, 쉼표, 말줄임표, 물음표)만 조금 다른 것은 오류가 아니다.
-- 배경 소품(서류, 화면, 메모)의 읽을 수 없는 선이나 장식 무늬는 오류가 아니다. 다만 깨진 한글처럼 보이는 글자가 눈에 띄게 크면 오류다.
+- 그림 속(말풍선·제목·마무리 문구 밖)에 글자, 숫자, 깨진 글씨, 간판 글자, 화면 속 글자, 빈 말풍선이 그려져 있는가. 있으면 art_text에 위치와 함께 적는다. 화면·서류의 단순한 선이나 도형은 괜찮다.
 - 모든 컷의 수달이 인물 기준과 같은 캐릭터인가 (베이지 털, 크림색 주둥이, 남색 카디건, 흰 셔츠, 사원증).
 - 조연이 설정과 맞고 주인공과 헷갈리지 않는가. 주인공과 닮은 다른 수달이 있으면 cast_distinct는 false다. 조연이 없으면 true.
 - 실존 회사 로고나 실존 인물 얼굴처럼 보이는 것이 없는가.
-- acting_notes에는 시선이 엉뚱한 곳을 보거나, 손과 물건이 떠 있거나, 말풍선이 얼굴·손을 가리는 등 연기·가독성 문제를 짧게 적는다.
-problems에는 다시 그릴 때 고쳐야 할 점을 짧게 적는다."""
+- bubble_issues: 말풍선이 얼굴·눈·손·중요한 소품을 가리는지, 꼬리가 엉뚱한 인물을 가리키는지, 읽는 순서가 헷갈리는지. 컷 번호와 함께 적는다.
+- acting_notes: 시선·접촉·연기에서 아쉬운 점."""
 
 REVIEW_SCHEMA = {
     "type": "object",
     "properties": {
         "panel_count": {"type": "integer"},
-        "text_errors": {"type": "array", "items": {"type": "string"}},
+        "art_text": {"type": "array", "items": {"type": "string"}},
         "character_consistent": {"type": "boolean"},
         "cast_distinct": {"type": "boolean"},
         "has_real_logo_or_person": {"type": "boolean"},
+        "bubble_issues": {"type": "array", "items": {"type": "string"}},
         "acting_notes": {"type": "array", "items": {"type": "string"}},
-        "problems": {"type": "array", "items": {"type": "string"}},
     },
-    "required": ["panel_count", "text_errors", "character_consistent", "cast_distinct",
-                 "has_real_logo_or_person", "acting_notes", "problems"],
+    "required": ["panel_count", "art_text", "character_consistent", "cast_distinct",
+                 "has_real_logo_or_person", "bubble_issues", "acting_notes"],
+    "additionalProperties": False,
+}
+
+LAYOUT_INSTRUCTIONS = """너는 웹툰 식자 담당이다. 글자 없이 그려진 컷 이미지들을 보고, 각 말풍선을 놓을 자리를 정한다.
+- 좌표는 그 컷 이미지 안의 비율(왼쪽 위 0,0 ~ 오른쪽 아래 1,1)이다. cx, cy는 말풍선 중심, tail_x, tail_y는 말하는 인물의 입 위치.
+- 말풍선 크기(컷 대비 너비·높이 비율)를 함께 준다. 그 크기의 상자가 컷 밖으로 나가지 않고, 얼굴·눈·손·중요한 소품을 가리지 않는 빈 배경(벽, 창, 하늘, 바닥, 천장) 위에 오게 한다.
+- 말풍선은 가능하면 말하는 인물 쪽 위에 둔다. 같은 컷의 말풍선끼리 겹치지 않게 하고, 읽는 순서대로 위·왼쪽에서 아래·오른쪽으로 놓는다.
+- 'AI'처럼 화면 속 목소리는 꼬리를 화면 쪽으로 향하게 한다.
+- feedback이 있으면 그 문제를 반드시 고친다."""
+
+LAYOUT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "panels": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "bubbles": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "cx": {"type": "number"}, "cy": {"type": "number"},
+                                "tail_x": {"type": "number"}, "tail_y": {"type": "number"},
+                            },
+                            "required": ["cx", "cy", "tail_x", "tail_y"],
+                            "additionalProperties": False,
+                        },
+                    },
+                },
+                "required": ["bubbles"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    "required": ["panels"],
     "additionalProperties": False,
 }
 
@@ -188,7 +223,8 @@ def _cast_in(script: dict, bible: dict) -> list[dict]:
     return [cast for cast in bible["cast"] if any(cast["name"] in name or name in cast["name"] for name in named)]
 
 
-def image_prompt(script: dict, source_name: str, feedback: list[str], bible: dict) -> str:
+def image_prompt(script: dict, feedback: list[str], bible: dict) -> str:
+    """글자 없는 4컷 그림만 요청한다. 제목·말풍선·마무리 문구는 나중에 글꼴로 넣는다."""
     style, main = bible["style"], bible["main"]
     locations = {loc["id"]: loc for loc in bible["locations"]}
     cast = _cast_in(script, bible)
@@ -197,52 +233,77 @@ def image_prompt(script: dict, source_name: str, feedback: list[str], bible: dic
     for number, panel in enumerate(script["panels"], 1):
         place = locations.get(panel["location"])
         where = f"Location: {place['name']} — {place['layout']} Light: {place['light']}" if place else "Location: as described."
-        bubbles = " / ".join(f'{bubble["speaker"]}: "{bubble["text"]}"' for bubble in panel["bubbles"])
+        speakers = ", ".join(sorted({bubble["speaker"] for bubble in panel["bubbles"]}))
         panels.append(
             f"Panel {number} ({SHOT_EN[panel['shot']]}; {DENSITY_EN[panel['density']]}). {where}\n"
             f"  Acting: {panel['acting']} Scene: {panel['scene']}\n"
-            f"  Speech bubbles — {bubbles}"
+            f"  Leave clear empty background space (wall, window, ceiling or floor) for {len(panel['bubbles'])} speech bubble(s) "
+            f"near the speaker ({speakers}); keep faces and hands away from that space."
         )
     cast_lines = "\n".join(f"- {c['name']} ({c['species']}): {c['look']}" for c in cast) or "- none"
 
-    prompt = f"""Create a vertical 4-panel Korean webtoon page in exactly the same art style as the second reference image.
+    prompt = f"""Draw ONLY the artwork of a vertical 4-panel webtoon, with absolutely no text.
+Reference images: the first is the otter main character sheet, the second is the supporting cast model sheet. Match their character designs and soft drawing style exactly, and paint full warm background scenes.
 Style: {style['profile']} Shapes: {style['shape']} Lines: {style['line']} Color: {style['color']} Light: {style['light']} Background: {style['background']}
 
-Main character: the otter office worker from the first reference image (character sheet). Keep these identical in every panel: {'; '.join(main['fixed'])}.
+Main character (otter): keep identical in every panel: {'; '.join(main['fixed'])}.
 Allowed changes: {'; '.join(main['allowed_variation'])}.
 Never: {'; '.join(main['forbidden'])}.
-Supporting characters (draw exactly as in the third reference image, the cast model sheet; clearly different species and silhouette from the otter):
+Supporting characters (exactly as in the cast sheet, clearly different species and silhouette from the otter):
 {cast_lines}
 No other otters. Background extras, if any, are simple silhouettes.
 
-Layout from top to bottom:
-- Header on a cream background: large bold rounded Korean title "{script['title']}" with a soft yellow highlighter stripe behind it, and a smaller subtitle "{script['subtitle']}" under it. Keep the title centered and leave the top-right corner of the header (the right 22% of the width) completely empty cream for a logo that will be added later.
-- Four stacked horizontal panels with thin dark borders and small gutters. Keep each location's fixed layout consistent between panels.
+Page layout: four panels stacked from top to bottom, each a full-width rectangle with a thin dark border and small side margins. Separate the panels with plain cream gutters about 24 pixels tall. Small plain cream margin above the first panel and below the last panel. Keep each location's fixed layout consistent between panels.
 {chr(10).join(panels)}
-- Footer on a cream background: two lines of large bold Korean text, first line "{script['closing_line1']}" in dark navy, second line "{script['closing_line2']}" in dark brown with a yellow highlighter stripe.
-- Tiny grey text at the very bottom: left "{NOTE}", right "소재: {source_name}".
 
-Staging rules: show where each character is looking and what their hands touch; hands and objects must connect, nothing floats. Speech bubbles never cover faces, hands or the key prop.
-Text rules: render every Korean string exactly as written, character by character. Put dialogue in white rounded speech bubbles with dark outlines whose tails point to the speaker. Documents, papers, phone and laptop screens in the scenes show only simple icons, blocks or lines, never letters. Do not add any other text, English words, signatures, watermarks, brand logos or real people."""
+No text anywhere: no speech bubbles, no captions, no title, no letters, no numbers, no signs, no logos, no watermarks. Phone, laptop and monitor screens and papers show only simple icons, blocks or lines. Show where each character looks and what their hands touch; hands and objects connect, nothing floats."""
     if feedback:
         prompt += "\n\nThe previous attempt had these problems. Fix them:\n- " + "\n- ".join(feedback)
     return prompt
 
 
-def review(model: str, image: Path, character: Path, script: dict, source_name: str, bible: dict,
-           cast_sheet: Path | None = None) -> dict:
-    expected = [f"제목: {script['title']}", f"부제: {script['subtitle']}"]
-    for number, panel in enumerate(script["panels"], 1):
-        expected += [f"{number}컷 말풍선 ({bubble['speaker']}): {bubble['text']}" for bubble in panel["bubbles"]]
-    expected += [f"마무리 1: {script['closing_line1']}", f"마무리 2: {script['closing_line2']}",
-                 f"하단 왼쪽 작은 글씨: {NOTE}", f"하단 오른쪽 작은 글씨: 소재: {source_name}"]
+def plan_bubbles(model: str, art: Path, panels: list[tuple[int, int]], script: dict, feedback: list[str]) -> list[list[dict]]:
+    """컷마다 말풍선 자리와 꼬리 방향을 정한다 (글자 없는 그림을 보고)."""
+    from PIL import Image
+
+    image = Image.open(art).convert("RGB")
+    width = image.width
+    parts, crops = [], []
+    for number, ((top, bottom), panel) in enumerate(zip(panels, script["panels"]), 1):
+        crop_path = art.with_name(f"{art.stem}-panel{number}.jpg")
+        image.crop((0, top, width, bottom)).save(crop_path, quality=85)
+        crops.append(crop_path)
+        lines = []
+        for index, bubble in enumerate(panel["bubbles"], 1):
+            w, h, _ = lettering.bubble_size(bubble["text"], width)
+            lines.append(f"  말풍선 {index} ({bubble['speaker']}): \"{bubble['text']}\" — 크기 너비 {w / width:.2f}, 높이 {h / (bottom - top):.2f}")
+        parts.append({"type": "input_text", "text": f"{number}컷 (장면: {panel['acting']})\n" + "\n".join(lines)})
+        parts.append(llm.image_part(crop_path))
+    if feedback:
+        parts.append({"type": "input_text", "text": "feedback (지난 배치의 문제):\n- " + "\n- ".join(feedback)})
+    data = llm.ask_json(model, LAYOUT_INSTRUCTIONS, [{"role": "user", "content": parts}], LAYOUT_SCHEMA, "bubble_layout", "low")
+    for crop_path in crops:
+        crop_path.unlink(missing_ok=True)
+
+    layout = []
+    for panel, planned in zip(script["panels"], data["panels"] + [{"bubbles": []}] * 4):
+        bubbles = planned["bubbles"][: len(panel["bubbles"])]
+        while len(bubbles) < len(panel["bubbles"]):  # 빠진 자리는 위쪽에 차례로 둔다
+            bubbles.append({"cx": 0.25 + 0.5 * (len(bubbles) % 2), "cy": 0.22, "tail_x": 0.5, "tail_y": 0.5})
+        layout.append([{key: min(max(float(value), 0.0), 1.0) for key, value in bubble.items()} for bubble in bubbles])
+    return layout
+
+
+def review(model: str, image: Path, character: Path, script: dict, bible: dict, cast_sheet: Path | None = None) -> dict:
     cast = _cast_in(script, bible)
     cast_text = "\n".join(f"- {c['name']} ({c['species']}): {c['look']}" for c in cast) or "- 없음"
+    speakers = []
+    for number, panel in enumerate(script["panels"], 1):
+        speakers += [f"{number}컷: {bubble['speaker']} — {bubble['text']}" for bubble in panel["bubbles"]]
     content = [{
         "role": "user",
         "content": [
-            {"type": "input_text", "text": "그려야 할 글자 (이 밖의 읽히는 글자는 없어야 함):\n" + "\n".join(expected)
-             + "\n\n등장해야 하는 조연:\n" + cast_text},
+            {"type": "input_text", "text": "말풍선과 화자:\n" + "\n".join(speakers) + "\n\n등장해야 하는 조연:\n" + cast_text},
             llm.image_part(image),
             llm.image_part(character),
         ],
@@ -251,9 +312,9 @@ def review(model: str, image: Path, character: Path, script: dict, source_name: 
         content[0]["content"].append({"type": "input_text", "text": "세 번째 이미지는 조연 기준 시트다. 조연이 이 그림과 같은지 확인한다."})
         content[0]["content"].append(llm.image_part(cast_sheet))
     result = llm.ask_json(model, REVIEW_INSTRUCTIONS, content, REVIEW_SCHEMA, "webtoon_review", "low")
-    result["passed"] = (
+    result["art_ok"] = (
         result["panel_count"] == 4
-        and not result["text_errors"]
+        and not result["art_text"]
         and result["character_consistent"]
         and result["cast_distinct"]
         and not result["has_real_logo_or_person"]
@@ -279,7 +340,7 @@ Top row: a height line-up of three full-body characters standing side by side, f
 Bottom row: for each supporting character only, a side view full body plus three head close-ups (neutral, excited, thoughtful), lined up under that character.
 
 Keep every character's colors, clothes, glasses and proportions identical everywhere on the sheet. No text, no labels, no names, no logos, no background scenery."""
-    references = [project / path for path in settings["references"][:2]]
+    references = [project / settings["references"][0], project / settings["style_reference"]]
     image = llm.draw(settings["image_model"], prompt, references, "1536x1024", "high")
     target = project / "data" / "reference" / "cast-sheet.jpg"
     target.write_bytes(image)
@@ -298,43 +359,68 @@ def _og_crop(path: Path) -> list[int]:
 
 
 def make(project: Path, config: dict, day: str, news: dict, topic: int | None = None) -> dict:
-    """웹툰을 만들어 data/webtoons에 저장하고 결과(성공 여부·시도·문제)를 돌려준다."""
+    """웹툰을 만들어 data/webtoons에 저장하고 결과(성공 여부·시도·문제)를 돌려준다.
+
+    1) 대본 → 2) 글자 없는 4컷 작화 → 3) 컷 찾기 → 4) 말풍선 자리 정하기 → 5) 글꼴로 식자 → 6) 검수.
+    그림에 문제가 있으면 다시 그리고, 말풍선 위치만 문제면 그림은 두고 자리만 다시 정한다.
+    """
+    from PIL import Image
+
     settings = config["webtoon"]
     source = pick_topic(news, topic)
     references = [project / path for path in settings["references"]]
     bible = load_bible(project)
+    cast_sheet = project / bible["cast_sheet"] if bible.get("cast_sheet") else None
+    source_name = source.get("source", "")
     status = {
         "ok": False,
         "attempts": 0,
         "topic": source.get("title") or source.get("original_title"),
-        "source": source.get("source"),
+        "source": source_name,
         "problems": [],
         "made_at": datetime.now(KST).isoformat(timespec="minutes"),
     }
 
     script = write_script(settings["script_model"], source, bible)
     status["title"] = script["title"]
-    status["script"] = script  # 검수에서 떨어져도 대본은 남겨 둔다 (사람이 시안을 직접 채택할 때 사용)
+    status["script"] = script  # 검수에서 떨어져도 대본은 남겨 둔다
     drafts = project / "data" / "drafts"
     drafts.mkdir(parents=True, exist_ok=True)
     feedback: list[str] = []
+    page = None
     for attempt in range(1, settings["max_attempts"] + 1):
         status["attempts"] = attempt
         quality = settings["quality"] if attempt == 1 else settings["retry_quality"]
-        print(f"  웹툰 작화 {attempt}차 시도 (화질 {quality})")
-        image = llm.draw(
-            settings["image_model"], image_prompt(script, source.get("source", ""), feedback, bible),
-            references, settings["size"], quality,
-        )
-        draft = drafts / f"{day}-try{attempt}.jpg"
-        draft.write_bytes(image)
-        verdict = review(settings["review_model"], draft, references[0], script, source.get("source", ""), bible,
-                         project / bible["cast_sheet"] if bible.get("cast_sheet") else None)
-        feedback = verdict["text_errors"] + verdict["problems"]
-        status["acting_notes"] = verdict["acting_notes"]
-        status["problems"] = feedback
-        if verdict["passed"]:
+        print(f"  웹툰 작화 {attempt}차 시도 (화질 {quality}, 글자 없이)")
+        art = drafts / f"{day}-try{attempt}-art.jpg"
+        art.write_bytes(llm.draw(settings["image_model"], image_prompt(script, feedback, bible), references, settings["size"], quality))
+        with Image.open(art) as art_image:
+            panels = lettering.find_panels(art_image)
+        if len(panels) != 4:
+            feedback = [f"Panels must be four separate rectangles divided by clearly visible plain cream gutters (found {len(panels)})."]
+            status["problems"] = feedback
+            print(f"  컷 4개를 찾지 못함 ({len(panels)}개) → 다시 그림")
+            continue
+
+        bubble_feedback: list[str] = []
+        for layout_try in range(1, 4):  # 그림은 그대로 두고 말풍선 자리만 최대 3번 정한다
+            layout = plan_bubbles(settings["review_model"], art, panels, script, bubble_feedback)
+            page = drafts / f"{day}-try{attempt}.jpg"
+            lettering.compose(art, page, script, layout, panels, NOTE, source_name)
+            verdict = review(settings["review_model"], page, references[0], script, bible, cast_sheet)
+            status["acting_notes"] = verdict["acting_notes"]
+            bubble_feedback = verdict["bubble_issues"]
+            if not verdict["art_ok"] or not bubble_feedback:
+                break
+            print(f"  말풍선 자리 조정 {layout_try}회차: {bubble_feedback}")
+        status["bubble_issues"] = bubble_feedback
+        if verdict["art_ok"]:
+            status["problems"] = bubble_feedback
             break
+        feedback = verdict["art_text"] + ([] if verdict["character_consistent"] else ["The otter must match the character sheet exactly."]) \
+            + ([] if verdict["cast_distinct"] else ["Supporting characters must match the cast sheet and never look like the otter."]) \
+            + (["Remove anything that looks like a real logo or real person."] if verdict["has_real_logo_or_person"] else [])
+        status["problems"] = feedback
         print(f"  검수 미통과: {feedback}")
     else:
         print("  [안내] 검수를 통과한 웹툰이 없어 어제 웹툰을 유지합니다. 시도한 그림은 data/drafts/에 있습니다.")
@@ -349,7 +435,7 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
     stamp = datetime.now(KST).strftime("%H%M%S")
     filename = f"{day}-{stamp}.jpg"
     target = project / "data" / "webtoons" / filename
-    target.write_bytes(draft.read_bytes())
+    target.write_bytes(page.read_bytes())
     webtoons.append({
         "id": f"{day}-{stamp}",
         "date": day,
@@ -359,10 +445,11 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
         "alt": script["alt"],
         "message": f"{script['closing_line1']} {script['closing_line2']}",
         "note": NOTE,
-        "source_name": source.get("source", ""),
+        "source_name": source_name,
         "source_url": source.get("link", ""),
         "og_crop": _og_crop(target),
         "auto": True,
+        "lettering": "font",
         "script": script,
     })
     path.write_text(json.dumps(webtoons, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
