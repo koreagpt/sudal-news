@@ -8,7 +8,37 @@ from __future__ import annotations
 import math
 from pathlib import Path
 
+from functools import lru_cache
+
 from .og import INK, MARKER, MUTED, NAVY, PAPER, _font
+
+# 웹툰 글자 글꼴: 카페24 써라운드 (SIL OFL 1.1, 웹툰·상업적 사용 가능 — fonts/License-Ssurround.pdf)
+DISPLAY_FONT = Path(__file__).resolve().parent.parent / "fonts" / "Cafe24Ssurround-v2.0.ttf"
+
+
+@lru_cache(maxsize=64)
+def _display(size: int):
+    from PIL import ImageFont
+
+    if DISPLAY_FONT.exists():
+        return ImageFont.truetype(str(DISPLAY_FONT), size)
+    return _font(size)
+
+
+@lru_cache(maxsize=4096)
+def _missing(size: int, char: str) -> bool:
+    """글꼴에 그 글자가 없으면 True (없는 글자용 빈 상자와 모양이 같은지로 판단)."""
+    font = _display(size)
+    blank = font.getmask("\ue000")
+    mask = font.getmask(char)
+    return mask.size == blank.size and bytes(mask) == bytes(blank)
+
+
+def font_for(text: str, size: int):
+    """기본은 카페24 써라운드. 한 글자라도 없으면 그 문장 전체를 기본 고딕으로 찍어 깨진 글자를 막는다."""
+    if DISPLAY_FONT.exists() and not any(_missing(size, ch) for ch in set(text) if not ch.isspace()):
+        return _display(size)
+    return _font(size)
 
 BROWN = (107, 74, 47)
 SOFT_INK = (74, 64, 56)
@@ -85,7 +115,7 @@ BUBBLE_SHAPES = [(0.27, 1.0), (0.21, 1.0), (0.34, 1.0), (0.21, 0.9)]  # (줄 너
 
 def bubble_size(text: str, page_width: int, wrap: float = 0.27, scale: float = 1.0) -> tuple[int, int, list[str]]:
     """말풍선 크기(px)와 줄바꿈 결과. 글자 크기는 페이지 폭에 비례. 줄바꿈 문자는 그대로 지킨다."""
-    font = _font(round(page_width * 0.03 * scale))
+    font = font_for(text, round(page_width * 0.03 * scale))
     lines = [line for paragraph in text.split("\n") for line in _wrap(paragraph, font, page_width * wrap)]
     line_h = font.size * 1.38
     text_w = max(font.getlength(line) for line in lines)
@@ -184,17 +214,17 @@ def compose(art_path: Path, out_path: Path, script: dict, layout: list[list[dict
 
     # 머리글: 제목(형광펜 밑줄) + 부제. 오른쪽 위는 협회 로고 자리로 비운다.
     title_size = round(width * 0.068)
-    title_font = _font(title_size * S)
+    title_font = font_for(script["title"], title_size * S)
     while title_font.getlength(script["title"]) > width * 0.56 * S and title_size > 30:
         title_size -= 2
-        title_font = _font(title_size * S)
+        title_font = font_for(script["title"], title_size * S)
     title_w = title_font.getlength(script["title"])
     title_y = round(width * 0.075) * S
     draw.rounded_rectangle((width * S / 2 - title_w / 2 - 14 * S, title_y - title_size * 0.34 * S,
                             width * S / 2 + title_w / 2 + 14 * S, title_y + title_size * 0.08 * S), 10 * S, fill=MARKER + (230,))
     draw.text((width * S / 2, title_y), script["title"], font=title_font, fill=INK, anchor="ms")
     draw.text((width * S / 2, title_y + round(width * 0.052) * S), script["subtitle"],
-              font=_font(round(width * 0.03) * S), fill=SOFT_INK, anchor="ms")
+              font=font_for(script["subtitle"], round(width * 0.03) * S), fill=SOFT_INK, anchor="ms")
 
     # 말풍선
     for panel_index, ((p_top, p_bottom), bubbles) in enumerate(zip(panels, layout)):
@@ -204,7 +234,7 @@ def compose(art_path: Path, out_path: Path, script: dict, layout: list[list[dict
         for bubble, spec in zip(script_bubbles, bubbles):
             wrap, scale = spec.get("wrap", 0.27), spec.get("scale", 1.0)
             w, h, lines = bubble_size(bubble["text"], width, wrap, scale)
-            bubble_font = _font(round(width * 0.03 * scale) * S)
+            bubble_font = font_for(bubble["text"], round(width * 0.03 * scale) * S)
             line_h = bubble_font.size * 1.38
             margin = round(width * 0.045)  # 컷 테두리에서 띄우는 간격
             cx = min(max(spec["cx"] * width, margin + w / 2), width - margin - w / 2)
@@ -215,7 +245,7 @@ def compose(art_path: Path, out_path: Path, script: dict, layout: list[list[dict
 
     # 바닥글: 마무리 두 줄 + 작은 안내·출처
     foot_top = header_h + art_area.height
-    close_font = _font(round(width * 0.05) * S)
+    close_font = font_for(script["closing_line1"] + script["closing_line2"], round(width * 0.05) * S)
     y1 = (foot_top + round(width * 0.075)) * S
     y2 = y1 + round(width * 0.072) * S
     line2_w = close_font.getlength(script["closing_line2"])

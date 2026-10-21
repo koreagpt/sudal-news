@@ -114,7 +114,8 @@ def _footer(site: dict, root: str) -> str:
   </section>
   <p class="org"><strong>{publisher}</strong>에서 AI를 배워 보세요</p>{contact}
   <p class="fine">{escape(_brand_name(site))}는 {publisher}가 매일 아침 전하는 AI 뉴스 브리핑입니다.
-  기사의 저작권은 각 언론사에 있으며, 요약은 AI가 작성해 원문과 다를 수 있습니다.</p>
+  기사의 저작권은 각 언론사에 있으며, 요약은 AI가 작성해 원문과 다를 수 있습니다.
+  웹툰 글꼴: 카페24(주)가 제공한 “카페24 써라운드”.</p>
 </footer>
 </div>
 </body>
