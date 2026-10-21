@@ -81,9 +81,20 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="오늘 수달일보 게시글을 메일로 보내기")
     parser.add_argument("--date", help="YYYY-MM-DD. 기본값: 오늘(한국 시간)")
     parser.add_argument("--dry-run", action="store_true", help="보내지 않고 내용만 출력")
+    parser.add_argument("--once", action="store_true",
+                        help="예약 재시도용: 오늘 이미 보냈으면 건너뛰고, 오늘 호가 아직 없으면 10:15 전까지는 다음 시도를 기다림")
     args = parser.parse_args(argv)
 
-    day = args.date or datetime.now(KST).date().isoformat()
+    now = datetime.now(KST)
+    day = args.date or now.date().isoformat()
+    marker = PROJECT / "data" / "mailed" / f"{day}.txt"
+    if args.once:
+        if marker.exists():
+            print(f"{day} 메일은 이미 보냈습니다.")
+            return 0
+        if not (PROJECT / "data" / "news" / f"{day}.json").exists() and (now.hour, now.minute) < (10, 15):
+            print("오늘 호가 아직 없어 다음 예약 시도에서 보냅니다.")
+            return 0
     message = compose(day)
     recipients = [address.strip() for address in os.environ.get("MAIL_TO", "").split(",") if address.strip()]
     if args.dry_run:
@@ -101,6 +112,9 @@ def main(argv=None) -> int:
         smtp.login(username, password)
         smtp.send_message(message)
     print(f"메일 보냄 → {len(recipients)}명 ({message['Subject']})")
+    if args.once:
+        marker.parent.mkdir(parents=True, exist_ok=True)
+        marker.write_text(f"{now.isoformat(timespec='minutes')} {message['Subject']}\n", encoding="utf-8")
     return 0
 
 

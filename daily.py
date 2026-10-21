@@ -80,10 +80,14 @@ def main(argv=None) -> int:
     parser.add_argument("--webtoon-only", action="store_true", help="오늘 뉴스는 두고 웹툰만 다시 만들기")
     parser.add_argument("--topic", type=int, help="웹툰 소재로 쓸 뉴스 번호(1부터)")
     parser.add_argument("--cast-sheet", action="store_true", help="조연 기준 시트를 새로 그리기 (가끔 한 번)")
+    parser.add_argument("--if-missing", action="store_true", help="오늘 호가 이미 있으면 새로 만들지 않고 페이지만 생성 (예약 재시도용)")
     args = parser.parse_args(argv)
 
     config = json.loads((PROJECT / "config.json").read_text(encoding="utf-8"))
     day = args.date or datetime.now(KST).date().isoformat()
+    if args.if_missing and (PROJECT / "data" / "news" / f"{day}.json").exists():
+        print(f"{day} 호는 이미 발행됐습니다. 새로 만들지 않고 페이지만 생성합니다.")
+        args.build_only = True
     if args.cast_sheet:
         if not llm.has_key():
             print("OPENAI_API_KEY가 없어 조연 기준 시트를 그릴 수 없습니다.")

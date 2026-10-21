@@ -1,12 +1,19 @@
 name: 수달일보 아침 메일
 
 on:
-  schedule:
-    - cron: "0 0 * * *"  # 매일 09:00 (한국 시간). GitHub 사정에 따라 조금 늦어질 수 있음
-  workflow_dispatch:     # Actions 탭에서 바로 보내 보기
+  schedule:  # GitHub 예약은 늦거나 빠질 수 있어 여러 번 걸어 둔다. 하루 한 통만 보낸다
+    - cron: "53 23 * * *"  # 08:53 (한국 시간)
+    - cron: "23 0 * * *"   # 09:23
+    - cron: "53 0 * * *"   # 09:53
+    - cron: "23 1 * * *"   # 10:23 (이때까지 오늘 호가 없으면 "아직 발행 안 됨" 메일)
+  workflow_dispatch:       # Actions 탭에서 바로 보내 보기 (몇 번이든 보냄)
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: mail
+  cancel-in-progress: false
 
 jobs:
   mail:
@@ -24,4 +31,18 @@ jobs:
           MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
           MAIL_SERVER: ${{ secrets.MAIL_SERVER }}
-        run: python mail_today.py
+        run: python mail_today.py ${{ github.event_name == 'schedule' && '--once' || '' }}
+
+      - name: 보낸 기록 저장
+        if: github.event_name == 'schedule'
+        run: |
+          git config user.name "sudal-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -d data/mailed ]; then
+            git add data/mailed
+            if ! git diff --cached --quiet; then
+              git commit -m "아침 메일 $(TZ=Asia/Seoul date +%F) 발송 기록"
+              git pull --rebase
+              git push
+            fi
+          fi

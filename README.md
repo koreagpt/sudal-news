@@ -85,7 +85,7 @@ python -m http.server 8765 --directory public
 
 ## 자동 발행 (GitHub Actions)
 
-`.github/workflows/daily.yml`이 매일 06:30(한국 시간)에 뉴스와 웹툰을 만들어 저장소에 기록하고 GitHub Pages로 배포합니다. 컴퓨터를 켜 둘 필요가 없습니다.
+`.github/workflows/daily.yml`이 매일 아침(06:13, 06:43, 07:13, 07:43에 예약) 뉴스와 웹툰을 만들어 저장소에 기록하고 GitHub Pages로 배포합니다. GitHub 예약 실행은 몇 시간씩 늦거나 빠질 때가 있어 여러 번 걸어 두었고, 먼저 돈 한 번만 발행하고 나머지는 건너뜁니다(`--if-missing`). 컴퓨터를 켜 둘 필요가 없습니다.
 
 - 저장소 Settings → Secrets and variables → Actions 에 `OPENAI_API_KEY`를 등록해야 GPT 요약과 웹툰이 동작합니다.
 - Actions 탭(또는 GitHub 앱) → "수달일보 발행" → Run workflow 에서 직접 실행할 수 있습니다.
@@ -95,9 +95,9 @@ python -m http.server 8765 --directory public
 - 웹툰 이미지·디자인·설정을 바꿔 올리면 페이지만 다시 만듭니다.
 - 매일 봇이 `data/`에 기록을 올리므로, 이 폴더에서 고치기 전에 `git pull`을 먼저 합니다.
 
-## 아침 메일 (09:00)
+## 아침 메일 (09시 전후)
 
-`.github/workflows/mail.yml`이 매일 09:00(한국 시간)에 오늘 게시글(날짜 주소 포함)과 카톡 썸네일을 운영자 메일로 보냅니다. 아침 발행이 실패한 날은 "아직 발행이 안 됐어요" 메일이 갑니다.
+`.github/workflows/mail.yml`이 매일 아침(08:53, 09:23, 09:53, 10:23에 예약) 오늘 게시글(날짜 주소 포함)과 카톡 썸네일을 운영자 메일로 **하루 한 통** 보냅니다. 보낸 날은 `data/mailed/날짜.txt`에 기록해 중복 발송을 막습니다. 10:15가 지나도 오늘 호가 없으면 "아직 발행이 안 됐어요" 메일이 갑니다.
 
 GitHub 비밀값 (Settings → Secrets and variables → Actions)
 - `MAIL_TO`: 받는 주소 (쉼표로 여러 명)
