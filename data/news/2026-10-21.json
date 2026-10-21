@@ -222,5 +222,15 @@
     "image": "2026-10-21-new-v2.jpg",
     "bubble_issues": [],
     "note": "운영 확인: 자동 생성 2차 그림(회의실)에 말풍선을 다시 배치함 — 3컷 뒷모습 머리 위 배치 허용, 의미 단위 줄바꿈"
+  },
+  "ad": {
+    "course_id": "word-hwp-report",
+    "title": "AI로 완성하는 Word, HWP 보고서 자동화",
+    "url": "https://gptkoreaclass.com/courses/ai%eb%a1%9c-%ec%99%84%ec%84%b1%ed%95%98%eb%8a%94-word-hwp-%eb%b3%b4%ea%b3%a0%ec%84%9c-%ec%9e%90%eb%8f%99%ed%99%94/",
+    "format": "온라인",
+    "style": "팁",
+    "hook": "보고서 작성도 AI와 함께",
+    "pitch": "한글·워드 보고서에 AI를 활용하고 싶다면, 문서 작성 자동화를 다루는 온라인 강의를 살펴보세요.",
+    "comment": "슬라이드 다음엔 보고서 차례네"
   }
 }
