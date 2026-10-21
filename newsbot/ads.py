@@ -11,6 +11,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 from . import llm
+from .style import NATURAL_KOREAN
 
 STYLES = [
     ("공감", "독자가 겪을 법한 상황에 공감하며 시작한다 (예: '~할 때 막막했다면')."),
@@ -30,7 +31,11 @@ INSTRUCTIONS = """너는 '한국GPT협회 수달일보'의 편집자다. AI 뉴�
 - 지정한 말투 유형(style)을 따른다.
 - hook: 카드 첫 줄. 22자 이내.
 - pitch: 이 강의가 무엇에 도움이 되는지 한두 문장, 70자 이내, 존댓말.
-- comment: 수달 사원의 한마디. 반말, 30자 이내, 이모지 없이."""
+- comment: 수달 사원의 한마디. 반말, 30자 이내, 이모지 없이.
+- pitch는 '~을 다루는 강의를 살펴보세요' 같은 안내문 말고, 이 강의가 실제로 어떤 순간에 도움이 되는지 사람 말로 쓴다.
+  나쁜 예: '문서 작성 자동화를 다루는 온라인 강의를 살펴보세요.' 좋은 예: '한글 보고서 초안, AI한테 먼저 받아 보는 법을 알려 줘요.'
+
+""" + NATURAL_KOREAN
 
 SCHEMA = {
     "type": "object",

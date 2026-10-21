@@ -11,6 +11,7 @@ from datetime import datetime
 from pathlib import Path
 
 from . import KST, lettering, llm
+from .style import NATURAL_KOREAN
 
 NOTE = "AI 뉴스를 바탕으로 한 가상 상황입니다."
 SHOTS = ["롱샷", "미디엄", "클로즈업", "인서트"]
@@ -113,7 +114,10 @@ def script_instructions(bible: dict) -> str:
 - speaker는 "수달", "AI", 또는 조연 이름.
 - closing_line1, closing_line2는 각각 18자 이내.
 - scene은 그림 작가에게 주는 장면 설명(장소, 구도, 소품) 2문장 이내.
-- alt는 시각장애인을 위한 4컷 전체 설명. 300자 이내."""
+- alt는 시각장애인을 위한 4컷 전체 설명. 300자 이내.
+
+{NATURAL_KOREAN}
+- 제목과 마무리 두 줄도 이 말투 규칙을 따른다. 광고 문구나 교훈 같은 말 대신, 동료가 피식 웃으며 할 법한 말로 쓴다."""
 
 
 def script_schema(bible: dict) -> dict:
