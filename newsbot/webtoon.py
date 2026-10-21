@@ -40,11 +40,33 @@ def _bible_text(bible: dict) -> str:
         "- 금지: " + "; ".join(main["forbidden"]),
         f"- 성격: {main['personality']}",
         f"- 연기 습관: {main['acting']}",
+        f"- 말투: {main.get('voice', '')}",
         "[조연 — 이 인물만 쓴다]",
     ]
-    lines += [f"- {c['name']} ({c['species']}): {c['look']} 성격: {c['personality']} 역할: {c['role']}" for c in bible["cast"]]
+    lines += [f"- {c['name']} ({c['species']}): {c['look']} 성격: {c['personality']} 역할: {c['role']} 말투: {c.get('voice', '')}"
+              for c in bible["cast"]]
+    if bible.get("relationships"):
+        lines.append("[호칭·높임말 — 반드시 지킨다]")
+        lines += [f"- {rule}" for rule in bible["relationships"]]
+    if bible.get("series"):
+        lines.append(f"[연재 방식] {bible['series']['format']} {bible['series']['variety']}")
     lines.append("[장소 설정집 — id: 배치 / 빛]")
     lines += [f"- {loc['id']} {loc['name']}: {loc['layout']} / {loc['light']}" for loc in bible["locations"]]
+    return "\n".join(lines)
+
+
+def recent_episodes(project: Path, day: str, limit: int = 5) -> str:
+    """최근 자동 웹툰 요약 (역할·장소·결말이 반복되지 않게 대본 작가에게 준다)."""
+    path = project / "data" / "webtoons.json"
+    if not path.exists():
+        return ""
+    toons = [t for t in json.loads(path.read_text(encoding="utf-8")) if t.get("auto") and t["date"] < day and t.get("script")]
+    lines = []
+    for toon in toons[-limit:]:
+        script = toon["script"]
+        places = "·".join(dict.fromkeys(panel.get("location", "?") for panel in script["panels"]))
+        talkers = "→".join(bubble["speaker"] for panel in script["panels"] for bubble in panel["bubbles"])
+        lines.append(f"- {toon['date']} 「{script['title']}」 장소 {places} / 말한 순서 {talkers} / 마무리 \"{script['closing_line1']} {script['closing_line2']}\"")
     return "\n".join(lines)
 
 
@@ -53,12 +75,22 @@ def script_instructions(bible: dict) -> str:
 
 {_bible_text(bible)}
 
-이야기 원칙
-- 뉴스의 핵심을 직장인 일상 장면으로 옮긴다. 1컷 상황 → 2컷 AI에게 시도하거나 소식을 접함 → 3컷 발견·반전 → 4컷 정리와 여운.
+이야기 원칙 (회차 완결형, 정보형 웹툰)
+- 독자가 따라 할 수 있는 한 가지 문제를 정한다. 4컷 흐름: 1컷 수달이 겪는 구체적인 불편 → 2컷 소식을 접하거나 방법을 시도 → 3컷 결과에서 판단이 필요한 지점을 발견(확인·수정·선택) → 4컷 무엇이 달라졌는지 행동으로 보여 주며 닫는다.
+- 수달이 이번 화에서 바뀌는 것(막막함→선택, 시큰둥→관심 등)이 하나 있어야 한다.
+- 최근 회차와 역할·장소·결말 방식을 겹치지 않게 한다. 같은 인물이 매번 정답을 알려 주는 구도를 반복하지 않는다.
 - 뉴스에 없는 사실(수치, 날짜, 기능, 발언)을 사실처럼 쓰지 않는다. 필요하면 일반적인 상황으로 표현한다.
 - 실존 인물의 얼굴, 실제 회사 로고, 실제 제품 화면을 그리지 않는다. 서비스 이름은 대사에 꼭 필요할 때만 쓴다.
 - 혐오, 비하, 정치적 편향, 공포 조장 없이 따뜻하고 피식 웃게 되는 톤으로 쓴다.
-- 협회나 강의 광고 문구는 넣지 않는다. 마무리 문구는 AI를 잘 쓰는 태도에 대한 짧은 생각으로 끝낸다.
+- 협회나 강의 광고 문구는 넣지 않는다.
+- 마무리 두 줄은 훈계나 표어가 아니라 이번 화에서 달라진 점을 담은 담백한 한 마디로 쓴다 ("~하자", "~해야 한다" 같은 명령·설교 피하기).
+
+대화 원칙 (자연스러운 대화·감정 대사)
+- 모든 대사는 바로 앞의 말이나 행동에 대한 반응이다. 두 사람이 각자 설명을 번갈아 읽는 독백 교환을 쓰지 않는다.
+- 인물은 자기가 아는 것만 말한다. 작가가 아는 정보를 인물에게 대신 읽히지 않는다.
+- 설정집의 말투와 호칭·높임말을 지킨다. 수달은 대리님·팀장님께 존댓말을 쓴다.
+- 감정은 이유와 행동으로 보여 준다. 느낌표·말줄임표를 남발하지 않는다.
+- 한 말풍선은 한 번의 말하기 호흡이다. A→B→A처럼 번갈아 말하면 말풍선을 나누고, 같은 사람이 이어서 하는 말은 한 컷에 두 개까지만.
 
 연기 규칙 (표정·행동)
 - beat: 그 컷에서 독자가 새로 알게 되는 것 하나.
@@ -74,7 +106,7 @@ def script_instructions(bible: dict) -> str:
 
 글자 규칙 (그림에 그대로 그려지므로 짧고 정확하게)
 - title 12자 이내, subtitle 16자 이내.
-- panels는 정확히 4개. 컷마다 말풍선 1~2개, 말풍선 하나는 18자 이내, 전체 말풍선 6개 이하.
+- panels는 정확히 4개. 컷마다 말풍선 1~2개, 말풍선 하나는 18자 이내, 전체 말풍선 6개 이하. 말풍선 글은 의미 단위로 읽히게 쓴다(조사·어미만 따로 떨어지지 않게).
 - speaker는 "수달", "AI", 또는 조연 이름.
 - closing_line1, closing_line2는 각각 18자 이내.
 - scene은 그림 작가에게 주는 장면 설명(장소, 구도, 소품) 2문장 이내.
@@ -217,7 +249,7 @@ def pick_topic(news: dict, topic: int | None = None) -> dict:
     raise RuntimeError("웹툰 소재로 쓸 뉴스가 없습니다.")
 
 
-def write_script(model: str, source: dict, bible: dict) -> dict:
+def write_script(model: str, source: dict, bible: dict, recent: str = "") -> dict:
     lines = [
         f"뉴스 제목: {source.get('title') or source.get('original_title')}",
         f"원제목: {source.get('original_title', '')}",
@@ -226,6 +258,8 @@ def write_script(model: str, source: dict, bible: dict) -> dict:
     ]
     if source.get("idea"):
         lines.append(f"편집자의 4컷 아이디어: {source['idea']}")
+    if recent:
+        lines.append("최근 회차 (역할·장소·결말을 겹치지 않게):\n" + recent)
     script = llm.ask_json(model, script_instructions(bible), "\n".join(lines), script_schema(bible), "webtoon_script", "low")
     if len(script["panels"]) != 4:
         raise RuntimeError(f"대본의 컷 수가 4개가 아닙니다: {len(script['panels'])}개")
@@ -422,7 +456,7 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
         "made_at": datetime.now(KST).isoformat(timespec="minutes"),
     }
 
-    script = write_script(settings["script_model"], source, bible)
+    script = write_script(settings["script_model"], source, bible, recent_episodes(project, day))
     status["title"] = script["title"]
     status["script"] = script  # 검수에서 떨어져도 대본은 남겨 둔다
     drafts = project / "data" / "drafts"

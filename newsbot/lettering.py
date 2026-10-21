@@ -75,8 +75,8 @@ def find_panels(image) -> list[tuple[int, int]]:
 
 # ---------- 글자 배치 ----------
 
-def _wrap(text: str, font, max_width: float) -> list[str]:
-    """띄어쓰기 단위로 줄을 나누고, 한 단어가 너무 길면 글자 단위로 자른다."""
+def _wrap_chars(text: str, font, max_width: float) -> list[str]:
+    """한 어절이 너무 길 때만 쓰는 글자 단위 줄바꿈."""
     lines, current = [], ""
     for word in text.split():
         trial = f"{current} {word}".strip()
@@ -94,6 +94,45 @@ def _wrap(text: str, font, max_width: float) -> list[str]:
     if current:
         lines.append(current)
     return lines
+
+
+def _wrap(text: str, font, max_width: float) -> list[str]:
+    """어절 단위로, 가장 적은 줄 수 안에서 줄 길이가 고르게 나뉘도록 줄을 바꾼다.
+
+    끝줄에 한두 글자(조사·어미·짧은 단어)만 홀로 남는 배치는 피한다.
+    """
+    from itertools import combinations
+
+    words = text.split()
+    if not words:
+        return [""]
+    if any(font.getlength(word) > max_width for word in words):
+        return _wrap_chars(text, font, max_width)
+    greedy, current = [], ""
+    for word in words:
+        trial = f"{current} {word}".strip()
+        if font.getlength(trial) <= max_width:
+            current = trial
+        else:
+            greedy.append(current)
+            current = word
+    greedy.append(current)
+    count = len(greedy)
+    if count == 1 or len(words) > 14:
+        return greedy
+    best = None
+    for cuts in combinations(range(1, len(words)), count - 1):
+        bounds = (0, *cuts, len(words))
+        lines = [" ".join(words[a:b]) for a, b in zip(bounds, bounds[1:])]
+        widths = [font.getlength(line) for line in lines]
+        if max(widths) > max_width:
+            continue
+        score = max(widths) - min(widths)
+        if len(lines[-1].replace(" ", "")) <= 2:  # 홀로 남은 짧은 끝줄
+            score += max_width
+        if best is None or score < best[0]:
+            best = (score, lines)
+    return best[1] if best else greedy
 
 
 def merge_bubbles(script: dict) -> dict:
@@ -152,14 +191,25 @@ def _tail_polygon(box, tail):
     return _bezier(left, mid_l, tip) + _bezier(tip, mid_r, right)[1:]
 
 
-def _draw_bubble(layer, box, tail, lines, font, line_h):
-    """말풍선과 꼬리를 한 덩어리 모양으로 만든 뒤 테두리를 한 번에 둘러 이음매가 없게 그린다."""
+DEVICE_FILL, DEVICE_INK = (243, 246, 255), NAVY
+
+
+def is_device(speaker: str) -> bool:
+    """화면·기기에서 나오는 목소리(AI 등)인지."""
+    return speaker.strip().upper().startswith("AI") or any(word in speaker for word in ("화면", "스피커", "휴대폰", "기기"))
+
+
+def _draw_bubble(layer, box, tail, lines, font, line_h, device: bool = False):
+    """말풍선과 꼬리를 한 덩어리 모양으로 만든 뒤 테두리를 한 번에 둘러 이음매가 없게 그린다.
+
+    device=True면 화면 속 목소리용으로 모서리가 각지고 남색 테두리·옅은 하늘색 바탕이다.
+    """
     from PIL import Image, ImageDraw, ImageFilter
 
     x0, y0, x1, y1 = box
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     outline = round(2.6 * SCALE)
-    radius = min((y1 - y0) / 2, (x1 - x0) / 2, 34 * SCALE)
+    radius = 9 * SCALE if device else min((y1 - y0) / 2, (x1 - x0) / 2, 34 * SCALE)
     tail_poly = _tail_polygon(box, tail) if tail else None
 
     xs = [x0, x1] + ([p[0] for p in tail_poly] if tail_poly else [])
@@ -182,14 +232,14 @@ def _draw_bubble(layer, box, tail, lines, font, line_h):
     ring = shape.filter(ImageFilter.MaxFilter(outline * 2 + 1)).filter(ImageFilter.GaussianBlur(0.6))
 
     region = layer.crop((left, top, right, bottom))
-    region.paste(Image.new("RGBA", size, INK + (255,)), (0, 0), ring)
-    region.paste(Image.new("RGBA", size, (255, 255, 255, 255)), (0, 0), shape)
+    region.paste(Image.new("RGBA", size, (DEVICE_INK if device else INK) + (255,)), (0, 0), ring)
+    region.paste(Image.new("RGBA", size, (DEVICE_FILL if device else (255, 255, 255)) + (255,)), (0, 0), shape)
     layer.paste(region, (left, top))
 
     draw = ImageDraw.Draw(layer)
     total = line_h * len(lines)
     for index, line in enumerate(lines):
-        draw.text((cx, cy - total / 2 + line_h * (index + 0.5)), line, font=font, fill=INK, anchor="mm")
+        draw.text((cx, cy - total / 2 + line_h * (index + 0.5)), line, font=font, fill=DEVICE_INK if device else INK, anchor="mm")
 
 
 def compose(art_path: Path, out_path: Path, script: dict, layout: list[list[dict]], panels: list[tuple[int, int]],
@@ -241,7 +291,7 @@ def compose(art_path: Path, out_path: Path, script: dict, layout: list[list[dict
             cy = min(max(p_top_page + spec["cy"] * p_h, p_top_page + margin * 0.75 + h / 2), p_bottom_page - margin * 0.75 - h / 2)
             box = ((cx - w / 2) * S, (cy - h / 2) * S, (cx + w / 2) * S, (cy + h / 2) * S)
             tail = (spec["tail_x"] * width * S, (p_top_page + spec["tail_y"] * p_h) * S)
-            _draw_bubble(layer, box, tail, lines, bubble_font, line_h)
+            _draw_bubble(layer, box, tail, lines, bubble_font, line_h, is_device(bubble["speaker"]))
 
     # 바닥글: 마무리 두 줄 + 작은 안내·출처
     foot_top = header_h + art_area.height
