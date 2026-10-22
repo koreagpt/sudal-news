@@ -21,8 +21,7 @@ from newsbot.curate import curate
 from newsbot.fetch import balance, collect
 
 PROJECT = Path(__file__).resolve().parent
-WEBTOON_ROUNDS = 3        # 예약 발행에서 웹툰을 다시 만드는 최대 횟수 (하루)
-WEBTOON_RETRY_UNTIL = (8, 30)  # 이 시각 전까지만 다시 만든다 (9시 발송 전에 끝나게)
+ROUNDS_PER_RUN = 3  # 한 번 실행에서 웹툰이 검수에 떨어지면 바로 다시 만드는 횟수 (그래도 안 되면 다음 예약 발행이 이어서)
 
 
 def _save(path: Path, data) -> None:
@@ -63,20 +62,25 @@ def make_webtoon(config: dict, day: str, news: dict, topic: int | None, save: bo
     if not llm.has_key():
         print("[안내] OPENAI_API_KEY가 없어 웹툰은 만들지 않습니다.")
         return
-    print("오늘의 웹툰을 만듭니다.")
-    previous = news.get("webtoon_status")
-    round_no = (previous.get("round", 1) + 1) if previous else 1
-    try:
-        status = webtoon.make(PROJECT, config, day, news, topic, save)
-    except Exception as error:  # 웹툰이 실패해도 뉴스 발행은 계속한다
-        print(f"[경고] 웹툰 생성 실패: {type(error).__name__}: {error}")
-        status = {"ok": False, "problems": [f"{type(error).__name__}: {error}"],
-                  "made_at": datetime.now(KST).isoformat(timespec="minutes")}
-    if not save:
-        print(json.dumps({k: v for k, v in status.items() if k != "script"}, ensure_ascii=False, indent=2))
-        return
-    news["webtoon_status"] = {**status, "round": round_no}
-    _save(PROJECT / "data" / "news" / f"{day}.json", news)
+    for _ in range(ROUNDS_PER_RUN if save else 1):
+        previous = news.get("webtoon_status")
+        round_no = (previous.get("round", 1) + 1) if previous else 1
+        print(f"오늘의 웹툰을 만듭니다 ({round_no}번째).")
+        try:
+            status = webtoon.make(PROJECT, config, day, news, topic, save)
+        except Exception as error:  # 웹툰이 실패해도 뉴스는 저장하고, 웹툰은 다시 만든다
+            print(f"[경고] 웹툰 생성 실패: {type(error).__name__}: {error}")
+            status = {"ok": False, "problems": [f"{type(error).__name__}: {error}"],
+                      "made_at": datetime.now(KST).isoformat(timespec="minutes")}
+        if not save:
+            print(json.dumps({k: v for k, v in status.items() if k != "script"}, ensure_ascii=False, indent=2))
+            return
+        news["webtoon_status"] = {**status, "round": round_no}
+        _save(PROJECT / "data" / "news" / f"{day}.json", news)
+        if status.get("ok"):
+            return
+        print("  웹툰이 검수를 통과하지 못해 바로 다시 만듭니다.")
+    print("[안내] 이번 실행에서는 웹툰을 완성하지 못했습니다. 다음 예약 발행이 이어서 다시 만듭니다.")
 
 
 def make_ad(config: dict, day: str, news: dict) -> None:
@@ -106,10 +110,8 @@ def main(argv=None) -> int:
     day = args.date or datetime.now(KST).date().isoformat()
     if args.if_missing and (PROJECT / "data" / "news" / f"{day}.json").exists():
         status = json.loads((PROJECT / "data" / "news" / f"{day}.json").read_text(encoding="utf-8")).get("webtoon_status") or {}
-        now = datetime.now(KST)
-        if not status.get("ok") and status.get("round", 1) < WEBTOON_ROUNDS and (now.hour, now.minute) < WEBTOON_RETRY_UNTIL \
-                and config.get("webtoon", {}).get("enabled") and llm.has_key():
-            print(f"{day} 호는 있지만 웹툰이 아직 없어 웹툰만 다시 만듭니다 ({status.get('round', 1) + 1}번째).")
+        if not status.get("ok") and config.get("webtoon", {}).get("enabled") and llm.has_key():
+            print(f"{day} 호는 있지만 웹툰이 아직 없어 웹툰만 다시 만듭니다.")
             args.webtoon_only = True
         else:
             print(f"{day} 호는 이미 발행됐습니다. 새로 만들지 않고 페이지만 생성합니다.")

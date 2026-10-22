@@ -212,8 +212,12 @@ def main(argv=None) -> int:
         if marker.exists():
             print(f"{day} 카카오톡은 이미 보냈습니다.")
             return 0
-        if not (PROJECT / "data" / "news" / f"{day}.json").exists() and (now.hour, now.minute) < (10, 15):
+        news_path = PROJECT / "data" / "news" / f"{day}.json"
+        if not news_path.exists() and (now.hour, now.minute) < (10, 15):
             print("오늘 호가 아직 없어 다음 예약 시도에서 보냅니다.")
+            return 0
+        if news_path.exists() and not (json.loads(news_path.read_text(encoding="utf-8")).get("webtoon_status") or {}).get("ok"):
+            print("오늘 웹툰을 다시 만드는 중이라, 완성되면 보냅니다.")  # 웹툰까지 한 묶음이 돼야 보낸다
             return 0
 
     if args.setup:

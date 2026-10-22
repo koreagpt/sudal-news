@@ -77,6 +77,39 @@ def compose(day: str) -> EmailMessage:
     return message
 
 
+def _warn_webtoon(day: str, warned: Path, dry_run: bool) -> int:
+    """정오까지 웹툰이 안 되면 운영자에게만 알린다 (카톡·게시글은 웹툰이 완성될 때까지 보내지 않음)."""
+    config = json.loads((PROJECT / "config.json").read_text(encoding="utf-8"))
+    message = EmailMessage()
+    message["Subject"] = f"[수달일보] {_korean_date(day, long=False)} 웹툰을 아직 다시 만드는 중이에요"
+    actions = f"https://github.com/{config['site']['repo']}/actions/workflows/daily.yml"
+    message.set_content("오늘 웹툰이 아직 검수를 통과하지 못해 게시글과 카톡을 보내지 않고 기다리고 있어요.\n"
+                        "예약 발행이 계속 다시 만들고, 완성되면 바로 보내요. 급하면 실행 화면에서 Run workflow(webtoon)를 눌러 주세요.\n"
+                        f"{actions}")
+    if dry_run:
+        print("제목:", message["Subject"])
+        return 0
+    if _send(message):
+        warned.parent.mkdir(parents=True, exist_ok=True)
+        warned.write_text(datetime.now(KST).isoformat(timespec="minutes") + "\n", encoding="utf-8")
+    return 0
+
+
+def _send(message: EmailMessage) -> bool:
+    recipients = [address.strip() for address in os.environ.get("MAIL_TO", "").split(",") if address.strip()]
+    username, password = os.environ.get("MAIL_USERNAME"), os.environ.get("MAIL_PASSWORD")
+    if not (username and password and recipients):
+        print("[안내] MAIL_USERNAME / MAIL_PASSWORD / MAIL_TO 가 설정되지 않아 메일을 보내지 않습니다.")
+        return False
+    message["From"] = f"수달일보 <{username}>"
+    message["To"] = ", ".join(recipients)
+    with smtplib.SMTP_SSL(os.environ.get("MAIL_SERVER") or "smtp.gmail.com", 465, timeout=30) as smtp:
+        smtp.login(username, password)
+        smtp.send_message(message)
+    print(f"메일 보냄 → {len(recipients)}명 ({message['Subject']})")
+    return True
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="오늘 수달일보 게시글을 메일로 보내기")
     parser.add_argument("--date", help="YYYY-MM-DD. 기본값: 오늘(한국 시간)")
@@ -92,9 +125,17 @@ def main(argv=None) -> int:
         if marker.exists():
             print(f"{day} 메일은 이미 보냈습니다.")
             return 0
-        if not (PROJECT / "data" / "news" / f"{day}.json").exists() and (now.hour, now.minute) < (10, 15):
+        news_path = PROJECT / "data" / "news" / f"{day}.json"
+        if not news_path.exists() and (now.hour, now.minute) < (10, 15):
             print("오늘 호가 아직 없어 다음 예약 시도에서 보냅니다.")
             return 0
+        if news_path.exists() and not (json.loads(news_path.read_text(encoding="utf-8")).get("webtoon_status") or {}).get("ok"):
+            # 웹툰까지 한 묶음이 돼야 보낸다. 웹툰을 다시 만드는 중이면 완성된 뒤(발행 직후) 보낸다
+            warned = PROJECT / "data" / "mailed" / f"{day}-webtoon-wait.txt"
+            if now.hour < 12 or warned.exists():
+                print("오늘 웹툰을 다시 만드는 중이라, 완성되면 보냅니다.")
+                return 0
+            return _warn_webtoon(day, warned, args.dry_run)
     message = compose(day)
     recipients = [address.strip() for address in os.environ.get("MAIL_TO", "").split(",") if address.strip()]
     if args.dry_run:
