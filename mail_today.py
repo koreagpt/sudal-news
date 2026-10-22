@@ -112,7 +112,7 @@ def main(argv=None) -> int:
         smtp.login(username, password)
         smtp.send_message(message)
     print(f"메일 보냄 → {len(recipients)}명 ({message['Subject']})")
-    if args.once:
+    if (PROJECT / "data" / "news" / f"{day}.json").exists():
         marker.parent.mkdir(parents=True, exist_ok=True)
         marker.write_text(f"{now.isoformat(timespec='minutes')} {message['Subject']}\n", encoding="utf-8")
     return 0

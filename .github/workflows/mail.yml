@@ -1,12 +1,18 @@
 name: 수달일보 아침 메일·카톡
 
 on:
-  schedule:  # GitHub 예약은 늦거나 빠질 수 있어 여러 번 걸어 둔다. 하루 한 통만 보낸다
+  workflow_run:  # 발행이 끝나면 바로 보낸다 (GitHub 예약은 자주 늦거나 빠져서 이게 주 경로)
+    workflows: ["수달일보 발행"]
+    types: [completed]
+  schedule:  # 예비용. 하루 한 통만 보낸다
     - cron: "53 23 * * *"  # 08:53 (한국 시간)
     - cron: "23 0 * * *"   # 09:23
     - cron: "53 0 * * *"   # 09:53
     - cron: "23 1 * * *"   # 10:23 (이때까지 오늘 호가 없으면 "아직 발행 안 됨" 메일)
   workflow_dispatch:       # Actions 탭에서 바로 보내 보기 (몇 번이든 보냄)
+
+env:  # 예약 발행 뒤나 예비 예약이면 하루 한 번만, 손으로 다시 만든 뒤(수동 발행)나 수동 실행이면 새로 보낸다
+  ONCE: ${{ (github.event_name == 'schedule' || github.event.workflow_run.event == 'schedule') && '--once' || '' }}
 
 permissions:
   contents: write
@@ -17,6 +23,8 @@ concurrency:
 
 jobs:
   mail:
+    # 디자인·코드 변경(push)으로 페이지만 다시 만든 경우와 발행 실패는 보내지 않는다
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.event != 'push' && github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -31,7 +39,7 @@ jobs:
           MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
           MAIL_SERVER: ${{ secrets.MAIL_SERVER }}
-        run: python mail_today.py ${{ github.event_name == 'schedule' && '--once' || '' }}
+        run: python mail_today.py $ONCE
 
       - run: pip install cryptography
 
@@ -42,7 +50,7 @@ jobs:
           KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
           KAKAO_TOKEN_KEY: ${{ secrets.KAKAO_TOKEN_KEY }}
           KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-        run: python kakao_send.py ${{ github.event_name == 'schedule' && '--once' || '' }}
+        run: python kakao_send.py $ONCE
 
       - name: 보낸 기록 저장
         if: always()

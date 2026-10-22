@@ -45,7 +45,9 @@ jobs:
         run: |
           git config user.name "sudal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ -e data/kakao_token.enc ]; then git add data/kakao_token.enc; fi
+          for path in data/kakao_token.enc data/kakaoed; do
+            if [ -e "$path" ]; then git add "$path"; fi
+          done
           if ! git diff --cached --quiet; then
             git commit -m "카카오 토큰 갱신 (암호화)"
             git pull --rebase

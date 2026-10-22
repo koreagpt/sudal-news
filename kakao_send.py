@@ -218,7 +218,7 @@ def main(argv=None) -> int:
         print("[안내] 아직 카카오 연결(인증 코드 등록)을 하지 않아 보내지 않습니다.")
         return 0
     send(token, messages(day))
-    if args.once:
+    if (PROJECT / "data" / "news" / f"{day}.json").exists():
         marker.parent.mkdir(parents=True, exist_ok=True)
         marker.write_text(f"{now.isoformat(timespec='minutes')}\n", encoding="utf-8")
     return 0
