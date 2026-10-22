@@ -159,7 +159,7 @@ def messages(day: str) -> list[dict]:
     # 2) 카드: 제목+설명은 합쳐서 4줄까지 보인다
     toon_title = f"「{toon['title']}」" if (toon and is_today) else ""
     card_title = f"🦦 수달일보 {date_text}" + (f" {toon_title}" if toon_title else "")
-    description = f"오늘의 AI 뉴스 {len(titles)}건 · " + " · ".join(titles[:2])
+    description = f"오늘의 AI 뉴스 {len(titles)}건 · {titles[0]}" + (f" 외 {len(titles) - 1}건" if len(titles) > 1 else "") if titles else ""
     feed = {
         "object_type": "feed",
         "content": {"title": card_title, "description": description, "image_url": f"{base}/og/{day}.jpg",
@@ -169,7 +169,9 @@ def messages(day: str) -> list[dict]:
     full = {"object_type": "text", "text": share_text(site, day, news), "link": _link(page), "button_title": "웹툰·뉴스 보기"}
     if len(full["text"]) > TEXT_LIMIT:
         full["_shorter"] = {**full, "text": text}
-    return [full, feed]
+    # config.json의 kakao.format: card = 썸네일 카드만, text = 게시글만, both = 둘 다
+    form = config.get("kakao", {}).get("format", "card")
+    return {"card": [feed], "text": [full]}.get(form, [full, feed])
 
 
 def send(token: str, items: list[dict]) -> None:

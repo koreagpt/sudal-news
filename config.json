@@ -101,6 +101,9 @@
       "ai_only": true
     }
   ],
+  "kakao": {
+    "format": "card"
+  },
   "webtoon": {
     "enabled": true,
     "script_model": "gpt-6.1-sol",
