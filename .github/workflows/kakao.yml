@@ -19,9 +19,9 @@ jobs:
   kakao:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -32,8 +32,8 @@ jobs:
           KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
           KAKAO_TOKEN_KEY: ${{ secrets.KAKAO_TOKEN_KEY }}
           KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-          CODE: ${{ inputs.code }}
-        run: |
+        run: |  # 코드는 실행 기록에 찍히지 않게 이벤트 파일에서 직접 읽는다
+          CODE=$(jq -r '.inputs.code // ""' "$GITHUB_EVENT_PATH")
           if [ -n "$CODE" ]; then
             echo "::add-mask::$CODE"
             python kakao_send.py --setup "$CODE"
