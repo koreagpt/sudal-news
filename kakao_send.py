@@ -33,7 +33,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from newsbot import KST
-from newsbot.build import _brand_name, _korean_date, _webtoon_for
+from newsbot.build import _brand_name, _korean_date, _webtoon_for, share_text
 
 PROJECT = Path(__file__).resolve().parent
 TOKEN_FILE = PROJECT / "data" / "kakao_token.enc"
@@ -143,7 +143,7 @@ def messages(day: str) -> list[dict]:
     titles = [item["title"] for item in news.get("items", [])]
     date_text = _korean_date(day, long=False)
 
-    # 1) 텍스트: 200자 안에 들어가는 만큼만 뉴스 제목을 넣는다 (주소는 꼭 넣는다)
+    # 1) 텍스트: 오픈채팅방에 올리던 게시글 그대로. 카카오가 길다고 거절하면 200자 안으로 줄인 글로 보낸다
     head = f"🦦 {_brand_name(site)} | {date_text}"
     tail = ["", "👉 4컷 웹툰과 뉴스 요약 보기", page]
     shown = list(titles)
@@ -166,12 +166,25 @@ def messages(day: str) -> list[dict]:
                     "image_width": 1200, "image_height": 630, "link": _link(page)},
         "buttons": [{"title": "웹툰·뉴스 보기", "link": _link(page)}, {"title": "지난 호 보기", "link": _link(archive)}],
     }
-    return [{"object_type": "text", "text": text, "link": _link(page), "button_title": "웹툰·뉴스 보기"}, feed]
+    full = {"object_type": "text", "text": share_text(site, day, news), "link": _link(page), "button_title": "웹툰·뉴스 보기"}
+    if len(full["text"]) > TEXT_LIMIT:
+        full["_shorter"] = {**full, "text": text}
+    return [full, feed]
 
 
 def send(token: str, items: list[dict]) -> None:
     for item in items:
-        result = _post(MEMO_URL, {"template_object": json.dumps(item, ensure_ascii=False)}, token)
+        shorter = item.pop("_shorter", None)
+        try:
+            result = _post(MEMO_URL, {"template_object": json.dumps(item, ensure_ascii=False)}, token)
+        except RuntimeError as error:
+            if not shorter:
+                raise
+            print(f"전체 게시글({len(item['text'])}자)은 카카오가 받지 않아 줄인 글로 보냅니다: {error}")
+            result = _post(MEMO_URL, {"template_object": json.dumps(shorter, ensure_ascii=False)}, token)
+        else:
+            if shorter:
+                print(f"전체 게시글 {len(item['text'])}자를 그대로 보냈습니다.")
         if result.get("result_code") != 0:
             raise RuntimeError(f"보내기 실패: {result}")
     print(f"카카오톡 나와의 채팅으로 {len(items)}개 보냄")
