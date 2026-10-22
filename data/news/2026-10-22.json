@@ -1,0 +1,240 @@
+{
+  "date": "2026-10-22",
+  "generated_at": "2026-10-22T00:01:01.552183+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "챗GPT, 사적인 대화 숨기는 ‘채팅 잠금’ 도입",
+      "summary": "오픈AI가 챗GPT에 ‘채팅 잠금’을 도입했습니다. 잠근 대화는 일반 채팅 기록과 검색 결과에서 빠져, 화면을 공유할 때 사적인 대화가 노출될 가능성을 줄였습니다.",
+      "comment": "회의 때 화면 켜기 전에 덜 조마조마하겠네.",
+      "category": "서비스·제품",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216470",
+      "source": "AI타임스",
+      "original_title": "오픈AI, 챗GPT에 사적 대화 숨기는 '채팅 잠금' 기능 도입",
+      "lang": "ko",
+      "published": "2026-10-21T08:57:53+00:00"
+    },
+    {
+      "title": "fal, 맞춤형 영상 만드는 ‘플럭스 3 맥스’ 출시",
+      "summary": "fal이 블랙 포레스트 랩스와 공동 개발한 영상 생성 모델 ‘플럭스 3 맥스’를 출시했습니다. 사용자 맞춤형 영상 제작에 초점을 맞췄습니다.",
+      "comment": "우리 회사 영상에도 맞는지 한번 봐야겠네.",
+      "category": "서비스·제품",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216487",
+      "source": "AI타임스",
+      "original_title": "fal, '시댄스 2.5'보다 22배 빠른 비디오 모델 '플럭스 3 맥스' 출시",
+      "lang": "ko",
+      "published": "2026-10-21T08:10:27+00:00"
+    },
+    {
+      "title": "애플 카플레이에도 대화형 제미나이 내비 도입",
+      "summary": "구글이 애플 카플레이에 대화형 제미나이 내비게이션을 도입했습니다. 미국 운전자부터 이용하며, 다른 지역에도 순차 적용 중이라고 밝혔습니다.",
+      "comment": "한국에서도 언제 되는지 확인하고 싶네.",
+      "category": "서비스·제품",
+      "link": "https://www.theverge.com/transportation/1015281/gemini-ai-apple-carplay-voice-google-maps",
+      "source": "The Verge",
+      "original_title": "Conversational Gemini navigation comes to Apple CarPlay",
+      "lang": "en",
+      "published": "2026-10-21T15:00:00+00:00"
+    },
+    {
+      "title": "월마트, AI가 대신 장보도록 문 연다",
+      "summary": "월마트가 다음 달부터 웹사이트에서 AI 에이전트의 대리 쇼핑을 허용합니다. 이용자는 구매를 검토·승인하고 지출 한도도 정하게 됩니다.",
+      "comment": "장보기 맡겨도 결제 전엔 내가 봐야지.",
+      "category": "서비스·제품",
+      "link": "https://www.theverge.com/ai-artificial-intelligence/1015715/walmart-ai-shopping-agents",
+      "source": "The Verge",
+      "original_title": "Walmart is inviting AI agents to shop for you",
+      "lang": "en",
+      "published": "2026-10-21T19:30:00+00:00"
+    },
+    {
+      "title": "관리자 절반 이상 “AI 도입 뒤 업무 평가 어려워”",
+      "summary": "새 설문조사에서 관리자 절반 이상이 AI 도입 후 직원의 업무를 평가하기 더 어려워졌다고 답했습니다.",
+      "comment": "보고서는 좋아졌는데 뭘 기준으로 평가하지?",
+      "category": "업무활용",
+      "link": "https://techcrunch.com/2026/10/21/ai-promises-productivity-but-for-managers-its-mostly-a-headache-for-now-says-new-survey/",
+      "source": "TechCrunch",
+      "original_title": "AI promises productivity, but for managers, it’s mostly a headache for now",
+      "lang": "en",
+      "published": "2026-10-21T14:00:00+00:00"
+    },
+    {
+      "title": "AI가 PHP 보안 결함 발견…정부·병원 사이트 중단",
+      "summary": "AI가 웹사이트 구동에 널리 쓰이는 PHP에서 중대 보안 결함을 찾아냈습니다. 유럽 정부·병원·학교가 사이트 접속을 차단했고, 긴급 수정본도 배포됐습니다.",
+      "comment": "회사 홈페이지도 업데이트됐는지 물어봐야겠네.",
+      "category": "정책·사회",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216499",
+      "source": "AI타임스",
+      "original_title": "웹사이트 70% 쓰는 PHP서 AI가 결함 발견…각국 정부 사이트 중단",
+      "lang": "ko",
+      "published": "2026-10-21T20:47:30+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "① 회의 화면 공유를 앞둔 수달 사원이 챗GPT의 사적인 대화를 보고 식은땀을 흘리고 ② 채팅 잠금 소식을 발견해 ③ 대화를 잠근 뒤 일반 기록에서 빠진 걸 확인하고 ④ 안심하고 발표하려는데 동료가 '마이크도 켜 줘'라고 말하는 4컷.",
+    "link": "https://www.aitimes.com/news/articleView.html?idxno=216470",
+    "source": "AI타임스",
+    "original_title": "오픈AI, 챗GPT에 사적 대화 숨기는 '채팅 잠금' 기능 도입",
+    "lang": "ko",
+    "published": "2026-10-21T08:57:53+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 35,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 100,
+      "kept": 95,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 15,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 10,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 0,
+      "kept": 0,
+      "error": "URLError: <urlopen error timed out>"
+    },
+    "openai": {
+      "fetched": 1311,
+      "kept": 8,
+      "error": null
+    },
+    "google_ai": {
+      "fetched": 20,
+      "kept": 1,
+      "error": null
+    },
+    "techcrunch_ai": {
+      "fetched": 20,
+      "kept": 20,
+      "error": null
+    },
+    "verge_ai": {
+      "fetched": 10,
+      "kept": 10,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": false,
+    "attempts": 2,
+    "topic": "오픈AI, 챗GPT에 사적 대화 숨기는 '채팅 잠금' 기능 도입",
+    "source": "AI타임스",
+    "problems": [
+      "The otter must match the character sheet exactly.",
+      "Remove anything that looks like a real logo or real person."
+    ],
+    "made_at": "2026-10-22T09:01+09:00",
+    "title": "AI 채팅 잠그고 발표",
+    "script": {
+      "title": "AI 채팅 잠그고 발표",
+      "subtitle": "화면 공유 전 사담부터 확인",
+      "panels": [
+        {
+          "beat": "재택 발표를 앞둔 수달이 화면에 남은 사적인 AI 대화를 발견한다.",
+          "shot": "롱샷",
+          "location": "home",
+          "density": "establishing",
+          "characters": [
+            "수달"
+          ],
+          "acting": "수달은 낮은 테이블의 노트북을 내려다보며 머그컵을 든 앞발을 멈춘다. 남색 실내복 차림으로 등을 구부리고, 반쯤 감긴 눈 아래 땀 한 방울이 맺힌다.",
+          "scene": "회색 소파와 초록 체크 쿠션, 왼쪽 스탠드, 창밖 밤 도시를 따뜻하고 낮은 대비로 그린다. 노트북에는 로고 없는 대화 목록과 ‘퇴사 말고 휴가’라는 짧은 사담 제목이 보인다.",
+          "bubbles": [
+            {
+              "speaker": "수달",
+              "text": "이걸 띄울 뻔했네…"
+            }
+          ]
+        },
+        {
+          "beat": "수달이 채팅 잠금 도입 소식을 보고 직접 시도한다.",
+          "shot": "미디엄",
+          "location": "home",
+          "density": "contact",
+          "characters": [
+            "수달"
+          ],
+          "acting": "수달은 내려놓은 머그컵 옆에서 휴대전화를 한 앞발로 쥐고 뉴스 제목을 읽는다. 다른 앞발은 노트북 조작부로 느리게 옮기며 표정은 여전히 졸리다.",
+          "scene": "휴대전화에 ‘AI타임스’와 ‘챗GPT 채팅 잠금’만 짧게 표시한다. 노트북의 잠금 시도는 추상적인 자물쇠 도형으로만 표현하고 실제 제품 화면이나 세부 절차는 재현하지 않는다.",
+          "bubbles": [
+            {
+              "speaker": "수달",
+              "text": "채팅 잠금? 써 볼까."
+            }
+          ]
+        },
+        {
+          "beat": "잠금 뒤에도 바로 발표하지 않고 공유할 화면을 살핀다.",
+          "shot": "클로즈업",
+          "location": "home",
+          "density": "contact",
+          "characters": [
+            "수달"
+          ],
+          "acting": "수달은 노트북 가장자리를 한 앞발로 잡고 공유 미리보기를 들여다본다. 사담이 보이지 않는 것을 확인한 순간만 눈을 조금 크게 뜨고 어깨의 힘을 푼다.",
+          "scene": "수달의 얼굴과 노트북 화면 일부를 함께 잡는다. 추상화한 공유 미리보기에는 발표 자료만 보이고 사적인 대화는 보이지 않는다.",
+          "bubbles": [
+            {
+              "speaker": "수달",
+              "text": "공유 화면에도 안 보이네."
+            }
+          ]
+        },
+        {
+          "beat": "화면은 무사히 공유했지만 이번에는 마이크를 켜지 않았다.",
+          "shot": "미디엄",
+          "location": "home",
+          "density": "contact",
+          "characters": [
+            "수달",
+            "너구리 대리"
+          ],
+          "acting": "수달은 허리를 펴고 발표 자료를 가리키다가 노트북 속 너구리 대리에게 시선을 돌린다. 입꼬리만 살짝 올린 채 한 앞발로 마이크 조작부를 누르고, 화면 속 너구리는 자기 입 옆을 가리킨다.",
+          "scene": "노트북의 단순한 통화 창에 안경과 초록 조끼 차림의 너구리 대리 얼굴이 보인다. 발표 자료 옆에는 작은 음소거 도형만 두고 나머지 배경은 생략한다.",
+          "bubbles": [
+            {
+              "speaker": "너구리 대리",
+              "text": "수달 씨, 마이크도 켜 줘."
+            },
+            {
+              "speaker": "수달",
+              "text": "네, 대리님. 입도 잠갔네요."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "사담은 잠가 뒀고.",
+      "closing_line2": "발표는 이제 소리도 난다.",
+      "alt": "집에서 원격 발표를 준비하던 수달이 AI와 나눈 사담을 발견하고 머그컵을 든 채 멈춘다. 채팅 잠금 도입 뉴스를 읽고 잠금을 시도한다. 공유 미리보기에 사담이 없는지 확인한 뒤 발표를 시작하지만, 화면 속 너구리 대리가 마이크도 켜 달라고 한다. 수달은 입도 잠갔다며 마이크를 켠다."
+    },
+    "acting_notes": [
+      "1~4컷: 수달의 털색과 얼굴 특징은 기준과 유사하지만, 기준의 흰 셔츠와 사원증이 보이지 않는다. 특히 1~2컷은 가슴이 드러나는 구도인데도 남색 상의만 있어 기준 복장과 다르다.",
+      "2컷: 휴대전화 화면이 독자 쪽을 향하고 수달의 시선도 화면에 명확히 닿지 않아, 채팅 잠금 기능을 직접 확인하고 사용하는 연기가 약하다."
+    ],
+    "bubble_issues": [
+      "4컷: 너구리 대리 말풍선의 꼬리가 화면 속 너구리의 이마 안쪽까지 내려와 얼굴 일부를 가린다. 얼굴 바깥에서 끝나도록 조정하는 것이 좋다."
+    ]
+  },
+  "ad": {
+    "course_id": "agent-basic",
+    "title": "기본과정 AI Agent 기초",
+    "url": "https://gptkoreaclass.com/product/ai-agent-basic-1day-class/",
+    "format": "오프라인",
+    "style": "팁",
+    "hook": "AI가 대신 장도 본다는데",
+    "pitch": "AI 에이전트가 낯설 땐 기초부터 짚으면 편해요. 이 오프라인 수업에서 기초부터 배워요.",
+    "comment": "대신 시키기 전에 뭔지부터 알아야지."
+  }
+}
