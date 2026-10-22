@@ -4,14 +4,13 @@ on:
   workflow_run:  # 발행이 끝나면 바로 보낸다 (GitHub 예약은 자주 늦거나 빠져서 이게 주 경로)
     workflows: ["수달일보 발행"]
     types: [completed]
-  schedule:  # 예비용. 하루 한 통만 보낸다
-    - cron: "53 23 * * *"  # 08:53 (한국 시간)
-    - cron: "23 0 * * *"   # 09:23
-    - cron: "53 0 * * *"   # 09:53
+  schedule:  # 예비용 (9시 이후). 하루 한 번만 보낸다
+    - cron: "3 0 * * *"    # 09:03 (한국 시간)
+    - cron: "33 0 * * *"   # 09:33
     - cron: "23 1 * * *"   # 10:23 (이때까지 오늘 호가 없으면 "아직 발행 안 됨" 메일)
   workflow_dispatch:       # Actions 탭에서 바로 보내 보기 (몇 번이든 보냄)
 
-env:  # 예약 발행 뒤나 예비 예약이면 하루 한 번만, 손으로 다시 만든 뒤(수동 발행)나 수동 실행이면 새로 보낸다
+env:  # 예약 발행 뒤나 예비 예약이면 9시에 하루 한 번만, 손으로 다시 만든 뒤(수동 발행)나 수동 실행이면 바로 새로 보낸다
   ONCE: ${{ (github.event_name == 'schedule' || github.event.workflow_run.event == 'schedule') && '--once' || '' }}
 
 permissions:
@@ -26,8 +25,19 @@ jobs:
     # 디자인·코드 변경(push)으로 페이지만 다시 만든 경우와 발행 실패는 보내지 않는다
     if: github.event_name != 'workflow_run' || (github.event.workflow_run.event != 'push' && github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
+    timeout-minutes: 340  # 새벽 발행 뒤 9시까지 기다리는 시간 포함 (GitHub 한도 6시간)
     steps:
-      - uses: actions/checkout@v5
+      - name: 오전 9시까지 기다리기 (예약 발행 뒤에만)
+        if: env.ONCE != ''
+        run: |
+          now=$(date +%s)
+          nine=$(date -u -d "$(date -u -d "+9 hours" +%F) 00:00" +%s)  # 한국 날짜의 오전 9시 = UTC 00:00
+          if [ "$now" -lt "$nine" ]; then
+            echo "오전 9시까지 $(( (nine - now) / 60 ))분 기다립니다."
+            sleep $(( nine - now ))
+          fi
+
+      - uses: actions/checkout@v5  # 기다린 뒤에 받아서 9시 기준 최신 묶음을 보낸다
 
       - uses: actions/setup-python@v6
         with:

@@ -21,6 +21,8 @@ from newsbot.curate import curate
 from newsbot.fetch import balance, collect
 
 PROJECT = Path(__file__).resolve().parent
+WEBTOON_ROUNDS = 3        # 예약 발행에서 웹툰을 다시 만드는 최대 횟수 (하루)
+WEBTOON_RETRY_UNTIL = (8, 30)  # 이 시각 전까지만 다시 만든다 (9시 발송 전에 끝나게)
 
 
 def _save(path: Path, data) -> None:
@@ -62,6 +64,8 @@ def make_webtoon(config: dict, day: str, news: dict, topic: int | None, save: bo
         print("[안내] OPENAI_API_KEY가 없어 웹툰은 만들지 않습니다.")
         return
     print("오늘의 웹툰을 만듭니다.")
+    previous = news.get("webtoon_status")
+    round_no = (previous.get("round", 1) + 1) if previous else 1
     try:
         status = webtoon.make(PROJECT, config, day, news, topic, save)
     except Exception as error:  # 웹툰이 실패해도 뉴스 발행은 계속한다
@@ -71,7 +75,7 @@ def make_webtoon(config: dict, day: str, news: dict, topic: int | None, save: bo
     if not save:
         print(json.dumps({k: v for k, v in status.items() if k != "script"}, ensure_ascii=False, indent=2))
         return
-    news["webtoon_status"] = status
+    news["webtoon_status"] = {**status, "round": round_no}
     _save(PROJECT / "data" / "news" / f"{day}.json", news)
 
 
@@ -101,8 +105,15 @@ def main(argv=None) -> int:
     config = json.loads((PROJECT / "config.json").read_text(encoding="utf-8"))
     day = args.date or datetime.now(KST).date().isoformat()
     if args.if_missing and (PROJECT / "data" / "news" / f"{day}.json").exists():
-        print(f"{day} 호는 이미 발행됐습니다. 새로 만들지 않고 페이지만 생성합니다.")
-        args.build_only = True
+        status = json.loads((PROJECT / "data" / "news" / f"{day}.json").read_text(encoding="utf-8")).get("webtoon_status") or {}
+        now = datetime.now(KST)
+        if not status.get("ok") and status.get("round", 1) < WEBTOON_ROUNDS and (now.hour, now.minute) < WEBTOON_RETRY_UNTIL \
+                and config.get("webtoon", {}).get("enabled") and llm.has_key():
+            print(f"{day} 호는 있지만 웹툰이 아직 없어 웹툰만 다시 만듭니다 ({status.get('round', 1) + 1}번째).")
+            args.webtoon_only = True
+        else:
+            print(f"{day} 호는 이미 발행됐습니다. 새로 만들지 않고 페이지만 생성합니다.")
+            args.build_only = True
     if args.cast_sheet:
         if not llm.has_key():
             print("OPENAI_API_KEY가 없어 조연 기준 시트를 그릴 수 없습니다.")
