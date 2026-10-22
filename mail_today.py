@@ -32,7 +32,7 @@ def compose(day: str) -> EmailMessage:
     config = json.loads((PROJECT / "config.json").read_text(encoding="utf-8"))
     site = config["site"]
     base = site["base_url"].rstrip("/")
-    share_url, page_url = f"{base}/share/", f"{base}/d/{day}/"
+    send_url, page_url = f"{base}/send/{day}/", f"{base}/d/{day}/"
     news_path = PROJECT / "data" / "news" / f"{day}.json"
 
     message = EmailMessage()
@@ -50,7 +50,7 @@ def compose(day: str) -> EmailMessage:
     if is_today and toon:
         toon_line = f"오늘 웹툰: 「{toon['title']}」"
     else:
-        toon_line = "오늘 웹툰은 만들지 못해서 이전 웹툰이 나가요. 운영자 화면에서 다시 만들 수 있어요."
+        toon_line = "오늘 웹툰은 만들지 못해서 이전 웹툰이 나가요."
         if status.get("problems"):
             toon_line += f" (이유: {' / '.join(status['problems'][:2])})"
 
@@ -58,7 +58,7 @@ def compose(day: str) -> EmailMessage:
     message.set_content(
         f"{toon_line}\n\n아래 글을 그대로 복사해서 오픈채팅방에 붙여 넣으세요.\n"
         f"----------------------------------------\n{text}\n----------------------------------------\n\n"
-        f"운영자 화면(웹툰 확인·복사 버튼): {share_url}\n"
+        f"카톡으로 공유하기(누르고 카카오톡 → 오픈채팅방 선택): {send_url}\n"
     )
     thumbnail = f"{base}/og/{day}.jpg"
     message.add_alternative(f"""<!doctype html>
@@ -67,11 +67,12 @@ def compose(day: str) -> EmailMessage:
   <p style="margin:0 0 6px;font-size:13px;color:#8a7d71;">{escape(site['publisher'])} 수달일보 · {escape(_korean_date(day))}</p>
   <h1 style="margin:0 0 14px;font-size:22px;">오늘 게시글이 준비됐어요</h1>
   <a href="{page_url}"><img src="{thumbnail}" alt="오늘 카톡 미리보기 썸네일" width="560" style="width:100%;max-width:560px;border:2px solid #2a2420;border-radius:12px;display:block;"></a>
-  <p style="margin:12px 0 18px;font-size:14px;">{escape(toon_line)}</p>
+  <p style="margin:12px 0 14px;font-size:14px;">{escape(toon_line)}</p>
+  <a href="{send_url}" style="display:block;text-align:center;background:#fee500;color:#191600;text-decoration:none;font-weight:700;font-size:17px;padding:16px;border:2px solid #2a2420;border-radius:12px;">카카오톡으로 공유하기</a>
+  <p style="margin:8px 0 22px;font-size:12.5px;color:#8a7d71;text-align:center;">누르면 열리는 화면에서 노란 버튼 → 카카오톡 → 오픈채팅방을 고르면 아래 글이 그대로 올라가요.</p>
   <p style="margin:0 0 6px;font-size:14px;font-weight:700;">오픈채팅방에 붙여 넣을 글</p>
   <div style="white-space:pre-wrap;background:#fff;border:2px solid #2a2420;border-radius:12px;padding:14px;font-size:14px;line-height:1.6;">{escape(text)}</div>
-  <p style="margin:10px 0 22px;font-size:12.5px;color:#8a7d71;">위 글을 길게 눌러 복사하거나, 아래 운영자 화면의 복사 버튼을 쓰세요.</p>
-  <a href="{share_url}" style="display:block;text-align:center;background:#2c3553;color:#fff;text-decoration:none;font-weight:700;padding:14px;border-radius:12px;">운영자 화면 열기 (웹툰 확인 · 복사 버튼)</a>
+  <p style="margin:10px 0 0;font-size:12.5px;color:#8a7d71;">공유 버튼이 안 되면 위 글을 길게 눌러 복사해서 붙여 넣어도 돼요.</p>
 </div>
 </body></html>""", subtype="html")
     return message

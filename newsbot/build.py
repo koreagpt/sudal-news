@@ -317,6 +317,54 @@ document.querySelectorAll('.copy').forEach(function (button) {
     return page.replace("</body>", script + "\n</body>").replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
 
 
+def render_send(site, day, news, og_image, root="../../") -> str:
+    """운영자용: 아침 메일의 '카톡으로 공유하기' 버튼이 여는 페이지.
+
+    휴대폰 공유 창(Web Share)으로 게시글을 그대로 보내서, 오픈채팅방에 직접 쓴 글처럼 올라가고 링크 미리보기도 뜬다.
+    """
+    text = share_text(site, day, news)
+    thumb = f'<img class="send-thumb" src="{root}{og_image}" alt="오늘 카톡 미리보기 썸네일">' if og_image else ""
+    body = f"""
+<section class="send">
+  {thumb}
+  <button type="button" class="send-kakao" id="share">카카오톡으로 공유하기</button>
+  <p class="send-help">누르고 <strong>카카오톡</strong> → 오픈채팅방을 고르면 직접 쓴 글처럼 올라가요.</p>
+  <button type="button" class="copy" id="copy">글만 복사하기</button>
+  <details class="send-text"><summary>올라갈 글 보기</summary><pre id="text">{escape(text)}</pre></details>
+</section>"""
+    script = """
+<script>
+(function () {
+  var text = document.getElementById('text').textContent;
+  var copyButton = document.getElementById('copy');
+  var copy = function (after) {
+    var done = function () { copyButton.textContent = '복사했어요! 오픈채팅방에 붙여 넣으세요'; if (after) after(); };
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(done, function () { fallback(); done(); }); }
+    else { fallback(); done(); }
+  };
+  var fallback = function () {
+    var area = document.createElement('textarea'); area.value = text; document.body.appendChild(area);
+    area.select(); document.execCommand('copy'); document.body.removeChild(area);
+  };
+  document.getElementById('share').addEventListener('click', function () {
+    if (navigator.share) {
+      navigator.share({ text: text }).catch(function (error) { if (error && error.name !== 'AbortError') copy(); });
+    } else {  // 공유 창이 없는 앱 안 브라우저 등: 복사로 대신
+      copy(function () { alert('이 화면에서는 공유 창을 열 수 없어 글을 복사했어요.\\n카카오톡 오픈채팅방에 붙여 넣어 주세요.'); });
+    }
+  });
+  copyButton.addEventListener('click', function () { copy(); });
+})();
+</script>"""
+    page = (
+        _head(site, f"{_brand_name(site)} 카톡 공유", "운영자용", root, None, f"send/{day}/")
+        + _masthead(site, root, f"{_korean_date(day)} · 오픈채팅방 공유")
+        + f"\n<main>{body}</main>"
+        + "\n</div>\n</body>\n</html>"
+    )
+    return page.replace("</body>", script + "\n</body>").replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
+
+
 def render_kakao(site, root="../") -> str:
     """운영자용: 카카오톡 '나에게 보내기' 연결 페이지 (카카오 로그인 Redirect URI).
 
@@ -421,10 +469,14 @@ def build(project: Path, config: dict) -> Path:
     for issue_no, day in enumerate(days, 1):
         page = out / "d" / day / "index.html"
         page.parent.mkdir(parents=True, exist_ok=True)
+        thumbnail = og_image(day)
         page.write_text(
-            render_day(site, day, newses[day], webtoons, issue_no, "../../", f"d/{day}/", og_image(day)),
+            render_day(site, day, newses[day], webtoons, issue_no, "../../", f"d/{day}/", thumbnail),
             encoding="utf-8",
         )
+        send = out / "send" / day / "index.html"  # 아침 메일의 '카톡으로 공유하기' 버튼
+        send.parent.mkdir(parents=True, exist_ok=True)
+        send.write_text(render_send(site, day, newses[day], thumbnail), encoding="utf-8")
 
     today = days[-1] if days else datetime.now(KST).date().isoformat()
     (out / "index.html").write_text(

@@ -569,3 +569,38 @@ html { scroll-behavior: smooth; }
   border-radius: 999px;
   padding: 3px 12px;
 }
+
+/* ---------- 아침 메일 → 카톡으로 공유하기 (운영자용) ---------- */
+.send { display: flex; flex-direction: column; gap: 12px; }
+
+.send-thumb {
+  width: 100%;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  display: block;
+}
+
+.send-kakao {
+  width: 100%;
+  padding: 18px 12px;
+  font: 700 18px var(--body);
+  color: #191600;
+  background: #fee500;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.send-help { margin: 0; color: var(--ink-soft); font-size: 14px; text-align: center; }
+.send .copy { margin-top: 0; }
+
+.send-text summary { cursor: pointer; font-size: 14px; font-weight: 700; color: var(--navy); }
+.send-text pre {
+  margin: 8px 0 0;
+  padding: 12px 14px;
+  white-space: pre-wrap;
+  font: 14px/1.6 var(--body);
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+}
