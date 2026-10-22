@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime
 from pathlib import Path
 
@@ -22,6 +23,23 @@ DENSITY_EN = {
     "contact": "minimal background, only the desk, chair or props the character touches",
     "none": "plain soft color background with a simple mood effect, no setting",
 }
+# 그림 지시문에서 지우는 실존 서비스·회사·언론사 이름 (이름을 보면 그림 모델이 진짜 로고를 그린다)
+BRANDS = [
+    "ChatGPT", "챗GPT", "챗지피티", "OpenAI", "오픈AI", "GPT", "제미나이", "Gemini", "구글", "Google", "클로드", "Claude",
+    "앤트로픽", "Anthropic", "코파일럿", "Copilot", "마이크로소프트", "Microsoft", "애플", "Apple", "아이폰", "iPhone",
+    "삼성", "갤럭시", "Galaxy", "네이버", "Naver", "카카오", "Kakao", "라이트룸", "Lightroom", "어도비", "Adobe", "포토샵",
+    "메타", "Meta", "인스타그램", "유튜브", "YouTube", "퍼플렉시티", "Perplexity", "노션", "Notion", "슬랙", "Slack",
+    "엔비디아", "NVIDIA", "아마존", "Amazon", "그록", "Grok", "딥시크", "DeepSeek", "미드저니", "Midjourney",
+    "AI타임스", "TechCrunch", "테크크런치", "The Verge", "더버지", "연합뉴스", "전자신문", "블로터", "지디넷", "ZDNet",
+]
+_BRAND_RE = re.compile("|".join(re.escape(name) for name in sorted(BRANDS, key=len, reverse=True)), re.IGNORECASE)
+
+
+def _generic(text: str) -> str:
+    """그림 지시문 속 실존 이름을 일반 명사로 바꾼다 (대사·제목은 글꼴로 넣으니 그대로 둔다)."""
+    return _BRAND_RE.sub("AI 앱", text)
+
+
 SHOT_EN = {"롱샷": "long shot", "미디엄": "medium shot", "클로즈업": "close-up", "인서트": "insert close-up of an object or hands"}
 
 
@@ -82,6 +100,7 @@ def script_instructions(bible: dict) -> str:
 - 최근 회차와 역할·장소·결말 방식을 겹치지 않게 한다. 같은 인물이 매번 정답을 알려 주는 구도를 반복하지 않는다.
 - 뉴스에 없는 사실(수치, 날짜, 기능, 발언)을 사실처럼 쓰지 않는다. 필요하면 일반적인 상황으로 표현한다.
 - 실존 인물의 얼굴, 실제 회사 로고, 실제 제품 화면을 그리지 않는다. 서비스 이름은 대사에 꼭 필요할 때만 쓴다.
+- scene·acting(그림 지시)에는 서비스·회사·언론사 이름을 쓰지 않는다. 'AI 채팅 앱', '사진 앱', '뉴스 기사'처럼 일반 이름으로 쓴다.
 - 혐오, 비하, 정치적 편향, 공포 조장 없이 따뜻하고 피식 웃게 되는 톤으로 쓴다.
 - 협회나 강의 광고 문구는 넣지 않는다.
 - 마무리 두 줄은 훈계나 표어가 아니라 이번 화에서 달라진 점을 담은 담백한 한 마디로 쓴다 ("~하자", "~해야 한다" 같은 명령·설교 피하기).
@@ -166,7 +185,7 @@ REVIEW_INSTRUCTIONS = """너는 웹툰 검수자다. 첫 번째 이미지는 완
 제목, 말풍선, 마무리 문구는 글꼴로 정확히 넣은 것이니 철자는 보지 않는다. 그 대신 아래를 엄격하게 본다. 애매하면 문제로 적는다.
 - 위에서 아래로 컷이 정확히 4개인가.
 - 그림 속(말풍선·제목·마무리 문구 밖)에 글자, 숫자, 깨진 글씨, 간판 글자, 화면 속 글자, 빈 말풍선이 그려져 있는가. 있으면 art_text에 위치와 함께 적는다. 화면·서류의 단순한 선이나 도형은 괜찮다.
-- 모든 컷의 수달이 인물 기준과 같은 캐릭터인가 (베이지 털, 크림색 주둥이, 남색 카디건, 흰 셔츠, 사원증).
+- 모든 컷의 수달이 인물 기준과 같은 캐릭터인가. 같은 인물인지는 종·털 색(베이지)·크림색 주둥이·얼굴 생김새·체형으로 판단한다. 옷은 장소에 따라 달라도 된다: 사무실에서는 남색 카디건·흰 셔츠·사원증, 집이나 출퇴근 길에서는 사원증이 없거나 남색 계열 편한 옷이어도 같은 인물이다. 같은 장소의 연속 컷 안에서 옷이 바뀌는 것만 문제로 본다. character_consistent가 false면 character_notes에 컷 번호와 무엇이 다른지 구체적으로 적는다.
 - 조연이 누구인지 바로 알아볼 수 있고 주인공과 헷갈리지 않는가. cast_distinct가 false인 경우는 이것뿐이다: 조연의 종(동물)·얼굴 무늬·안경·옷 색이 기준 시트와 달라 다른 인물로 보일 때, 또는 주인공과 닮은 다른 수달이 있을 때. 사원증·꼬리·바지처럼 구도상 가려지거나 작게 생략된 부분, 체격의 작은 차이는 false 사유가 아니다(필요하면 cast_notes에만 적는다). 조연이 없으면 true.
 - 대본에 없는 배경 인물·동물(엑스트라)이 보이면 extras에 컷 번호와 함께 적는다. 엑스트라만으로 cast_distinct를 false로 하지 않는다.
 - 실존 회사 로고나 실존 인물 얼굴처럼 보이는 것이 없는가.
@@ -179,6 +198,7 @@ REVIEW_SCHEMA = {
         "panel_count": {"type": "integer"},
         "art_text": {"type": "array", "items": {"type": "string"}},
         "character_consistent": {"type": "boolean"},
+        "character_notes": {"type": "array", "items": {"type": "string"}},
         "cast_distinct": {"type": "boolean"},
         "cast_notes": {"type": "array", "items": {"type": "string"}},
         "extras": {"type": "array", "items": {"type": "string"}},
@@ -186,7 +206,7 @@ REVIEW_SCHEMA = {
         "bubble_issues": {"type": "array", "items": {"type": "string"}},
         "acting_notes": {"type": "array", "items": {"type": "string"}},
     },
-    "required": ["panel_count", "art_text", "character_consistent", "cast_distinct", "cast_notes", "extras",
+    "required": ["panel_count", "art_text", "character_consistent", "character_notes", "cast_distinct", "cast_notes", "extras",
                  "has_real_logo_or_person", "bubble_issues", "acting_notes"],
     "additionalProperties": False,
 }
@@ -296,7 +316,7 @@ def image_prompt(script: dict, feedback: list[str], bible: dict) -> str:
         speakers = ", ".join(sorted({bubble["speaker"] for bubble in panel["bubbles"]}))
         panels.append(
             f"Panel {number} ({SHOT_EN[panel['shot']]}; {DENSITY_EN[panel['density']]}). {where}\n"
-            f"  Acting: {panel['acting']} Scene: {panel['scene']}\n"
+            f"  Acting: {_generic(panel['acting'])} Scene: {_generic(panel['scene'])}\n"
             f"  Bubble space: leave a clearly empty background area (wall, window or ceiling, about 35% of the panel width "
             f"and 40% of its height) right above or beside {speakers}'s head for speech bubbles; no faces or hands there."
         )
@@ -316,7 +336,7 @@ No other characters at all: no background coworkers, extras or crowds, and no ot
 Page layout: four panels stacked from top to bottom, each a full-width rectangle with a thin dark border and small side margins. Separate the panels with plain cream gutters about 24 pixels tall. Small plain cream margin above the first panel and below the last panel. Keep each location's fixed layout consistent between panels.
 {chr(10).join(panels)}
 
-No text anywhere: no speech bubbles, no captions, no title, no letters, no numbers, no signs, no logos, no watermarks. Phone, laptop and monitor screens and papers show only simple icons, blocks or lines. Show where each character looks and what their hands touch; hands and objects connect, nothing floats."""
+No text anywhere: no speech bubbles, no captions, no title, no letters, no numbers, no signs, no logos, no watermarks. Phone, laptop and monitor screens and papers show only simple icons, blocks or lines; app icons are plain generic shapes (a speech bubble, a lock, a star), never any real app logo or company wordmark. Show where each character looks and what their hands touch; hands and objects connect, nothing floats."""
     if feedback:
         prompt += "\n\nThe previous attempt had these problems. Fix them:\n- " + "\n- ".join(feedback)
     return prompt
@@ -521,7 +541,8 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
         if verdict["art_ok"]:
             status["problems"] = bubble_feedback
             break
-        feedback = verdict["art_text"] + ([] if verdict["character_consistent"] else ["The otter must match the character sheet exactly."]) \
+        feedback = verdict["art_text"] + ([] if verdict["character_consistent"] else
+               ["The otter must match the character sheet: " + ("; ".join(verdict["character_notes"]) or "same face, fur and proportions in every panel")]) \
             + ([] if verdict["cast_distinct"] else ["Supporting characters must match the cast sheet: " + "; ".join(verdict["cast_notes"])]) \
             + ([f"Remove background extras: {'; '.join(verdict['extras'])}"] if verdict["extras"] else []) \
             + (["Remove anything that looks like a real logo or real person."] if verdict["has_real_logo_or_person"] else [])

@@ -109,7 +109,7 @@
     "size": "1024x1536",
     "quality": "medium",
     "retry_quality": "high",
-    "max_attempts": 2,
+    "max_attempts": 3,
     "references": [
       "data/reference/sudal-character.jpg",
       "data/reference/cast-sheet.jpg"
