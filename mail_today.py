@@ -81,12 +81,18 @@ def compose(day: str) -> EmailMessage:
 def _warn_webtoon(day: str, warned: Path, dry_run: bool) -> int:
     """정오까지 웹툰이 안 되면 운영자에게만 알린다 (카톡·게시글은 웹툰이 완성될 때까지 보내지 않음)."""
     config = json.loads((PROJECT / "config.json").read_text(encoding="utf-8"))
+    status = json.loads((PROJECT / "data" / "news" / f"{day}.json").read_text(encoding="utf-8")).get("webtoon_status") or {}
+    problems = " / ".join(status.get("problems", [])[:2])
+    if "credit" in problems or "insufficient_quota" in problems:
+        reason = "OpenAI 크레딧이 떨어졌어요. https://platform.openai.com/settings/organization/billing/ 에서 충전하면 다음 예약 발행이 이어서 만들어요."
+    else:
+        reason = f"마지막 문제: {problems}" if problems else ""
     message = EmailMessage()
     message["Subject"] = f"[{hosts.host_for(day, PROJECT)['paper']}] {_korean_date(day, long=False)} 웹툰을 아직 다시 만드는 중이에요"
     actions = f"https://github.com/{config['site']['repo']}/actions/workflows/daily.yml"
     message.set_content("오늘 웹툰이 아직 검수를 통과하지 못해 게시글과 카톡을 보내지 않고 기다리고 있어요.\n"
                         "예약 발행이 계속 다시 만들고, 완성되면 바로 보내요. 급하면 실행 화면에서 Run workflow(webtoon)를 눌러 주세요.\n"
-                        f"{actions}")
+                        f"{actions}" + (f"\n\n{reason}" if reason else ""))
     if dry_run:
         print("제목:", message["Subject"])
         return 0

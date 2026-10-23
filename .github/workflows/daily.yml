@@ -87,7 +87,8 @@ jobs:
           esac
 
       - name: 오늘 기록 저장
-        if: github.event_name != 'push' && inputs.mode != 'build' && inputs.mode != 'webtoontest' && inputs.mode != 'charsheet'
+        # 중간에 멈춰도(크레딧 부족 등) 이미 만든 것은 저장한다
+        if: always() && github.event_name != 'push' && inputs.mode != 'build' && inputs.mode != 'webtoontest' && inputs.mode != 'charsheet'
         run: |
           git config user.name "sudal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
