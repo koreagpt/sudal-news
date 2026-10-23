@@ -487,16 +487,18 @@ def _og_crop(path: Path) -> list[int]:
     return [left, 0, right, round((right - left) * 570 / 520)]
 
 
-def make(project: Path, config: dict, day: str, news: dict, topic: int | None = None, save: bool = True) -> dict:
+def make(project: Path, config: dict, day: str, news: dict, topic: int | None = None, save: bool = True,
+         script: dict | None = None, source: dict | None = None) -> dict:
     """웹툰을 만들어 data/webtoons에 저장하고 결과(성공 여부·시도·문제)를 돌려준다.
 
     1) 대본 → 2) 글자 없는 4컷 작화 → 3) 컷 찾기 → 4) 말풍선 자리 정하기 → 5) 글꼴로 식자 → 6) 검수.
     그림에 문제가 있으면 다시 그리고, 말풍선 위치만 문제면 그림은 두고 자리만 다시 정한다.
+    script·source를 주면 대본은 그대로 두고 그림만 다시 그린다 (지난 웹툰 고치기).
     """
     from PIL import Image
 
     settings = config["webtoon"]
-    source = pick_topic(news, topic)
+    source = source or pick_topic(news, topic)
     bible = load_bible(project, day)
     # 첫 번째 참고 그림은 그날 당번의 기준 그림, 나머지(조연 시트)는 config 그대로
     references = [project / bible["host"]["reference"]] + [project / path for path in settings["references"][1:]]
@@ -511,7 +513,7 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
         "made_at": datetime.now(KST).isoformat(timespec="minutes"),
     }
 
-    script = write_script(settings["script_model"], source, bible, recent_episodes(project, day))
+    script = script or write_script(settings["script_model"], source, bible, recent_episodes(project, day))
     status["title"] = script["title"]
     status["script"] = script  # 검수에서 떨어져도 대본은 남겨 둔다
     drafts = project / "data" / "drafts"

@@ -84,6 +84,33 @@ def make_webtoon(config: dict, day: str, news: dict, topic: int | None, save: bo
     print("[안내] 이번 실행에서는 웹툰을 완성하지 못했습니다. 다음 예약 발행이 이어서 다시 만듭니다.")
 
 
+def redraw_webtoon(config: dict, day: str) -> bool:
+    """그날 게시된 웹툰의 대본(제목·대사·마무리)으로 그림만 다시 그린다. 통과할 때까지 최대 ROUNDS_PER_RUN번."""
+    webtoons = json.loads((PROJECT / "data" / "webtoons.json").read_text(encoding="utf-8"))
+    entries = [toon for toon in webtoons if toon["date"] == day and toon.get("script")]
+    news_path = PROJECT / "data" / "news" / f"{day}.json"
+    if not entries or not news_path.exists():
+        print(f"[안내] {day}: 다시 그릴 대본이 있는 웹툰이 없습니다.")
+        return False
+    toon = entries[-1]  # 같은 날에는 나중에 추가된 웹툰이 게시된다
+    script = json.loads(json.dumps(toon["script"], ensure_ascii=False).replace("수달", "달몽"))  # 수달 사원 → 달몽 사원 (이름 변경)
+    for panel in script["panels"]:  # 생김새 설명(acting·scene)은 그림 모델이 알아보게 종 이름을 같이 둔다
+        panel["acting"], panel["scene"] = (text.replace("달몽", "달몽(수달)") for text in (panel["acting"], panel["scene"]))
+    source = {"title": toon.get("title"), "source": toon.get("source_name", ""), "link": toon.get("source_url", "")}
+    print(f"{day} 「{toon['title']}」 그림만 다시 그립니다.")
+    for round_no in range(1, ROUNDS_PER_RUN + 1):
+        try:
+            status = webtoon.make(PROJECT, config, day, json.loads(news_path.read_text(encoding="utf-8")),
+                                  script=script, source=source)
+        except Exception as error:
+            print(f"  [경고] {type(error).__name__}: {error}")
+            continue
+        if status.get("ok"):
+            return True
+        print(f"  {round_no}번째 묶음 실패, 다시 그립니다.")
+    return False
+
+
 def make_ad(config: dict, day: str, news: dict) -> None:
     """뉴스 사이에 끼울 협회 강의 카드 (매일 다른 강의)."""
     ad = ads.make(PROJECT, config, day, news, (news.get("webtoon_status") or {}).get("title", ""))
@@ -104,6 +131,7 @@ def main(argv=None) -> int:
     parser.add_argument("--no-save", action="store_true", help="웹툰 시험 실행: 게시하지 않고 data/drafts/에만 남김")
     parser.add_argument("--ad-only", action="store_true", help="오늘 뉴스는 두고 강의 카드만 다시 고르기")
     parser.add_argument("--cast-sheet", action="store_true", help="조연 기준 시트를 새로 그리기 (가끔 한 번)")
+    parser.add_argument("--redraw", nargs="+", metavar="DATE", help="지난 웹툰을 대사·제목은 그대로 두고 그림만 새 규칙으로 다시 그리기")
     parser.add_argument("--if-missing", action="store_true", help="오늘 호가 이미 있으면 새로 만들지 않고 페이지만 생성 (예약 재시도용)")
     args = parser.parse_args(argv)
 
@@ -117,6 +145,11 @@ def main(argv=None) -> int:
         else:
             print(f"{day} 호는 이미 발행됐습니다. 새로 만들지 않고 페이지만 생성합니다.")
             args.build_only = True
+    if args.redraw:
+        failed = [day for day in args.redraw if not redraw_webtoon(config, day)]
+        build(PROJECT, config)
+        print("다시 그리기 끝" + (f" — 실패: {', '.join(failed)}" if failed else ""))
+        return 1 if failed else 0
     if args.cast_sheet:
         if not llm.has_key():
             print("OPENAI_API_KEY가 없어 조연 기준 시트를 그릴 수 없습니다.")
