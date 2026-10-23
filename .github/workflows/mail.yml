@@ -24,7 +24,14 @@ concurrency:
 jobs:
   mail:
     # 디자인·코드 변경(push)으로 페이지만 다시 만든 경우와 발행 실패는 보내지 않는다
-    if: github.event_name != 'workflow_run' || (github.event.workflow_run.event != 'push' && github.event.workflow_run.conclusion == 'success')
+    # 손으로 돌린 시험·페이지 재생성(build, castsheet, charsheet, webtoontest) 뒤에도 보내지 않는다
+    if: >-
+      github.event_name != 'workflow_run' || (
+        github.event.workflow_run.event != 'push' && github.event.workflow_run.conclusion == 'success'
+        && !endsWith(github.event.workflow_run.display_title, '· build')
+        && !endsWith(github.event.workflow_run.display_title, '· castsheet')
+        && !endsWith(github.event.workflow_run.display_title, '· charsheet')
+        && !endsWith(github.event.workflow_run.display_title, '· webtoontest'))
     runs-on: ubuntu-latest
     timeout-minutes: 340  # 새벽 발행 뒤 9시까지 기다리는 시간 포함 (GitHub 한도 6시간)
     steps:

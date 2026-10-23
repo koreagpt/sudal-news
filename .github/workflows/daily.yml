@@ -1,4 +1,5 @@
 name: 수달일보 발행
+run-name: "수달일보 발행 · ${{ inputs.mode || github.event_name }}"  # 메일·카톡이 어떤 실행 뒤인지 알아보는 데 쓴다
 
 on:
   schedule:  # GitHub 예약은 2~3시간씩 늦거나 빠질 수 있어 새벽부터 여러 번 건다. 9시 전에 묶음을 끝내는 게 목표
@@ -16,12 +17,12 @@ on:
   workflow_dispatch:       # Actions 탭(또는 GitHub 앱)에서 수동 실행
     inputs:
       mode:
-        description: "full = 뉴스+웹툰 새로, webtoon = 웹툰만 다시, build = 페이지만 다시, castsheet = 조연 기준 시트 새로, webtoontest = 웹툰 시험(게시 안 함), ad = 강의 카드만 다시"
+        description: "full = 뉴스+웹툰 새로, webtoon = 웹툰만 다시, build = 페이지만 다시, castsheet = 조연 기준 시트 새로, webtoontest = 웹툰 시험(게시 안 함), ad = 강의 카드만 다시, charsheet = 새 사원 캐릭터 시안 그리기(게시 안 함)"
         default: full
         type: choice
-        options: [full, webtoon, build, castsheet, webtoontest, ad]
+        options: [full, webtoon, build, castsheet, webtoontest, ad, charsheet]
       topic:
-        description: "웹툰 소재로 쓸 뉴스 번호 (비우면 AI가 고름)"
+        description: "웹툰 소재로 쓸 뉴스 번호 (비우면 AI가 고름). charsheet일 때는 시안 id (비우면 전부)"
         required: false
         default: ""
   push:                    # 웹툰·디자인을 바꿔 올리면 페이지만 다시 생성
@@ -72,12 +73,13 @@ jobs:
             castsheet) python daily.py --cast-sheet ;;
             webtoontest) python daily.py --webtoon-only --no-save ${TOPIC:+--topic "$TOPIC"} ;;
             ad) python daily.py --ad-only ;;
+            charsheet) python make_character.py $TOPIC && python daily.py --build-only ;;
             scheduled) python daily.py --if-missing ;;
             *)       python daily.py ${TOPIC:+--topic "$TOPIC"} ;;
           esac
 
       - name: 오늘 기록 저장
-        if: github.event_name != 'push' && inputs.mode != 'build' && inputs.mode != 'webtoontest'
+        if: github.event_name != 'push' && inputs.mode != 'build' && inputs.mode != 'webtoontest' && inputs.mode != 'charsheet'
         run: |
           git config user.name "sudal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

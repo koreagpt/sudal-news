@@ -1,0 +1,26 @@
+{
+  "_about": "새 당번 사원 디자인 시안. make_character.py 가 이 목록으로 기준 그림 시안을 그린다 (고른 뒤 bible.json에 정식 등록).",
+  "candidates": [
+    {
+      "id": "cat-a",
+      "label": "냥 사원 A안 — 치즈 고양이",
+      "species": "cat",
+      "look": "an orange tabby cat with clear darker orange stripes, a white chest and white muzzle, sharp green eyes that are usually half-lidded, pointed ears, slim build, long striped tail. Wears a white dress shirt with the top button undone, a burgundy knit vest, black slacks, black shoes, and a white employee ID card on a navy lanyard.",
+      "attitude": "prickly and aloof: arms crossed, chin slightly raised, one ear turned back, unimpressed half-lidded stare"
+    },
+    {
+      "id": "cat-b",
+      "label": "냥 사원 B안 — 회색 단모 고양이",
+      "species": "cat",
+      "look": "a sleek blue-gray short-haired cat with no stripes, a slightly lighter gray muzzle, sharp amber-yellow eyes that are usually half-lidded, pointed ears, slim build, long smooth gray tail. Wears a black turtleneck under a charcoal blazer, charcoal slacks, black shoes, and a white employee ID card on a navy lanyard. No glasses.",
+      "attitude": "prickly and aloof: arms crossed, chin slightly raised, one ear turned back, cool unimpressed stare"
+    },
+    {
+      "id": "cat-c",
+      "label": "냥 사원 C안 — 턱시도 고양이",
+      "species": "cat",
+      "look": "a tuxedo cat with black fur, a white muzzle, white chest and white paws like gloves, sharp yellow-green eyes that are usually half-lidded, pointed ears, slim build, long black tail. Wears a white dress shirt, a loosened wine-red tie, light gray slacks, black shoes, and a white employee ID card on a navy lanyard.",
+      "attitude": "prickly and aloof: arms crossed, chin slightly raised, one ear turned back, unimpressed half-lidded stare"
+    }
+  ]
+}
