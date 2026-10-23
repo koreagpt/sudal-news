@@ -21,6 +21,33 @@
       "species": "cat",
       "look": "a tuxedo cat with black fur, a white muzzle, white chest and white paws like gloves, sharp yellow-green eyes that are usually half-lidded, pointed ears, slim build, long black tail. Wears a white dress shirt, a loosened wine-red tie, light gray slacks, black shoes, and a white employee ID card on a navy lanyard.",
       "attitude": "prickly and aloof: arms crossed, chin slightly raised, one ear turned back, unimpressed half-lidded stare"
+    },
+    {
+      "id": "dog-a",
+      "label": "뭉뭉 인턴 A안 — 정수리 리본 요크셔테리어",
+      "species": "Yorkshire terrier",
+      "look": "a Yorkshire terrier puppy with long silky fur, sharp contrast between the steel blue-gray back and the golden-tan face, chest, legs and ears, small black button nose, round shiny dark eyes, small upright pointed ears, the hair on top of the head tied up in a small topknot with a tiny red bow. Wears a mustard-yellow knit cardigan over a white collared shirt, khaki chinos, white sneakers, and a white employee ID card on a bright yellow lanyard.",
+      "attitude": "eager new intern: wide bright eyes, big smile, full of energy",
+      "pose": "small and short, about a head shorter than the otter, standing energetically with one paw raised in a small fist, tail up and wagging",
+      "expressions": "1) a bright eager smile with sparkling eyes, 2) a flustered face with a small sweat drop, staring at a smartphone held in both paws, 3) a proud excited grin with eyes closed"
+    },
+    {
+      "id": "dog-b",
+      "label": "뭉뭉 인턴 B안 — 짧은 퍼피컷 요크셔테리어",
+      "species": "Yorkshire terrier",
+      "look": "a Yorkshire terrier puppy with a short fluffy puppy cut (no topknot), sharp contrast between the steel blue-gray back and the golden-tan face, chest, legs and ears, small black button nose, round shiny dark eyes, small upright pointed ears. Wears a soft mint-green sweatshirt with a white shirt collar showing, beige chinos, white sneakers, and a white employee ID card on a bright yellow lanyard.",
+      "attitude": "eager new intern: wide bright eyes, big smile, full of energy",
+      "pose": "small and short, about a head shorter than the otter, standing energetically with one paw raised in a small fist, tail up and wagging",
+      "expressions": "1) a bright eager smile with sparkling eyes, 2) a flustered face with a small sweat drop, staring at a smartphone held in both paws, 3) a proud excited grin with eyes closed"
+    },
+    {
+      "id": "dog-c",
+      "label": "뭉뭉 인턴 C안 — 긴 털·파란 핀 요크셔테리어",
+      "species": "Yorkshire terrier",
+      "look": "a Yorkshire terrier puppy with long silky fur parted in the middle, sharp contrast between the steel blue-gray back and the golden-tan face, chest, legs and ears, small black button nose, round shiny dark eyes, small upright pointed ears, a small sky-blue hair clip holding the bangs. Wears a soft lavender knit sweater with a white shirt collar showing, light gray slacks, white sneakers, and a white employee ID card on a bright yellow lanyard.",
+      "attitude": "eager new intern: wide bright eyes, big smile, full of energy",
+      "pose": "small and short, about a head shorter than the otter, standing energetically with one paw raised in a small fist, tail up and wagging",
+      "expressions": "1) a bright eager smile with sparkling eyes, 2) a flustered face with a small sweat drop, staring at a smartphone held in both paws, 3) a proud excited grin with eyes closed"
     }
   ]
 }

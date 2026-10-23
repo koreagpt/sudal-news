@@ -17,15 +17,16 @@ from newsbot import llm
 from newsbot.webtoon import load_bible
 
 PROJECT = Path(__file__).resolve().parent
+CAT_FACES = "1) neutral cool unimpressed face, 2) annoyed face frowning at a smartphone held in its paws, 3) a rare small satisfied smile with eyes closed"
 
 
 def prompt_for(candidate: dict, style: dict) -> str:
     return f"""Create a character model sheet on a plain cream background, in exactly the same layout and art style as the first reference image:
 one large full-body front view standing on the left, and three head-and-shoulders close-ups on the right (two on top, one below).
 But draw a NEW character instead of the otter: {candidate['look']}
-Same proportions and drawing style as the otter (an anthropomorphic animal office worker, about 4 to 5 heads tall), clearly a {candidate['species']}, not an otter.
+Same proportions and drawing style as the otter (an anthropomorphic animal office worker), clearly a {candidate['species']}, not an otter.
 Personality shown in pose and face: {candidate['attitude']}.
-Full body: standing, arms crossed, holding nothing. Close-ups: 1) neutral cool unimpressed face, 2) annoyed face frowning at a smartphone held in its paws, 3) a rare small satisfied smile with eyes closed.
+Full body: {candidate.get('pose', 'standing, arms crossed, holding nothing')}. Close-ups: {candidate.get('expressions', CAT_FACES)}.
 Style: {style['profile']} Shapes: {style['shape']} Lines: {style['line']} Color: {style['color']}
 Keep the colors, clothes and markings identical in all four drawings. No text, no labels, no names, no logos, no background scenery."""
 
