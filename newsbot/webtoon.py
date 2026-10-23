@@ -123,6 +123,7 @@ def script_instructions(bible: dict) -> str:
 - beat: 그 컷에서 독자가 새로 알게 되는 것 하나.
 - acting: 누가 무엇을 보는지(시선), 손이 무엇을 쥐거나 만지는지(접촉), 몸 자세와 표정을 함께 쓴다. 얼굴만으로 감정을 해결하지 않는다.
 - {hosts.josa(me, '은/는')} 연기 습관을 지킨다. 감탄·웃음 같은 큰 변화는 3컷이나 4컷 한 번에 몰아 준다.
+- 휴대전화·태블릿·노트북 화면은 늘 그것을 보는 인물 쪽을 향한다. 독자에게 화면을 보여 줘야 하면 인물의 어깨 너머 구도로 쓰고, 인물이 기기 뒤에서 독자를 보고 있으면 화면이 아니라 기기 뒷면이 보인다고 쓴다.
 - 같은 크기의 얼굴 클로즈업을 연달아 쓰지 않는다. 롱샷=공간, 미디엄=행동, 클로즈업=감정, 인서트=단서.
 - 말풍선이 있는 컷은 말하는 인물의 얼굴이 보이는 롱샷·미디엄·클로즈업으로 한다. 화면이나 손만 크게 보이는 인서트는 말풍선 둘 곳이 없으니 쓰지 않는다.
 - 조연은 설정집 인물만, 필요할 때만 쓴다. 주인공과 같은 종의 다른 캐릭터를 만들지 않는다. 다른 당번 사원은 등장시키지 않는다.
@@ -199,6 +200,7 @@ def review_instructions(bible: dict) -> str:
 - 조연이 누구인지 바로 알아볼 수 있고 주인공과 헷갈리지 않는가. cast_distinct가 false인 경우는 이것뿐이다: 조연의 종(동물)·얼굴 무늬·안경·옷 색이 기준 시트와 달라 다른 인물로 보일 때, 또는 주인공과 닮은 같은 종의 다른 캐릭터가 있을 때. 사원증·꼬리·바지처럼 구도상 가려지거나 작게 생략된 부분, 체격의 작은 차이는 false 사유가 아니다(필요하면 cast_notes에만 적는다). 조연이 없으면 true.
 - 대본에 없는 배경 인물·동물(엑스트라)이 보이면 extras에 컷 번호와 함께 적는다. 엑스트라만으로 cast_distinct를 false로 하지 않는다.
 - 실존 회사 로고나 실존 인물 얼굴처럼 보이는 것이 없는가.
+- device_backwards: 휴대전화·태블릿·노트북 화면이 그것을 쓰는 인물 반대쪽(독자 쪽)을 향해 있는가. 인물이 기기 뒤에 있는데 독자 쪽에서 화면이 보이면(기기 뒷면에 화면이 그려진 것) 컷 번호와 기기를 적는다. 일부러 화면을 남에게 돌려 보여 주는 장면은 괜찮다.
 - bubble_issues: 말풍선이 얼굴·눈·손·중요한 소품을 가리는지, 꼬리가 엉뚱한 인물을 가리키는지, 읽는 순서가 헷갈리는지. 컷 번호와 함께 적는다.
 - acting_notes: 시선·접촉·연기에서 아쉬운 점."""
 
@@ -213,11 +215,12 @@ REVIEW_SCHEMA = {
         "cast_notes": {"type": "array", "items": {"type": "string"}},
         "extras": {"type": "array", "items": {"type": "string"}},
         "has_real_logo_or_person": {"type": "boolean"},
+        "device_backwards": {"type": "array", "items": {"type": "string"}},
         "bubble_issues": {"type": "array", "items": {"type": "string"}},
         "acting_notes": {"type": "array", "items": {"type": "string"}},
     },
     "required": ["panel_count", "art_text", "character_consistent", "character_notes", "cast_distinct", "cast_notes", "extras",
-                 "has_real_logo_or_person", "bubble_issues", "acting_notes"],
+                 "has_real_logo_or_person", "device_backwards", "bubble_issues", "acting_notes"],
     "additionalProperties": False,
 }
 
@@ -347,7 +350,8 @@ No other characters at all: no background coworkers, extras or crowds, and no ot
 Page layout: four panels stacked from top to bottom, each a full-width rectangle with a thin dark border and small side margins. Separate the panels with plain cream gutters about 24 pixels tall. Small plain cream margin above the first panel and below the last panel. Keep each location's fixed layout consistent between panels.
 {chr(10).join(panels)}
 
-No text anywhere: no speech bubbles, no captions, no title, no letters, no numbers, no signs, no logos, no watermarks. Phone, laptop and monitor screens and papers show only simple icons, blocks or lines; app icons are plain generic shapes (a speech bubble, a lock, a star), never any real app logo or company wordmark. Show where each character looks and what their hands touch; hands and objects connect, nothing floats."""
+No text anywhere: no speech bubbles, no captions, no title, no letters, no numbers, no signs, no logos, no watermarks. Phone, laptop and monitor screens and papers show only simple icons, blocks or lines; app icons are plain generic shapes (a speech bubble, a lock, a star), never any real app logo or company wordmark.
+Device orientation (very important): a phone, tablet or laptop screen always faces the character who is using it. When a character sits or stands behind a device and faces the reader, the reader sees only the plain back of that device (a dark case, a camera lens or a small logo-free mark), never a screen. Show a screen to the reader only in an over-the-shoulder view from behind the user, or when a character deliberately turns the device toward someone. Show where each character looks and what their hands touch; hands and objects connect, nothing floats."""
     if feedback:
         prompt += "\n\nThe previous attempt had these problems. Fix them:\n- " + "\n- ".join(feedback)
     return prompt
@@ -442,6 +446,7 @@ def review(model: str, image: Path, character: Path, script: dict, bible: dict, 
         and result["character_consistent"]
         and result["cast_distinct"]
         and not result["has_real_logo_or_person"]
+        and not result["device_backwards"]
     )
     return result
 
@@ -557,7 +562,9 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
                [f"The {bible['host']['species_en']} must match the character sheet: " + ("; ".join(verdict["character_notes"]) or "same face, fur and proportions in every panel")]) \
             + ([] if verdict["cast_distinct"] else ["Supporting characters must match the cast sheet: " + "; ".join(verdict["cast_notes"])]) \
             + ([f"Remove background extras: {'; '.join(verdict['extras'])}"] if verdict["extras"] else []) \
-            + (["Remove anything that looks like a real logo or real person."] if verdict["has_real_logo_or_person"] else [])
+            + (["Remove anything that looks like a real logo or real person."] if verdict["has_real_logo_or_person"] else []) \
+            + ([f"Device screens must face their user; from the reader's side show only the plain back of the device: {'; '.join(verdict['device_backwards'])}"]
+               if verdict["device_backwards"] else [])
         status["problems"] = feedback
         print(f"  검수 미통과: {feedback}")
     else:
