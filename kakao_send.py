@@ -1,4 +1,4 @@
-"""오늘 수달일보를 운영자 카카오톡 '나와의 채팅'으로 보낸다 (카카오톡 메시지 API, 나에게 보내기).
+"""오늘 일보(그날 당번의 달몽·냐옹·뭉뭉일보)를 운영자 카카오톡 '나와의 채팅'으로 보낸다 (카카오톡 메시지 API, 나에게 보내기).
 
 운영자는 받은 카드를 길게 눌러 오픈채팅방으로 '전달'만 하면 된다.
 
@@ -32,7 +32,7 @@ import urllib.request
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from newsbot import KST
+from newsbot import KST, hosts
 from newsbot.build import _brand_name, _korean_date, _webtoon_for, share_text
 
 PROJECT = Path(__file__).resolve().parent
@@ -128,14 +128,14 @@ def _link(url: str) -> dict:
 def messages(day: str) -> list[dict]:
     """오늘 보낼 메시지: 붙여 넣기용 글(텍스트) + 전달용 카드(썸네일)."""
     config = json.loads((PROJECT / "config.json").read_text(encoding="utf-8"))
-    site = config["site"]
+    site = hosts.site_for(config["site"], day, PROJECT)
     base = site["base_url"].rstrip("/")
     page, archive = f"{base}/d/{day}/", f"{base}/archive/"
     news_path = PROJECT / "data" / "news" / f"{day}.json"
     if not news_path.exists():
         actions = f"https://github.com/{site['repo']}/actions/workflows/daily.yml"
         return [{"object_type": "text", "link": _link(actions), "button_title": "실행 화면 열기",
-                 "text": f"🦦 {_korean_date(day, long=False)} 수달일보 발행이 아직 안 됐어요.\nGitHub 실행 화면에서 Run workflow(full)로 다시 실행해 주세요."}]
+                 "text": f"{site['emoji']} {_korean_date(day, long=False)} {site['name']} 발행이 아직 안 됐어요.\nGitHub 실행 화면에서 Run workflow(full)로 다시 실행해 주세요."}]
 
     news = json.loads(news_path.read_text(encoding="utf-8"))
     webtoons = json.loads((PROJECT / "data" / "webtoons.json").read_text(encoding="utf-8"))
@@ -158,7 +158,7 @@ def messages(day: str) -> list[dict]:
 
     # 2) 카드: 제목+설명은 합쳐서 4줄까지 보인다
     toon_title = f"「{toon['title']}」" if (toon and is_today) else ""
-    card_title = f"🦦 수달일보 {date_text}" + (f" {toon_title}" if toon_title else "")
+    card_title = f"{site['emoji']} {site['name']} {date_text}" + (f" {toon_title}" if toon_title else "")
     description = f"오늘의 AI 뉴스 {len(titles)}건 · {titles[0]}" + (f" 외 {len(titles) - 1}건" if len(titles) > 1 else "") if titles else ""
     feed = {
         "object_type": "feed",
@@ -193,7 +193,7 @@ def send(token: str, items: list[dict]) -> None:
 
 
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(description="오늘 수달일보를 카카오톡 나와의 채팅으로 보내기")
+    parser = argparse.ArgumentParser(description="오늘 일보를 카카오톡 나와의 채팅으로 보내기")
     parser.add_argument("--date", help="YYYY-MM-DD. 기본값: 오늘(한국 시간)")
     parser.add_argument("--setup", metavar="CODE", help="처음 연결: 연결 페이지에서 받은 인증 코드")
     parser.add_argument("--once", action="store_true", help="예약용: 오늘 이미 보냈으면 건너뛰고, 오늘 호가 없으면 10:15까지 기다림")
@@ -225,7 +225,7 @@ def main(argv=None) -> int:
     if args.setup:
         token = setup(args.setup)
         intro = {"object_type": "text", "link": _link(json.loads((PROJECT / "config.json").read_text(encoding="utf-8"))["site"]["base_url"]),
-                 "text": "🦦 수달일보 카카오톡 연결 완료!\n매일 아침 이 채팅방으로 오늘 게시글이 와요.\n카드를 길게 눌러 오픈채팅방으로 전달하면 돼요."}
+                 "text": "🦦 한국GPT협회 일보 카카오톡 연결 완료!\n매일 아침 이 채팅방으로 오늘 게시글이 와요.\n카드를 길게 눌러 오픈채팅방으로 전달하면 돼요."}
         send(token, [intro, *messages(day)])
         return 0
 

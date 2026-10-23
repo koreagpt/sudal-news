@@ -1,4 +1,4 @@
-"""수달일보 하루치 실행: 뉴스 수집 → 선별·요약 → 웹툰 → 저장 → 페이지 생성.
+"""한국GPT협회 일보(달몽·냐옹·뭉뭉 당번) 하루치 실행: 뉴스 수집 → 선별·요약 → 웹툰 → 저장 → 페이지 생성.
 
 사용 예
   python daily.py                   # 오늘 뉴스 + 웹툰 만들고 페이지 생성
@@ -15,7 +15,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from newsbot import KST, ads, llm, webtoon
+from newsbot import KST, ads, hosts, llm, webtoon
 from newsbot.build import build
 from newsbot.curate import curate
 from newsbot.fetch import balance, collect
@@ -42,7 +42,8 @@ def make_news(config: dict, day: str, use_ai: bool) -> dict:
             print(f"  [피드 오류] {feed_id}: {info['error']}")
 
     _save(PROJECT / "data" / "raw" / f"{day}.json", pool)
-    result = curate(pool, settings["count"], settings["model"], use_ai=use_ai, effort=settings.get("reasoning_effort"))
+    result = curate(pool, settings["count"], settings["model"], use_ai=use_ai, effort=settings.get("reasoning_effort"),
+                    host=hosts.host_for(day, PROJECT))
     news = {
         "date": day,
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -94,7 +95,7 @@ def make_ad(config: dict, day: str, news: dict) -> None:
 
 
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(description="수달일보 하루치 생성")
+    parser = argparse.ArgumentParser(description="한국GPT협회 일보 하루치 생성")
     parser.add_argument("--date", help="발행일(YYYY-MM-DD). 기본값: 오늘(한국 시간)")
     parser.add_argument("--basic", action="store_true", help="GPT 없이 키워드 선별만 사용 (웹툰 없음)")
     parser.add_argument("--build-only", action="store_true", help="수집 없이 페이지만 다시 생성")

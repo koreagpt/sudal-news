@@ -1,4 +1,4 @@
-/* 수달일보 — 수달 사원 톤: 크림 종이, 베이지 털, 남색 카디건, 형광펜 노랑 */
+/* 한국GPT협회 일보 — 크림 종이 틀은 그대로, 강조색(--navy)·형광펜(--marker)만 그날 당번 색으로 바뀐다. 협회 표시는 늘 --org */
 :root {
   color-scheme: light;
   --paper: #fbf6ec;
@@ -8,6 +8,7 @@
   --ink-soft: #5b5149;
   --muted: #8a7d71;
   --navy: #2c3553;
+  --org: #2c3553;  /* 한국GPT협회 표시 (당번이 바뀌어도 고정) */
   --fur: #a88a6a;
   --fur-light: #e8dac6;
   --brown: #6b4a2f;
@@ -73,14 +74,14 @@ mark {
 
 .kicker strong {
   color: #fff;
-  background: var(--navy);
+  background: var(--org);
   border-radius: 6px;
   padding: 2px 8px;
   margin-right: 2px;
   font-weight: 700;
 }
 
-/* 수달 사원의 사원증 — 웹툰 속 목걸이 사원증과 같은 모티프 */
+/* 당번 사원의 사원증 — 웹툰 속 목걸이 사원증과 같은 모티프 */
 .badge {
   position: relative;
   display: flex;
@@ -108,7 +109,7 @@ mark {
 
 .badge-org {
   width: 100%;
-  background: var(--navy);
+  background: var(--org);
   color: #fff;
   font-size: 9.5px;
   font-weight: 700;
@@ -274,7 +275,7 @@ html { scroll-behavior: smooth; }
   font-size: 15px;
 }
 
-/* 수달 한마디 — 웹툰 말풍선처럼 */
+/* 당번 한마디 — 웹툰 말풍선처럼 */
 .comment {
   display: flex;
   align-items: flex-start;
@@ -452,7 +453,7 @@ html { scroll-behavior: smooth; }
 .org-link {
   padding: 11px 6px;
   white-space: nowrap;
-  background: var(--navy);
+  background: var(--org);
   color: #fff;
   border: 2px solid var(--line);
   border-radius: 12px;
@@ -603,4 +604,65 @@ html { scroll-behavior: smooth; }
   background: var(--card);
   border: 2px solid var(--line);
   border-radius: 14px;
+}
+
+/* ---------- 하루씩 돌아가며 맡는 당번 사원 3명 ---------- */
+.crew { max-width: 480px; margin: 0 auto 22px; }
+.crew-title { margin: 0 0 10px; font-family: var(--display); font-weight: 400; font-size: 18px; }
+
+.crew-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.crew-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0 4px 10px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  opacity: 0.72;
+}
+
+.crew-card.on { opacity: 1; box-shadow: 3px 3px 0 var(--crew); transform: translateY(-2px); }
+
+.crew-top {
+  align-self: stretch;
+  margin-bottom: 6px;
+  padding: 4px 0;
+  background: var(--crew);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.crew-card img {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  border: 1.5px solid var(--line);
+  background: var(--paper-deep);
+}
+
+.crew-card strong { margin-top: 4px; font-size: 13.5px; }
+.crew-role { color: var(--muted); font-size: 11.5px; text-align: center; }
+
+.crew-today {
+  margin-top: 4px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--crew);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
 }

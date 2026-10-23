@@ -1,8 +1,8 @@
-"""오늘의 뉴스 하나로 수달 사원 4컷 웹툰을 만든다: 대본 → 작화 → 검수.
+"""오늘의 뉴스 하나로 그날 당번 사원(달몽·냐옹·뭉뭉)이 주인공인 4컷 웹툰을 만든다: 대본 → 작화 → 검수.
 
 컷온 웹툰 제작 스킬(인물 고정값, 짧고 정확한 대사, 가상 상황 표기, 실제 결과물 검수)과
 애니메이션 작화·표정·행동·배경 스킬(설정집, 연기 브리프, 컷별 배경 밀도, 검수 순서)을 자동화했다.
-설정은 data/bible.json 에 있다.
+설정은 data/bible.json(공통)과 data/hosts.json(주인공)에 있다.
 """
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ import re
 from datetime import datetime
 from pathlib import Path
 
-from . import KST, lettering, llm
+from . import KST, hosts, lettering, llm
 from .style import NATURAL_KOREAN
 
 NOTE = "AI 뉴스를 바탕으로 한 가상 상황입니다."
@@ -43,8 +43,13 @@ def _generic(text: str) -> str:
 SHOT_EN = {"롱샷": "long shot", "미디엄": "medium shot", "클로즈업": "close-up", "인서트": "insert close-up of an object or hands"}
 
 
-def load_bible(project: Path) -> dict:
-    return json.loads((project / "data" / "bible.json").read_text(encoding="utf-8"))
+def load_bible(project: Path, day: str | None = None) -> dict:
+    """공통 설정집에 그날 당번 사원을 주인공(main)으로 얹는다. 날짜가 없으면 첫 번째 당번(달몽 사원)."""
+    bible = json.loads((project / "data" / "bible.json").read_text(encoding="utf-8"))
+    host = hosts.host_for(day, project) if day else hosts.all_hosts(project)[0]
+    bible["host"], bible["main"] = host, host["character"]
+    bible["relationships"] = host["relationships"] + bible.get("relationships", [])
+    return bible
 
 
 def _bible_text(bible: dict) -> str:
@@ -90,13 +95,15 @@ def recent_episodes(project: Path, day: str, limit: int = 5) -> str:
 
 
 def script_instructions(bible: dict) -> str:
-    return f"""너는 '한국GPT협회 수달일보'의 웹툰 작가다. 매일 아침 AI 뉴스 하나를 소재로 수달 사원이 주인공인 세로 4컷 웹툰 대본을 쓴다.
+    host = bible["host"]
+    me = host["short"]
+    return f"""너는 '한국GPT협회 {host['paper']}'의 웹툰 작가다. 매일 아침 AI 뉴스 하나를 소재로 {hosts.josa(host['name'], '이/가')} 주인공인 세로 4컷 웹툰 대본을 쓴다.
 
 {_bible_text(bible)}
 
 이야기 원칙 (회차 완결형, 정보형 웹툰)
-- 독자가 따라 할 수 있는 한 가지 문제를 정한다. 4컷 흐름: 1컷 수달이 겪는 구체적인 불편 → 2컷 소식을 접하거나 방법을 시도 → 3컷 결과에서 판단이 필요한 지점을 발견(확인·수정·선택) → 4컷 무엇이 달라졌는지 행동으로 보여 주며 닫는다.
-- 수달이 이번 화에서 바뀌는 것(막막함→선택, 시큰둥→관심 등)이 하나 있어야 한다.
+- 독자가 따라 할 수 있는 한 가지 문제를 정한다. 4컷 흐름: 1컷 {hosts.josa(me, '이/가')} 겪는 구체적인 불편 → 2컷 소식을 접하거나 방법을 시도 → 3컷 결과에서 판단이 필요한 지점을 발견(확인·수정·선택) → 4컷 무엇이 달라졌는지 행동으로 보여 주며 닫는다.
+- {hosts.josa(me, '이/가')} 이번 화에서 바뀌는 것(막막함→선택, 시큰둥→관심, 의심→인정 등)이 하나 있어야 한다. 성격과 말투는 설정집의 주인공을 따른다.
 - 최근 회차와 역할·장소·결말 방식을 겹치지 않게 한다. 같은 인물이 매번 정답을 알려 주는 구도를 반복하지 않는다.
 - 뉴스에 없는 사실(수치, 날짜, 기능, 발언)을 사실처럼 쓰지 않는다. 필요하면 일반적인 상황으로 표현한다.
 - 실존 인물의 얼굴, 실제 회사 로고, 실제 제품 화면을 그리지 않는다. 서비스 이름은 대사에 꼭 필요할 때만 쓴다.
@@ -108,17 +115,17 @@ def script_instructions(bible: dict) -> str:
 대화 원칙 (자연스러운 대화·감정 대사)
 - 모든 대사는 바로 앞의 말이나 행동에 대한 반응이다. 두 사람이 각자 설명을 번갈아 읽는 독백 교환을 쓰지 않는다.
 - 인물은 자기가 아는 것만 말한다. 작가가 아는 정보를 인물에게 대신 읽히지 않는다.
-- 설정집의 말투와 호칭·높임말을 지킨다. 수달은 대리님·팀장님께 존댓말을 쓴다.
+- 설정집의 말투와 호칭·높임말을 지킨다. 특히 주인공 {me}의 호칭·높임말 규칙을 그대로 따른다.
 - 감정은 이유와 행동으로 보여 준다. 느낌표·말줄임표를 남발하지 않는다.
 - 한 말풍선은 한 번의 말하기 호흡이다. A→B→A처럼 번갈아 말하면 말풍선을 나누고, 같은 사람이 이어서 하는 말은 한 컷에 두 개까지만.
 
 연기 규칙 (표정·행동)
 - beat: 그 컷에서 독자가 새로 알게 되는 것 하나.
 - acting: 누가 무엇을 보는지(시선), 손이 무엇을 쥐거나 만지는지(접촉), 몸 자세와 표정을 함께 쓴다. 얼굴만으로 감정을 해결하지 않는다.
-- 수달은 연기 습관을 지킨다. 감탄·웃음 같은 큰 변화는 3컷이나 4컷 한 번에 몰아 준다.
+- {hosts.josa(me, '은/는')} 연기 습관을 지킨다. 감탄·웃음 같은 큰 변화는 3컷이나 4컷 한 번에 몰아 준다.
 - 같은 크기의 얼굴 클로즈업을 연달아 쓰지 않는다. 롱샷=공간, 미디엄=행동, 클로즈업=감정, 인서트=단서.
 - 말풍선이 있는 컷은 말하는 인물의 얼굴이 보이는 롱샷·미디엄·클로즈업으로 한다. 화면이나 손만 크게 보이는 인서트는 말풍선 둘 곳이 없으니 쓰지 않는다.
-- 조연은 설정집 인물만, 필요할 때만 쓴다. 수달과 같은 종의 다른 캐릭터를 만들지 않는다.
+- 조연은 설정집 인물만, 필요할 때만 쓴다. 주인공과 같은 종의 다른 캐릭터를 만들지 않는다. 다른 당번 사원은 등장시키지 않는다.
 
 배경 규칙
 - location은 설정집의 id 중 하나. 설정집에 없는 곳이면 "other".
@@ -130,7 +137,7 @@ def script_instructions(bible: dict) -> str:
   은유·말장난·속뜻만으로 된 제목은 쓰지 않는다. 나쁜 예: '엎기 전에', '설명도 이사 중' (무슨 이야기인지 모름). 좋은 예: '슬라이드, 구성부터 보기', 'AI에게 장보기 맡긴 날', '챗봇 바꿔도 설명은 한 번'.
 - subtitle(18자 이내): 제목을 보충해 오늘 웹툰의 상황이나 뉴스 핵심을 한 번 더 짚는다. 제목과 같은 말을 반복하지 않는다.
 - panels는 정확히 4개. 컷마다 말풍선 1~2개, 말풍선 하나는 18자 이내, 전체 말풍선 6개 이하. 말풍선 글은 의미 단위로 읽히게 쓴다(조사·어미만 따로 떨어지지 않게).
-- speaker는 "수달", "AI", 또는 조연 이름.
+- speaker는 "{me}", "AI", 또는 조연 이름.
 - closing_line1, closing_line2는 각각 18자 이내.
 - scene은 그림 작가에게 주는 장면 설명(장소, 구도, 소품) 2문장 이내.
 - alt는 시각장애인을 위한 4컷 전체 설명. 300자 이내.
@@ -181,12 +188,15 @@ def script_schema(bible: dict) -> dict:
     }
 
 
-REVIEW_INSTRUCTIONS = """너는 웹툰 검수자다. 첫 번째 이미지는 완성된 4컷 웹툰, 두 번째 이미지는 주인공 수달 사원의 인물 기준 그림이다.
+def review_instructions(bible: dict) -> str:
+    host = bible["host"]
+    me = host["short"]
+    return f"""너는 웹툰 검수자다. 첫 번째 이미지는 완성된 4컷 웹툰, 두 번째 이미지는 주인공 {host['name']}의 인물 기준 그림이다.
 제목, 말풍선, 마무리 문구는 글꼴로 정확히 넣은 것이니 철자는 보지 않는다. 그 대신 아래를 엄격하게 본다. 애매하면 문제로 적는다.
 - 위에서 아래로 컷이 정확히 4개인가.
 - 그림 속(말풍선·제목·마무리 문구 밖)에 글자, 숫자, 깨진 글씨, 간판 글자, 화면 속 글자, 빈 말풍선이 그려져 있는가. 있으면 art_text에 위치와 함께 적는다. 화면·서류의 단순한 선이나 도형은 괜찮다.
-- 모든 컷의 수달이 인물 기준과 같은 캐릭터인가. 같은 인물인지는 종·털 색(베이지)·크림색 주둥이·얼굴 생김새·체형으로 판단한다. 옷은 장소에 따라 달라도 된다: 사무실에서는 남색 카디건·흰 셔츠·사원증, 집이나 출퇴근 길에서는 사원증이 없거나 남색 계열 편한 옷이어도 같은 인물이다. 같은 장소의 연속 컷 안에서 옷이 바뀌는 것만 문제로 본다. character_consistent가 false면 character_notes에 컷 번호와 무엇이 다른지 구체적으로 적는다.
-- 조연이 누구인지 바로 알아볼 수 있고 주인공과 헷갈리지 않는가. cast_distinct가 false인 경우는 이것뿐이다: 조연의 종(동물)·얼굴 무늬·안경·옷 색이 기준 시트와 달라 다른 인물로 보일 때, 또는 주인공과 닮은 다른 수달이 있을 때. 사원증·꼬리·바지처럼 구도상 가려지거나 작게 생략된 부분, 체격의 작은 차이는 false 사유가 아니다(필요하면 cast_notes에만 적는다). 조연이 없으면 true.
+- 모든 컷의 {hosts.josa(me, '이/가')} 인물 기준과 같은 캐릭터인가. 같은 인물인지는 {host['identity_check']}으로 판단한다. 옷은 장소에 따라 달라도 된다: {host['outfit_rule']}. 같은 장소의 연속 컷 안에서 옷이 바뀌는 것만 문제로 본다. character_consistent가 false면 character_notes에 컷 번호와 무엇이 다른지 구체적으로 적는다.
+- 조연이 누구인지 바로 알아볼 수 있고 주인공과 헷갈리지 않는가. cast_distinct가 false인 경우는 이것뿐이다: 조연의 종(동물)·얼굴 무늬·안경·옷 색이 기준 시트와 달라 다른 인물로 보일 때, 또는 주인공과 닮은 같은 종의 다른 캐릭터가 있을 때. 사원증·꼬리·바지처럼 구도상 가려지거나 작게 생략된 부분, 체격의 작은 차이는 false 사유가 아니다(필요하면 cast_notes에만 적는다). 조연이 없으면 true.
 - 대본에 없는 배경 인물·동물(엑스트라)이 보이면 extras에 컷 번호와 함께 적는다. 엑스트라만으로 cast_distinct를 false로 하지 않는다.
 - 실존 회사 로고나 실존 인물 얼굴처럼 보이는 것이 없는가.
 - bubble_issues: 말풍선이 얼굴·눈·손·중요한 소품을 가리는지, 꼬리가 엉뚱한 인물을 가리키는지, 읽는 순서가 헷갈리는지. 컷 번호와 함께 적는다.
@@ -305,7 +315,8 @@ def _cast_in(script: dict, bible: dict) -> list[dict]:
 
 def image_prompt(script: dict, feedback: list[str], bible: dict) -> str:
     """글자 없는 4컷 그림만 요청한다. 제목·말풍선·마무리 문구는 나중에 글꼴로 넣는다."""
-    style, main = bible["style"], bible["main"]
+    style, main, host = bible["style"], bible["main"], bible["host"]
+    species = host["species_en"]
     locations = {loc["id"]: loc for loc in bible["locations"]}
     cast = _cast_in(script, bible)
 
@@ -323,13 +334,13 @@ def image_prompt(script: dict, feedback: list[str], bible: dict) -> str:
     cast_lines = "\n".join(f"- {c['name']} ({c['species']}): {c['look']}" for c in cast) or "- none"
 
     prompt = f"""Draw ONLY the artwork of a vertical 4-panel webtoon, with absolutely no text.
-Reference images: the first is the otter main character sheet, the second is the supporting cast model sheet. Match their character designs and soft drawing style exactly, and paint full warm background scenes.
+Reference images: the first is the main character sheet ({species}, called {host['short']} in the script), the second is the supporting cast model sheet. Match their character designs and soft drawing style exactly, and paint full warm background scenes.{'' if species == 'otter' else ' The cast sheet also shows an otter coworker in its top row: he is NOT in this episode, never draw the otter.'}
 Style: {style['profile']} Shapes: {style['shape']} Lines: {style['line']} Color: {style['color']} Light: {style['light']} Background: {style['background']}
 
-Main character (otter): keep identical in every panel: {'; '.join(main['fixed'])}.
+Main character ({species}, {host['short']}): keep identical in every panel: {'; '.join(main['fixed'])}.
 Allowed changes: {'; '.join(main['allowed_variation'])}.
 Never: {'; '.join(main['forbidden'])}.
-Supporting characters (exactly as in the cast sheet, clearly different species and silhouette from the otter):
+Supporting characters (exactly as in the cast sheet, clearly different species and silhouette from the {species}):
 {cast_lines}
 No other characters at all: no background coworkers, extras or crowds, and no other animals. The office is quiet apart from the named characters.
 
@@ -424,7 +435,7 @@ def review(model: str, image: Path, character: Path, script: dict, bible: dict, 
     if cast and cast_sheet and cast_sheet.exists():  # 조연이 나오는 날만 세 번째로 조연 기준 시트를 붙인다
         content[0]["content"].append({"type": "input_text", "text": "세 번째 이미지는 조연 기준 시트다. 조연이 이 그림과 같은지 확인한다."})
         content[0]["content"].append(llm.image_part(cast_sheet))
-    result = llm.ask_json(model, REVIEW_INSTRUCTIONS, content, REVIEW_SCHEMA, "webtoon_review", "low")
+    result = llm.ask_json(model, review_instructions(bible), content, REVIEW_SCHEMA, "webtoon_review", "low")
     result["art_ok"] = (
         result["panel_count"] == 4
         and not result["art_text"]
@@ -481,8 +492,9 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
 
     settings = config["webtoon"]
     source = pick_topic(news, topic)
-    references = [project / path for path in settings["references"]]
-    bible = load_bible(project)
+    bible = load_bible(project, day)
+    # 첫 번째 참고 그림은 그날 당번의 기준 그림, 나머지(조연 시트)는 config 그대로
+    references = [project / bible["host"]["reference"]] + [project / path for path in settings["references"][1:]]
     cast_sheet = project / bible["cast_sheet"] if bible.get("cast_sheet") else None
     source_name = source.get("source", "")
     status = {
@@ -542,7 +554,7 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
             status["problems"] = bubble_feedback
             break
         feedback = verdict["art_text"] + ([] if verdict["character_consistent"] else
-               ["The otter must match the character sheet: " + ("; ".join(verdict["character_notes"]) or "same face, fur and proportions in every panel")]) \
+               [f"The {bible['host']['species_en']} must match the character sheet: " + ("; ".join(verdict["character_notes"]) or "same face, fur and proportions in every panel")]) \
             + ([] if verdict["cast_distinct"] else ["Supporting characters must match the cast sheet: " + "; ".join(verdict["cast_notes"])]) \
             + ([f"Remove background extras: {'; '.join(verdict['extras'])}"] if verdict["extras"] else []) \
             + (["Remove anything that looks like a real logo or real person."] if verdict["has_real_logo_or_person"] else [])

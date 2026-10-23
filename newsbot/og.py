@@ -63,7 +63,8 @@ def stamp_badge(src: Path, dst: Path, text: str) -> None:
     image.save(dst, quality=88, optimize=True, progressive=True)
 
 
-def make(out: Path, webtoon: Path | None, crop, publisher: str, name: str, date_label: str, news_count: int) -> None:
+def make(out: Path, webtoon: Path | None, crop, publisher: str, name: str, date_label: str, news_count: int,
+         kicker: str = "달몽 사원의", marker: str | None = None) -> None:
     from PIL import Image, ImageDraw
 
     canvas = Image.new("RGB", (WIDTH, HEIGHT), PAPER)
@@ -90,13 +91,13 @@ def make(out: Path, webtoon: Path | None, crop, publisher: str, name: str, date_
     x = 64
     chip_font, kicker_font = _font(30), _font(30)
     chip_w = draw.textlength(publisher, font=chip_font)
-    draw.rounded_rectangle((x, 112, x + chip_w + 28, 162), 10, fill=NAVY)
+    draw.rounded_rectangle((x, 112, x + chip_w + 28, 162), 10, fill=NAVY)  # 협회 표시는 당번이 바뀌어도 남색 그대로
     draw.text((x + 14, 137), publisher, font=chip_font, fill="white", anchor="lm")
-    draw.text((x + chip_w + 42, 137), "수달 사원의", font=kicker_font, fill=INK, anchor="lm")
+    draw.text((x + chip_w + 42, 137), kicker, font=kicker_font, fill=INK, anchor="lm")
 
     title_font = _font(118)
     title_w = draw.textlength(name, font=title_font)
-    draw.rectangle((x - 6, 268, x + title_w + 8, 312), fill=MARKER)
+    draw.rectangle((x - 6, 268, x + title_w + 8, 312), fill=marker or MARKER)
     draw.text((x, 300), name, font=title_font, fill=INK, anchor="ls")
 
     draw.text((x, 372), date_label, font=_font(36), fill=MUTED, anchor="ls")

@@ -8,7 +8,7 @@ from datetime import date as Date, datetime
 from html import escape
 from pathlib import Path
 
-from . import KST, og
+from . import KST, hosts, og
 
 WEEKDAYS = "월화수목금토일"
 
@@ -53,15 +53,46 @@ def _head(site: dict, title: str, description: str, root: str, og_image: str | N
 <title>{escape(title)}</title>
 <meta name="description" content="{escape(description)}">
 {chr(10).join(og)}
-<link rel="icon" href="{root}static/img/sudal-face.png">
+<link rel="icon" href="{root}{site.get("face", "static/img/dalmong-face.png")}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="{root}static/style.css">
+<link rel="stylesheet" href="{root}static/style.css">{_theme(site)}
 </head>
 <body>
 <div class="page">"""
+
+
+def _theme(site: dict) -> str:
+    """그날 당번의 테마 색 (기본 틀은 그대로, 강조색·형광펜 색만 바꾼다)."""
+    theme = site.get("theme")
+    if not theme:
+        return ""
+    return f"\n<style>:root {{ --navy: {theme['accent']}; --marker: {theme['marker']}; }}</style>"
+
+
+def _crew(site: dict, root: str) -> str:
+    """하루씩 돌아가며 일보를 맡는 당번 사원 3명의 사원증 (오늘 당번 강조)."""
+    crew = site.get("hosts") or []
+    if len(crew) < 2:
+        return ""
+    today = site.get("host", {}).get("id")
+    cards = []
+    for host in crew:
+        on = host["id"] == today
+        cards.append(
+            f'<li class="crew-card{" on" if on else ""}" style="--crew: {host["theme"]["accent"]}">'
+            f'<span class="crew-top">{escape(host["paper"])}</span>'
+            f'<img src="{root}{host["face"]}" alt="" width="56" height="56">'
+            f'<strong>{escape(host["name"])}</strong><span class="crew-role">{escape(host["reporter"]["role"])}</span>'
+            + ('<span class="crew-today">오늘 당번</span>' if on else "") + "</li>"
+        )
+    return f"""
+  <section class="crew" aria-label="일보 당번 사원">
+    <h2 class="crew-title">하루씩 돌아가며 맡아요</h2>
+    <ol class="crew-cards">{"".join(cards)}</ol>
+  </section>"""
 
 
 def _brand_name(site: dict) -> str:
@@ -78,7 +109,7 @@ def _masthead(site: dict, root: str, dateline: str, jump: str = "") -> str:
   <a class="brand" href="{root}index.html" aria-label="{escape(_brand_name(site))} 첫 화면">
     <span class="badge" aria-hidden="true">
       <span class="badge-org">{publisher}</span>
-      <img src="{root}static/img/sudal-face.png" alt="" width="56" height="56">
+      <img src="{root}{site.get("face", "static/img/dalmong-face.png")}" alt="" width="56" height="56">
       <span class="badge-name">{escape(reporter.get("name", ""))}</span>
     </span>
     <span class="wordmark">{escape(site["name"])}</span>
@@ -99,11 +130,11 @@ def _footer(site: dict, root: str) -> str:
     contact = f'\n  <nav class="org-links" aria-label="{publisher} 교육 안내">{links}</nav>' if links else ""
     return f"""
 <footer class="footer">
-  <a class="archive-link" href="{root}archive/index.html">지난 {escape(site["name"])} 보기</a>
+  <a class="archive-link" href="{root}archive/index.html">지난 일보 보기</a>
   <section class="idcard" aria-label="기자 소개">
     <div class="idcard-top"><strong>{publisher}</strong><span>사원증</span></div>
     <div class="idcard-body">
-      <img src="{root}static/img/sudal-face.png" alt="수달 사원" width="76" height="76">
+      <img src="{root}{site.get("face", "static/img/dalmong-face.png")}" alt="{escape(reporter.get("name", ""))}" width="76" height="76">
       <dl>
         <div><dt>이름</dt><dd>{escape(reporter.get("name", ""))}</dd></div>
         <div><dt>담당</dt><dd>{escape(reporter.get("role", ""))}</dd></div>
@@ -111,7 +142,7 @@ def _footer(site: dict, root: str) -> str:
       </dl>
     </div>
     <p class="idcard-intro">“{escape(reporter.get("intro", ""))}”</p>
-  </section>
+  </section>{_crew(site, root)}
   <p class="org"><strong>{publisher}</strong>에서 AI를 배워 보세요</p>{contact}
   <p class="fine">{escape(_brand_name(site))}는 {publisher}가 매일 아침 전하는 AI 뉴스 브리핑입니다.
   기사의 저작권은 각 언론사에 있으며, 요약은 AI가 작성해 원문과 다를 수 있습니다.</p>
@@ -125,7 +156,8 @@ def _footer(site: dict, root: str) -> str:
 def _webtoon_section(toon: dict | None, is_today: bool, root: str) -> str:
     if not toon:
         return ""
-    label = "오늘의 수달 사원" if is_today else "수달 사원 웹툰"
+    name = hosts.host_for(toon["date"])["name"]
+    label = f"오늘의 {name}" if is_today else f"{name} 웹툰"
     image = f"{root}webtoons/{escape(toon['image'])}"
     source = ""
     if toon.get("source_url"):
@@ -143,7 +175,7 @@ def _webtoon_section(toon: dict | None, is_today: bool, root: str) -> str:
 </section>"""
 
 
-def _ad_card(ad: dict, root: str) -> str:
+def _ad_card(ad: dict, root: str, site: dict) -> str:
     """뉴스 3번 다음에 끼우는 협회 강의 카드 (광고임을 분명히 표시)."""
     return f"""
   <li class="card ad-card">
@@ -152,7 +184,7 @@ def _ad_card(ad: dict, root: str) -> str:
     <h3><a href="{escape(ad["url"])}" target="_blank" rel="noopener">{escape(ad["title"])}</a></h3>
     <p class="summary">{escape(ad["pitch"])}</p>
     <div class="comment">
-      <img src="{root}static/img/sudal-face.png" alt="수달 사원" width="34" height="34">
+      <img src="{root}{site.get("face", "static/img/dalmong-face.png")}" alt="{escape(site.get("reporter", {}).get("name", ""))}" width="34" height="34">
       <p>{escape(ad["comment"])}</p>
     </div>
     <p class="source">한국GPT협회 온라인교육
@@ -160,12 +192,12 @@ def _ad_card(ad: dict, root: str) -> str:
   </li>"""
 
 
-def _news_section(news: dict | None, root: str) -> str:
+def _news_section(news: dict | None, root: str, site: dict) -> str:
     items = (news or {}).get("items", [])
     if not items:
-        return """
+        return f"""
 <section class="news"><div class="empty">
-  <p>오늘의 뉴스는 아직 정리 중이에요.</p><p>수달 사원이 커피 한 잔 마시고 곧 가져올게요.</p>
+  <p>오늘의 뉴스는 아직 정리 중이에요.</p><p>{escape(hosts.josa(site.get("reporter", {}).get("name", "당번 사원"), "이/가"))} 곧 가져올게요.</p>
 </div></section>"""
     cards = []
     for number, item in enumerate(items, 1):
@@ -174,7 +206,7 @@ def _news_section(news: dict | None, root: str) -> str:
         if item.get("comment"):
             comment = f"""
     <div class="comment">
-      <img src="{root}static/img/sudal-face.png" alt="수달 사원" width="34" height="34">
+      <img src="{root}{site.get("face", "static/img/dalmong-face.png")}" alt="{escape(site.get("reporter", {}).get("name", ""))}" width="34" height="34">
       <p>{escape(item["comment"])}</p>
     </div>"""
         cards.append(f"""
@@ -186,7 +218,7 @@ def _news_section(news: dict | None, root: str) -> str:
       <a href="{escape(item["link"])}" target="_blank" rel="noopener">원문 보기 <span aria-hidden="true">↗</span></a></p>
   </li>""")
         if number == min(3, len(items)) and (news or {}).get("ad"):
-            cards.append(_ad_card(news["ad"], root))
+            cards.append(_ad_card(news["ad"], root, site))
     return f"""
 <section class="news" id="news" aria-label="오늘의 AI 뉴스">
   <div class="section-head">
@@ -198,9 +230,9 @@ def _news_section(news: dict | None, root: str) -> str:
 </section>"""
 
 
-def _description(news: dict | None) -> str:
+def _description(news: dict | None, site: dict) -> str:
     titles = [item["title"] for item in (news or {}).get("items", [])[:3]]
-    return " / ".join(titles) if titles else "한국GPT협회에 다니는 수달 사원이 매일 아침 골라오는 AI 뉴스"
+    return " / ".join(titles) if titles else site["tagline"]
 
 
 def render_day(site, day, news, webtoons, issue_no, root, url, og_image) -> str:
@@ -212,11 +244,11 @@ def render_day(site, day, news, webtoons, issue_no, root, url, og_image) -> str:
     if count and toon:  # 웹툰이 길어서 뉴스로 바로 내려가는 버튼을 둔다
         jump = f'\n  <a class="jump" href="#news">오늘의 AI 뉴스 {count}건 바로 보기 <span aria-hidden="true">↓</span></a>'
     return (
-        _head(site, title, _description(news), root, og_image, url)
+        _head(site, title, _description(news, site), root, og_image, url)
         + _masthead(site, root, dateline, jump)
         + "\n<main>"
         + _webtoon_section(toon, is_today, root)
-        + _news_section(news, root)
+        + _news_section(news, root, site)
         + "\n</main>"
         + _footer(site, root)
     )
@@ -240,11 +272,12 @@ def render_archive(site, days, newses, root="../") -> str:
 
 
 def share_text(site: dict, day: str, news: dict) -> str:
-    """오픈채팅방에 그대로 붙여 넣을 게시글."""
+    """오픈채팅방에 그대로 붙여 넣을 게시글 (그날 당번의 일보 이름으로)."""
+    site = hosts.site_for(site, day)
     base = site.get("base_url", "").rstrip("/")
     url = f"{base}/d/{day}/" if base else f"(배포 주소 설정 전) d/{day}/"
     items = news.get("items", [])
-    lines = [f"🦦 {_brand_name(site)} | {_korean_date(day, long=False)}", f"오늘의 AI 뉴스 {len(items)}건", ""]
+    lines = [f"{site['emoji']} {_brand_name(site)} | {_korean_date(day, long=False)}", f"오늘의 AI 뉴스 {len(items)}건", ""]
     lines += [f"{number}. {item['title']}" for number, item in enumerate(items, 1)]
     lines += ["", "👉 4컷 웹툰과 뉴스 요약 보기" if any(item.get("summary") for item in items) else "👉 4컷 웹툰과 뉴스 보기", url]
     return "\n".join(lines)
@@ -458,27 +491,31 @@ def build(project: Path, config: dict) -> Path:
         if not thumbnails:
             return f"webtoons/{toon['image']}" if toon else None
         target = f"og/{day}.jpg"
+        host_site = hosts.site_for(site, day, project)
         og.make(
             out / target,
             project / "data" / "webtoons" / toon["image"] if toon else None,
             toon.get("og_crop") if toon else None,
-            site["publisher"], site["name"], _korean_date(day), len(newses.get(day, {}).get("items", [])),
+            site["publisher"], host_site["name"], _korean_date(day), len(newses.get(day, {}).get("items", [])),
+            kicker=host_site["reporter"]["name"] + "의", marker=host_site["theme"]["marker"],
         )
         return target
 
     for issue_no, day in enumerate(days, 1):
+        day_site = hosts.site_for(site, day, project)
         page = out / "d" / day / "index.html"
         page.parent.mkdir(parents=True, exist_ok=True)
         thumbnail = og_image(day)
         page.write_text(
-            render_day(site, day, newses[day], webtoons, issue_no, "../../", f"d/{day}/", thumbnail),
+            render_day(day_site, day, newses[day], webtoons, issue_no, "../../", f"d/{day}/", thumbnail),
             encoding="utf-8",
         )
         send = out / "send" / day / "index.html"  # 아침 메일의 '카톡으로 공유하기' 버튼
         send.parent.mkdir(parents=True, exist_ok=True)
-        send.write_text(render_send(site, day, newses[day], thumbnail), encoding="utf-8")
+        send.write_text(render_send(day_site, day, newses[day], thumbnail), encoding="utf-8")
 
     today = days[-1] if days else datetime.now(KST).date().isoformat()
+    site = hosts.site_for(site, today, project)
     (out / "index.html").write_text(
         render_day(site, today, newses.get(today), webtoons, len(days) or 1, "", "", og_image(today)),
         encoding="utf-8",

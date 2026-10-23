@@ -10,7 +10,7 @@ import random
 from datetime import date, timedelta
 from pathlib import Path
 
-from . import llm
+from . import hosts, llm
 from .style import NATURAL_KOREAN
 
 STYLES = [
@@ -18,10 +18,10 @@ STYLES = [
     ("오늘 연결", "오늘 뉴스나 웹툰 이야기에서 자연스럽게 이어 간다 (예: '오늘 웹툰처럼 ~라면')."),
     ("팁", "짧은 업무 팁처럼 말한다 (예: '~는 이렇게 하면 편해요')."),
     ("질문", "가볍게 질문을 던진다 (예: '~, 아직 손으로 하고 있나요?')."),
-    ("수달 추천", "수달 사원이 동료에게 슬쩍 권하는 느낌으로 쓴다."),
+    ("당번 추천", "오늘 당번 사원이 동료에게 슬쩍 권하는 느낌으로 쓴다."),
 ]
 
-INSTRUCTIONS = """너는 '한국GPT협회 수달일보'의 편집자다. AI 뉴스 6건 사이에 협회 강의 하나를 자연스럽게 소개하는 카드를 쓴다.
+INSTRUCTIONS = """너는 '한국GPT협회 {PAPER}'의 편집자다. AI 뉴스 6건 사이에 협회 강의 하나를 자연스럽게 소개하는 카드를 쓴다.
 광고 티를 줄이고, 독자가 '아 이런 거에 도움 되는 강의가 있구나' 하고 느끼게 쓴다.
 
 규칙
@@ -31,7 +31,7 @@ INSTRUCTIONS = """너는 '한국GPT협회 수달일보'의 편집자다. AI 뉴�
 - 지정한 말투 유형(style)을 따른다.
 - hook: 카드 첫 줄. 22자 이내.
 - pitch: 이 강의가 무엇에 도움이 되는지 한두 문장, 70자 이내, 존댓말.
-- comment: 수달 사원의 한마디. 반말, 30자 이내, 이모지 없이.
+- comment: 오늘 당번 {NAME}의 한마디. {VOICE}. 30자 이내, 이모지 없이.
 - pitch는 '~을 다루는 강의를 살펴보세요' 같은 안내문 말고, 이 강의가 실제로 어떤 순간에 도움이 되는지 사람 말로 쓴다.
   나쁜 예: '문서 작성 자동화를 다루는 온라인 강의를 살펴보세요.' 좋은 예: '한글 보고서 초안, AI한테 먼저 받아 보는 법을 알려 줘요.'
 
@@ -94,7 +94,7 @@ def candidates(courses: list[dict], text: str, recent: set[str], day: str) -> li
     return chosen + rest[:2]
 
 
-def _fallback(course: dict, style: str) -> dict:
+def _fallback(course: dict, style: str, host: dict) -> dict:
     """GPT 없이 쓰는 간단한 소개 (강의 사실만으로)."""
     topic = course["good_for"][0]
     hooks = {  # 조사(은/는/이/가)가 붙지 않는 문장으로만 만든다
@@ -102,9 +102,9 @@ def _fallback(course: dict, style: str) -> dict:
         "오늘 연결": f"오늘 같은 날 필요한 {topic} 강의",
         "팁": f"{topic}, 더 편하게 하는 법",
         "질문": f"{topic}, 아직 손으로 하나요?",
-        "수달 추천": "수달 사원이 슬쩍 권하는 강의",
+        "당번 추천": f"{host['name']}의 슬쩍 추천 강의",
     }
-    return {"hook": hooks.get(style, hooks["공감"]), "pitch": course["facts"], "comment": "나도 이건 좀 들어봐야겠다."}
+    return {"hook": hooks.get(style, hooks["공감"]), "pitch": course["facts"], "comment": host.get("fallback_comment", "나도 이건 좀 들어봐야겠다.")}
 
 
 def make(project: Path, config: dict, day: str, news: dict, webtoon_title: str = "") -> dict | None:
@@ -115,13 +115,15 @@ def make(project: Path, config: dict, day: str, news: dict, webtoon_title: str =
     pool = candidates(courses, text, _recent_ids(project, day), day)
     style_name, style_rule = STYLES[int(hashlib.sha256(f"style{day}".encode()).hexdigest(), 16) % len(STYLES)]
     by_id = {course["id"]: course for course in pool}
+    host = hosts.host_for(day, project)
+    instructions = INSTRUCTIONS.replace("{PAPER}", host["paper"]).replace("{NAME}", host["name"]).replace("{VOICE}", host["comment_voice"])
 
     copy, chosen = None, pool[0]
     if llm.has_key():
         listing = "\n".join(f"- id={c['id']} | {c['title']} ({c['format']}) | facts: {c['facts']}" for c in pool)
         try:
             data = llm.ask_json(
-                config["curation"]["model"], INSTRUCTIONS,
+                config["curation"]["model"], instructions,
                 f"오늘 이야기:\n{text}\n\n강의 후보:\n{listing}\n\n말투 유형(style): {style_name} — {style_rule}",
                 SCHEMA, "course_card", "low",
             )
@@ -130,6 +132,6 @@ def make(project: Path, config: dict, day: str, news: dict, webtoon_title: str =
                 copy = {key: data[key].strip() for key in ("hook", "pitch", "comment")}
         except Exception as error:  # 강의 카드가 실패해도 뉴스 발행은 계속
             print(f"[경고] 강의 카드 문구 생성 실패, 기본 문구로: {type(error).__name__}: {error}")
-    copy = copy or _fallback(chosen, style_name)
+    copy = copy or _fallback(chosen, style_name, host)
     return {"course_id": chosen["id"], "title": chosen["title"], "url": chosen["url"], "format": chosen["format"],
             "style": style_name, **copy}

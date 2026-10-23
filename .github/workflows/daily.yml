@@ -21,6 +21,12 @@ on:
         default: full
         type: choice
         options: [full, webtoon, build, castsheet, webtoontest, ad, charsheet]
+      host:
+        description: "webtoontest일 때만: 시험해 볼 당번 (auto = 오늘 당번)"
+        required: false
+        default: auto
+        type: choice
+        options: [auto, dalmong, nyaong, mungmung]
       topic:
         description: "웹툰 소재로 쓸 뉴스 번호 (비우면 AI가 고름). charsheet일 때는 시안 id (비우면 전부)"
         required: false
@@ -66,6 +72,7 @@ jobs:
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
           MODE: ${{ github.event_name == 'push' && 'build' || github.event_name == 'schedule' && 'scheduled' || inputs.mode || 'full' }}
           TOPIC: ${{ inputs.topic }}
+          HOST_TEST: ${{ inputs.mode == 'webtoontest' && inputs.host != 'auto' && inputs.host || '' }}
         run: |
           case "$MODE" in
             build)   python daily.py --build-only ;;

@@ -9,12 +9,12 @@ import math
 import re
 from datetime import datetime, timezone
 
-from . import llm
+from . import hosts, llm
 from .style import NATURAL_KOREAN
 
 CATEGORIES = ["서비스·제품", "업무활용", "연구·기술", "기업·투자", "정책·사회", "교육"]
 
-SYSTEM_PROMPT = """너는 '한국GPT협회 수달일보'의 편집자다. 수달일보는 AI 교육 회사 한국GPT협회(기업강의·온라인교육)에 다니는 수달 사원이 매일 아침 협회 카카오 오픈채팅방에 올리는 AI 뉴스 브리핑이다.
+SYSTEM_PROMPT = """너는 '한국GPT협회 {PAPER}'의 편집자다. {PAPER}는 AI 교육 회사 한국GPT협회(기업강의·온라인교육)의 당번 사원이 하루씩 돌아가며 매일 아침 협회 카카오 오픈채팅방에 올리는 AI 뉴스 브리핑이다. 오늘 당번: {NAME}.
 독자는 AI를 업무와 생활에 써보고 싶은 한국 직장인과 학습자다. 개발자나 투자자가 아니다.
 
 편집 원칙
@@ -27,9 +27,9 @@ SYSTEM_PROMPT = """너는 '한국GPT협회 수달일보'의 편집자다. 수달
 작성 규칙
 - title_ko: 원문 의미를 지킨 간결한 한국어 제목. 40자 이내. 낚시성 과장 금지.
 - summary_ko: 무엇이 일어났는지 1~2문장, 120자 이내. 존댓말(~했습니다/~입니다).
-- sudal_comment: 한국GPT협회에 다니는, 피곤하지만 다정한 수달 사원이 동료에게 건네는 한마디. 반말, 40자 이내, 독자 입장에서 의미를 짚는다. 이모지 금지. 협회나 강의 홍보 문구는 넣지 않는다.
+- host_comment: {VOICE}. 40자 이내, 독자 입장에서 의미를 짚는다. 이모지 금지. 협회나 강의 홍보 문구는 넣지 않는다.
 - category: 주어진 목록 중 하나.
-- 마지막으로, 고른 기사 중 직장인의 일상 장면으로 4컷 웹툰을 만들기 가장 좋은 기사 하나를 webtoon에 지정하고, 수달 사원이 등장하는 4컷 아이디어를 한 문장으로 쓴다.
+- 마지막으로, 고른 기사 중 직장인의 일상 장면으로 4컷 웹툰을 만들기 가장 좋은 기사 하나를 webtoon에 지정하고, {NAME_IGA} 주인공인 4컷 아이디어를 한 문장으로 쓴다.
 - 제목과 요약은 기사 내용을 지키되, 신문 보도자료 말투가 아니라 동료에게 소식을 전하듯 쉬운 말로 쓴다.
 
 """ + NATURAL_KOREAN
@@ -42,10 +42,10 @@ def _schema(count: int) -> dict:
             "candidate_id": {"type": "integer"},
             "title_ko": {"type": "string"},
             "summary_ko": {"type": "string"},
-            "sudal_comment": {"type": "string"},
+            "host_comment": {"type": "string"},
             "category": {"type": "string", "enum": CATEGORIES},
         },
-        "required": ["candidate_id", "title_ko", "summary_ko", "sudal_comment", "category"],
+        "required": ["candidate_id", "title_ko", "summary_ko", "host_comment", "category"],
         "additionalProperties": False,
     }
     return {
@@ -86,10 +86,15 @@ def _source_entry(item: dict) -> dict:
     }
 
 
-def curate_with_gpt(candidates: list[dict], count: int, model: str, effort: str | None = None) -> dict:
+def system_prompt(host: dict) -> str:
+    return (SYSTEM_PROMPT.replace("{PAPER}", host["paper"]).replace("{NAME_IGA}", hosts.josa(host["name"], "이/가"))
+            .replace("{NAME}", host["name"]).replace("{VOICE}", host["comment_voice"]))
+
+
+def curate_with_gpt(candidates: list[dict], count: int, model: str, effort: str | None = None, host: dict | None = None) -> dict:
     data = llm.ask_json(
         model,
-        SYSTEM_PROMPT,
+        system_prompt(host or hosts.all_hosts()[0]),
         (
             f"오늘의 후보 기사 {len(candidates)}개다. 이 중 {count}개를 골라 작성 규칙대로 정리해줘. "
             f"candidate_id는 대괄호 안 번호다. 독자에게 가장 흥미로운 순서로 정렬해줘.\n\n"
@@ -109,7 +114,7 @@ def curate_with_gpt(candidates: list[dict], count: int, model: str, effort: str 
         items.append({
             "title": entry["title_ko"].strip(),
             "summary": entry["summary_ko"].strip(),
-            "comment": entry["sudal_comment"].strip(),
+            "comment": entry["host_comment"].strip(),
             "category": entry["category"],
             **_source_entry(candidates[index]),
         })
@@ -161,10 +166,11 @@ def curate_basic(candidates: list[dict], count: int) -> dict:
     return {"mode": "basic", "model": None, "items": items, "webtoon_suggestion": None}
 
 
-def curate(candidates: list[dict], count: int, model: str, use_ai: bool = True, effort: str | None = None) -> dict:
+def curate(candidates: list[dict], count: int, model: str, use_ai: bool = True, effort: str | None = None,
+           host: dict | None = None) -> dict:
     if use_ai and llm.has_key():
         try:
-            return curate_with_gpt(candidates, count, model, effort)
+            return curate_with_gpt(candidates, count, model, effort, host)
         except Exception as error:
             print(f"[경고] GPT 선별 실패, 기본 모드로 진행합니다: {type(error).__name__}: {error}")
     elif use_ai:
