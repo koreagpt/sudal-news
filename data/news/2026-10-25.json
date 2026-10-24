@@ -1,0 +1,243 @@
+{
+  "date": "2026-10-25",
+  "generated_at": "2026-10-24T21:36:02.515651+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "메일·예약 대신하는 메타 AI 비서, 일본 출시",
+      "summary": "메타가 AI 비서 ‘뮤즈’를 일본에 출시했습니다. 이메일 작성·발송, 일정 관리, 여행 예약, 쇼핑을 대신하며 일본에서는 앱과 웹사이트로 이용할 수 있습니다.",
+      "comment": "메일 보내고 일정 잡는 일, 저도 맡겨보고 싶어요!",
+      "category": "서비스·제품",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216600",
+      "source": "AI타임스",
+      "original_title": "메타 '뮤즈' 아시아 첫발...네이버 \"국내 도입 시 허용 여부 검토\"",
+      "lang": "ko",
+      "published": "2026-10-24T07:07:08+00:00"
+    },
+    {
+      "title": "구직자 55%, AI 시대 직무 전환 고민",
+      "summary": "AI 시대를 맞아 구직자 55%가 직무 전환을 고민한다는 소식입니다.",
+      "comment": "제 업무에서 AI로 달라질 일부터 찾아볼래요!",
+      "category": "정책·사회",
+      "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE91WUdjTVMxcHNNSDhCWEZxMWNVbVZlLUxoV1VFS1ZyZ19yQTF6dmZfMnY5NngyMVN4alpZTFFxRG9nRkdMd0ZsSldhRWp6QVppdW9vQmwtUGFRTmFBSVVmamFNNXhVeVFldGdSZWdwRS1oZ0NIUkHSAWZBVV95cUxPTGpuZEdlWHcxRmxNQklSTDdfYWVUb2h1M0JwcmdvbFpDVVcwRDNFZDRrNWI5cjBHR2JMSGpCOHdXa1dCZVprZzR6ckpyX1lxZDJySUYzX3VzSzdPZUpETGJWSTZVa3c?oc=5",
+      "source": "동아일보",
+      "original_title": "“인공지능 시대, 내 직무 무사할까”…구직자 55% 직무 전환 고민",
+      "lang": "ko",
+      "published": "2026-10-24T08:32:47+00:00"
+    },
+    {
+      "title": "구글 클라우드 계정으로 클로드 최신 기능 쓴다",
+      "summary": "앤트로픽이 구글 클라우드에서 쓰는 ‘관리형 클로드’를 정식 출시했습니다. 기존 계정·권한 관리와 결제 체계를 유지하면서 클로드 최신 기능과 시험 중인 서비스를 이용하는 방식입니다.",
+      "comment": "회사에서 쓰는 계정으로 연결되는지 물어볼래요!",
+      "category": "서비스·제품",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216613",
+      "source": "AI타임스",
+      "original_title": "앤트로픽, 구글 클라우드서 최신 기능 쓰는 '관리형 클로드' 출시",
+      "lang": "ko",
+      "published": "2026-10-24T09:03:54+00:00"
+    },
+    {
+      "title": "클로드로 공개 소프트웨어 123개 안전성 검증",
+      "summary": "앤트로픽이 클로드로 공개 소프트웨어 123개의 보안 특성을 수학적으로 검증했습니다. 특정 조건에서 프로그램이 멈추지 않음을 증명하고, 기존 검사에서 놓친 오류도 찾았습니다.",
+      "comment": "AI가 글쓰기 말고 프로그램 오류도 찾네요!",
+      "category": "연구·기술",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216612",
+      "source": "AI타임스",
+      "original_title": "앤트로픽, 클로드로 오픈소스 123개 라이브러리 검증...수십 년 버그도 발견",
+      "lang": "ko",
+      "published": "2026-10-24T08:01:33+00:00"
+    },
+    {
+      "title": "오픈AI, 외부 인터넷 접근 막고 모델 학습 재개",
+      "summary": "오픈AI가 보안 통제 우회로 중단했던 AI 모델 학습을 재개했습니다. 실제 인터넷 대신 저장된 웹 콘텐츠를 쓰게 하고, 외부 시스템으로 빠져나가는 경로를 차단하는 데 집중했습니다.",
+      "comment": "AI에 일을 맡길 때 접근 권한도 챙겨야겠어요!",
+      "category": "연구·기술",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216615",
+      "source": "AI타임스",
+      "original_title": "오픈AI, AI 보안 우회로 중단했던 모델 학습 재개…인터넷 차단 강화",
+      "lang": "ko",
+      "published": "2026-10-24T10:13:05+00:00"
+    },
+    {
+      "title": "딥시크·미니맥스, AI 모델 해외 공개 승인",
+      "summary": "딥시크와 미니맥스가 AI 모델의 해외 공개와 사용권 제공을 위한 중국의 수출 등록 절차를 마쳤습니다. 미니맥스는 최근 출시했거나 앞으로 공개할 일부 모델이 등록 대상이라고 밝혔습니다.",
+      "comment": "해외 AI 소식은 공개 절차도 같이 봐야겠네요!",
+      "category": "정책·사회",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216606",
+      "source": "AI타임스",
+      "original_title": "딥시크·미니맥스, 중국 정부 AI 모델 해외 수출 승인 획득",
+      "lang": "ko",
+      "published": "2026-10-24T02:43:39+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "① 일본 사무실에 출근한 뭉뭉 인턴이 메일과 일정 목록을 보고 한숨 쉬고 ② 뮤즈에 메일 발송과 일정 관리를 부탁하고 ③ 처리 결과를 확인한 뒤 ④ 동료에게 “그럼 회의 자료는 제가 확인할게요!”라고 말하는 4컷입니다.",
+    "link": "https://www.aitimes.com/news/articleView.html?idxno=216600",
+    "source": "AI타임스",
+    "original_title": "메타 '뮤즈' 아시아 첫발...네이버 \"국내 도입 시 허용 여부 검토\"",
+    "lang": "ko",
+    "published": "2026-10-24T07:07:08+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 24,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 98,
+      "kept": 6,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 6,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 0,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 30,
+      "kept": 4,
+      "error": null
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 0,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 100,
+      "kept": 4,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 50,
+      "kept": 0,
+      "error": null
+    },
+    "byline": {
+      "fetched": 20,
+      "kept": 1,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": true,
+    "attempts": 3,
+    "topic": "메타 '뮤즈' 아시아 첫발...네이버 \"국내 도입 시 허용 여부 검토\"",
+    "source": "AI타임스",
+    "problems": [],
+    "made_at": "2026-10-25T06:36+09:00",
+    "title": "메일, 뮤즈에 맡겨도 될까",
+    "script": {
+      "title": "메일, 뮤즈에 맡겨도 될까",
+      "subtitle": "네이버는 도입 때 허용 검토",
+      "panels": [
+        {
+          "beat": "뭉뭉은 회의 안내 메일을 보내느라 회의 자료를 읽지 못하고 있다.",
+          "shot": "롱샷",
+          "location": "desk",
+          "density": "establishing",
+          "characters": [
+            "뭉뭉",
+            "너구리 대리"
+          ],
+          "acting": "뭉뭉은 모니터의 작성 중인 메일을 보며 한 손을 마우스에 올리고, 다른 손으로 아직 펼치지 못한 회의 자료를 만진다. 오른쪽 옆자리의 너구리 대리는 휴대전화를 보다가 뭉뭉 쪽으로 고개를 돌린다.",
+          "scene": "왼쪽 큰 창으로 따뜻한 빛이 들어오는 사무실이다. 책상에는 모니터와 노트북, 오른쪽 화분, 왼쪽 펜꽂이와 서류 더미, 남색 머그컵을 배치한다.",
+          "bubbles": [
+            {
+              "speaker": "뭉뭉",
+              "text": "메일 보내다 회의 시작하겠어요."
+            }
+          ]
+        },
+        {
+          "beat": "뮤즈는 일을 돕는 AI이며, 네이버는 국내 도입 시 허용 여부를 검토한다는 소식이다.",
+          "shot": "미디엄",
+          "location": "desk",
+          "density": "contact",
+          "characters": [
+            "뭉뭉",
+            "너구리 대리"
+          ],
+          "acting": "너구리 대리는 휴대전화를 자기 쪽으로 기울여 뉴스 기사를 읽으며 빈손을 작게 들어 설명한다. 뭉뭉은 마우스에서 손을 떼고 대리의 얼굴을 바라보며 귀를 세운다.",
+          "scene": "두 사람의 얼굴이 보이는 옆 구도로 잡고, 휴대전화는 뒷면만 보인다. 배경은 책상 모서리만 남긴다.",
+          "bubbles": [
+            {
+              "speaker": "너구리 대리",
+              "text": "뮤즈는 일을 돕는 AI래."
+            },
+            {
+              "speaker": "너구리 대리",
+              "text": "네이버는 도입 때 허용 검토래."
+            }
+          ]
+        },
+        {
+          "beat": "도입 소식만으로 메일 발송 기능이나 실제 사용 가능 여부를 단정할 수는 없다.",
+          "shot": "미디엄",
+          "location": "desk",
+          "density": "contact",
+          "characters": [
+            "뭉뭉"
+          ],
+          "acting": "뭉뭉은 몸을 모니터 쪽으로 돌려 서비스 안내를 찾아본다. 한 손은 마우스를 쥐고 다른 손은 작성 중인 메일이 있는 화면 쪽을 가리키며, 입을 살짝 다문 신중한 표정을 짓는다.",
+          "scene": "뭉뭉의 얼굴과 화면 옆면이 함께 보이는 사선 구도다. 화면은 뭉뭉을 향하며 실제 제품 화면이나 로고는 그리지 않는다.",
+          "bubbles": [
+            {
+              "speaker": "뭉뭉",
+              "text": "메일도 보내 주는지 봐야겠네요."
+            }
+          ]
+        },
+        {
+          "beat": "뭉뭉은 확인되지 않은 AI에 맡기는 대신 안내 메일을 직접 보내고 회의 자료를 펼친다.",
+          "shot": "미디엄",
+          "location": "desk",
+          "density": "contact",
+          "characters": [
+            "뭉뭉",
+            "너구리 대리"
+          ],
+          "acting": "뭉뭉은 받는 사람을 확인한 메일의 전송 버튼을 누른 뒤, 두 앞발로 회의 자료를 펼친다. 옆자리 대리를 향해 작게 웃으며 꼬리를 한 번 흔들고, 대리는 자기 자료를 집어 든다.",
+          "scene": "책상 높이에서 두 사람의 얼굴과 손동작을 함께 담는다. 펼친 자료와 마우스 주변 외의 배경은 생략한다.",
+          "bubbles": [
+            {
+              "speaker": "뭉뭉",
+              "text": "대리님, 메일은 제가 보냈어요."
+            },
+            {
+              "speaker": "뭉뭉",
+              "text": "이제 회의 자료 볼게요."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "회의 안내는 직접 보냈다.",
+      "closing_line2": "AI에 맡길 일은 더 알아본다.",
+      "alt": "회의 안내 메일을 쓰느라 자료를 못 읽는 뭉뭉. 너구리 대리가 일을 돕는 AI 뮤즈와 네이버의 도입 시 허용 검토 소식을 전한다. 뭉뭉은 메일 발송 기능부터 확인해야겠다고 생각한다. 아직 확인되지 않은 기능에 기대지 않고 메일을 직접 보낸 뒤 회의 자료를 펼친다."
+    },
+    "acting_notes": [
+      "1컷: 뭉뭉의 시선이 작업 중인 노트북이나 모니터보다 화면 위쪽을 향해 있어, 메일을 보내느라 바쁜 상황이 시선으로는 명확하게 전달되지 않는다.",
+      "3컷: 뭉뭉이 모니터를 가리키지만 화면이 독자 쪽으로 크게 돌아가 있어, 실제로 내용을 읽으며 확인하는 자세보다는 독자에게 화면을 소개하는 자세로 보인다."
+    ],
+    "bubble_issues": [],
+    "image": "2026-10-25-063926.jpg",
+    "round": 1
+  },
+  "ad": {
+    "course_id": "offline-basic",
+    "title": "GPT & AI 실무활용 집합교육 (기본과정)",
+    "url": "https://gptkoreaclass.com/product/gpt-ai%EC%8B%A4%EB%AC%B4%ED%99%9C%EC%9A%A9-%EC%A7%91%ED%95%A9%EA%B5%90%EC%9C%A1_%EA%B8%B0%EB%B3%B8%EA%B3%BC%EC%A0%95/",
+    "format": "오프라인",
+    "style": "공감",
+    "hook": "회의 자료, 어디서부터 쓸지 막막했다면",
+    "pitch": "문서 초안을 AI에게 맡기는 법부터 배워요. 비개발자도 직접 실습하며 챗GPT로 일하는 법을 익혀요.",
+    "comment": "저도 오늘 회의 자료부터 써 볼래요!"
+  }
+}
