@@ -779,8 +779,20 @@ body.drawer-open { overflow: hidden; }
   color: var(--navy);
 }
 
-.drawer-org { display: grid; gap: 8px; margin: 0 0 6px; }
-.drawer-org .org-link { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; }
-.drawer-org .org-link span { display: inline; }
+.drawer-org { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 0 0 6px; }
+.drawer-org .org-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 6px 4px;
+  font-size: 13px;
+  line-height: 1.25;
+  text-align: center;
+  white-space: normal;
+  word-break: keep-all;
+  box-shadow: 2px 2px 0 var(--fur-light);
+}
+.drawer-org .org-link span { display: none; }
 .drawer-title { margin: 22px 0 0; font-family: var(--display); font-weight: 400; font-size: 20px; }
 .drawer-title + .drawer-month h3 { margin-top: 10px; }

@@ -1,6 +1,7 @@
 """data/ 의 뉴스·웹툰 기록으로 정적 페이지(public/)를 만든다."""
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import shutil
@@ -11,6 +12,8 @@ from pathlib import Path
 from . import KST, hosts, og
 
 WEEKDAYS = "월화수목금토일"
+# 디자인(style.css)이 바뀌면 주소 꼬리표도 바뀌어 브라우저가 옛 디자인을 쓰지 않는다
+_STYLE_VERSION = hashlib.md5((Path(__file__).resolve().parent.parent / "static" / "style.css").read_bytes()).hexdigest()[:8]
 
 
 def _korean_date(day: str, long: bool = True) -> str:
@@ -58,7 +61,7 @@ def _head(site: dict, title: str, description: str, root: str, og_image: str | N
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="{root}static/style.css">{_theme(site)}
+<link rel="stylesheet" href="{root}static/style.css?v={_STYLE_VERSION}">{_theme(site)}
 </head>
 <body>
 <div class="page">"""
