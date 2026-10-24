@@ -24,6 +24,15 @@ AI_PATTERN = re.compile(
 )
 
 
+# 의견·홍보 글이나 자극적인 제목은 후보에서 뺀다 (사실을 전하는 보도만 남기기)
+OPINION_PATTERN = re.compile(
+    r"\[(칼럼|사설|기고|오피니언|시론|기자수첩|데스크|논단|인터뷰|기획|광고|AD|PR|협찬|포토|영상)[^\]]*\]|"
+    r"\[[^\]]*의\s[^\]]*\]|\[[^\]]*人[^\]]*\]|"  # [홍길동의 ○○] 같은 개인 연재, [人사이트] 같은 인물 기획
+    r"충격|경악|소름|섬뜩|오싹|발칵|역대급|대참사|난리|폭망|폭로|미쳤|헉|ㄷㄷ|단독\s*입수"
+)
+HANGUL = re.compile(r"[가-힣]")
+
+
 def _text(element, *tags):
     for tag in tags:
         found = element.find(tag)
@@ -124,6 +133,10 @@ def collect(feeds: list[dict], window_hours: int, now: datetime | None = None) -
             if item["published"] is None or not (since <= item["published"] <= now + timedelta(hours=1)):
                 continue
             if not feed.get("ai_only") and not AI_PATTERN.search(item["title"] + " " + item["snippet"]):
+                continue
+            if not HANGUL.search(item["title"]) or OPINION_PATTERN.search(item["title"]):  # 한국어 사실 보도만
+                continue
+            if feed.get("allow_sources") and item["source"] not in feed["allow_sources"]:  # 구글뉴스는 주요 국내 언론만
                 continue
             key = _key(item["title"])
             if item["link"] in seen_links or key in seen_titles:

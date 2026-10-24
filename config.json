@@ -49,7 +49,50 @@
       "name": "구글뉴스",
       "url": "https://news.google.com/rss/search?q=%EC%83%9D%EC%84%B1%ED%98%95AI%20OR%20%EC%B1%97GPT%20OR%20%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5%20when%3A1d&hl=ko&gl=KR&ceid=KR%3Ako",
       "lang": "ko",
-      "ai_only": true
+      "ai_only": true,
+      "allow_sources": [
+        "연합뉴스",
+        "뉴스1",
+        "뉴시스",
+        "KBS",
+        "MBC",
+        "SBS",
+        "YTN",
+        "JTBC",
+        "연합뉴스TV",
+        "조선일보",
+        "중앙일보",
+        "동아일보",
+        "한겨레",
+        "경향신문",
+        "한국일보",
+        "서울신문",
+        "국민일보",
+        "매일경제",
+        "한국경제",
+        "서울경제",
+        "머니투데이",
+        "이데일리",
+        "아시아경제",
+        "헤럴드경제",
+        "파이낸셜뉴스",
+        "디지털데일리",
+        "디지털타임스",
+        "전자신문",
+        "지디넷코리아",
+        "ZDNet Korea",
+        "블로터",
+        "아이뉴스24",
+        "테크M",
+        "바이라인네트워크",
+        "AI타임스",
+        "IT조선",
+        "조선비즈",
+        "한국경제TV",
+        "MBN",
+        "채널A",
+        "TV조선"
+      ]
     },
     {
       "id": "zdnet_kr",
@@ -73,32 +116,32 @@
       "ai_only": false
     },
     {
-      "id": "openai",
-      "name": "OpenAI",
-      "url": "https://openai.com/news/rss.xml",
-      "lang": "en",
-      "ai_only": true
+      "id": "techm",
+      "name": "테크M",
+      "url": "https://www.techm.kr/rss/allArticle.xml",
+      "lang": "ko",
+      "ai_only": false
     },
     {
-      "id": "google_ai",
-      "name": "Google AI 블로그",
-      "url": "https://blog.google/technology/ai/rss/",
-      "lang": "en",
-      "ai_only": true
+      "id": "inews24",
+      "name": "아이뉴스24",
+      "url": "https://www.inews24.com/rss/news_it.xml",
+      "lang": "ko",
+      "ai_only": false
     },
     {
-      "id": "techcrunch_ai",
-      "name": "TechCrunch",
-      "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
-      "lang": "en",
-      "ai_only": true
+      "id": "hankyung_it",
+      "name": "한국경제",
+      "url": "https://www.hankyung.com/feed/it",
+      "lang": "ko",
+      "ai_only": false
     },
     {
-      "id": "verge_ai",
-      "name": "The Verge",
-      "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
-      "lang": "en",
-      "ai_only": true
+      "id": "byline",
+      "name": "바이라인네트워크",
+      "url": "https://byline.network/feed/",
+      "lang": "ko",
+      "ai_only": false
     }
   ],
   "kakao": {
