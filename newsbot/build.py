@@ -133,13 +133,19 @@ def _drawer(site: dict, root: str) -> str:
             is_open = " open" if (year, month, week) == open_week else ""
             rows.append(f'<details{is_open}><summary>{week}주차 <span>{span}</span></summary><ul>{links}</ul></details>')
         blocks.append(f'<section class="drawer-month"><h3>{year}년 {month}월</h3>{"".join(rows)}</section>')
+    org = "".join(  # 맨 위: 하단과 같은 협회 바로가기 버튼
+        f'<a class="org-link" href="{escape(link["url"])}" target="_blank" rel="noopener">{escape(link["label"])} <span aria-hidden="true">↗</span></a>'
+        for link in site.get("links", [])
+    )
+    org = f'\n  <nav class="drawer-org" aria-label="{escape(site["publisher"])} 바로가기">{org}</nav>' if org else ""
     return f"""
 <button type="button" class="menu-btn" aria-label="지난 일보 목록 열기" aria-controls="drawer" aria-expanded="false">
   <span></span><span></span><span></span>
 </button>
 <div class="drawer-backdrop" hidden></div>
 <nav class="drawer" id="drawer" aria-label="지난 일보" hidden>
-  <div class="drawer-head"><strong>지난 일보</strong><button type="button" class="drawer-close" aria-label="닫기">✕</button></div>
+  <div class="drawer-head"><strong>{escape(site["publisher"])}</strong><button type="button" class="drawer-close" aria-label="닫기">✕</button></div>{org}
+  <h2 class="drawer-title">지난 일보</h2>
   {"".join(blocks)}
   <a class="drawer-all" href="{root}archive/index.html">전체 목록 보기</a>
 </nav>

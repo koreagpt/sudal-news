@@ -778,3 +778,9 @@ body.drawer-open { overflow: hidden; }
   font-weight: 700;
   color: var(--navy);
 }
+
+.drawer-org { display: grid; gap: 8px; margin: 0 0 6px; }
+.drawer-org .org-link { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; }
+.drawer-org .org-link span { display: inline; }
+.drawer-title { margin: 22px 0 0; font-family: var(--display); font-weight: 400; font-size: 20px; }
+.drawer-title + .drawer-month h3 { margin-top: 10px; }
