@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 import shutil
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 from datetime import date as Date, datetime
 from html import escape
 from pathlib import Path
@@ -61,10 +62,32 @@ def _head(site: dict, title: str, description: str, root: str, og_image: str | N
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="{root}static/style.css?v={_STYLE_VERSION}">{_theme(site)}
+<link rel="stylesheet" href="{root}static/style.css?v={_STYLE_VERSION}">{_theme(site)}{_analytics(site, url)}
 </head>
 <body>
 <div class="page">"""
+
+
+OPERATOR_PAGES = ("share/", "kakao/", "send/")  # 운영자 화면은 방문 통계에서 뺀다
+
+
+def _analytics(site: dict, url: str) -> str:
+    """구글 애널리틱스 (방문 수, 협회·강의·블로그로 나가는 클릭은 '향상된 측정'이 자동으로 센다)."""
+    tag = site.get("analytics_id")
+    if not tag or url.startswith(OPERATOR_PAGES):
+        return ""
+    return f"""
+<script async src="https://www.googletagmanager.com/gtag/js?id={escape(tag)}"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){{dataLayer.push(arguments);}}
+gtag('js', new Date()); gtag('config', '{escape(tag)}');</script>"""
+
+
+def _utm(url: str, medium: str) -> str:
+    """협회 사이트·블로그 쪽 통계에서 '일보에서 들어온 방문'이 보이게 꼬리표를 붙인다."""
+    parts = urlsplit(url)
+    query = dict(parse_qsl(parts.query))
+    query.update({"utm_source": "sudal_news", "utm_medium": medium, "utm_campaign": "daily_news"})
+    return urlunsplit(parts._replace(query=urlencode(query)))
 
 
 def _theme(site: dict) -> str:
@@ -137,7 +160,7 @@ def _drawer(site: dict, root: str) -> str:
             rows.append(f'<details{is_open}><summary>{week}주차 <span>{span}</span></summary><ul>{links}</ul></details>')
         blocks.append(f'<section class="drawer-month"><h3>{year}년 {month}월</h3>{"".join(rows)}</section>')
     org = "".join(  # 맨 위: 하단과 같은 협회 바로가기 버튼
-        f'<a class="org-link" href="{escape(link["url"])}" target="_blank" rel="noopener">{escape(link["label"])} <span aria-hidden="true">↗</span></a>'
+        f'<a class="org-link" href="{escape(_utm(link["url"], "menu"))}" target="_blank" rel="noopener">{escape(link["label"])} <span aria-hidden="true">↗</span></a>'
         for link in site.get("links", [])
     )
     org = f'\n  <nav class="drawer-org" aria-label="{escape(site["publisher"])} 바로가기">{org}</nav>' if org else ""
@@ -194,7 +217,7 @@ def _footer(site: dict, root: str) -> str:
     publisher = escape(site["publisher"])
     reporter = site.get("reporter", {})
     links = "".join(
-        f'<a class="org-link" href="{escape(link["url"])}" target="_blank" rel="noopener">'
+        f'<a class="org-link" href="{escape(_utm(link["url"], "footer"))}" target="_blank" rel="noopener">'
         f'{escape(link["label"])} <span aria-hidden="true">↗</span></a>'
         for link in site.get("links", [])
     )
@@ -216,7 +239,7 @@ def _footer(site: dict, root: str) -> str:
   </section>{_crew(site, root)}
   <p class="org"><strong>{publisher}</strong>에서 AI를 배워 보세요</p>{contact}
   <p class="fine">{escape(_brand_name(site))}는 {publisher}가 매일 아침 전하는 AI 뉴스 브리핑입니다.
-  기사의 저작권은 각 언론사에 있으며, 요약은 AI가 작성해 원문과 다를 수 있습니다.</p>
+  기사의 저작권은 각 언론사에 있으며, 요약은 AI가 작성해 원문과 다를 수 있습니다.{"<br>더 나은 일보를 위해 방문 통계(구글 애널리틱스)를 수집합니다." if site.get("analytics_id") else ""}</p>
 </footer>
 </div>
 </body>
@@ -252,14 +275,14 @@ def _ad_card(ad: dict, root: str, site: dict) -> str:
   <li class="card ad-card">
     <div class="card-meta"><span class="ad-label">협회 강의</span><span class="ad-format">{escape(ad.get("format", ""))}</span></div>
     <p class="ad-hook">{escape(ad["hook"])}</p>
-    <h3><a href="{escape(ad["url"])}" target="_blank" rel="noopener">{escape(ad["title"])}</a></h3>
+    <h3><a href="{escape(_utm(ad["url"], "course_card"))}" target="_blank" rel="noopener">{escape(ad["title"])}</a></h3>
     <p class="summary">{escape(ad["pitch"])}</p>
     <div class="comment">
       <img src="{root}{site.get("face", "static/img/dalmong-face.png")}" alt="{escape(site.get("reporter", {}).get("name", ""))}" width="34" height="34">
       <p>{escape(ad["comment"])}</p>
     </div>
     <p class="source">한국GPT협회 온라인교육
-      <a class="ad-go" href="{escape(ad["url"])}" target="_blank" rel="noopener">강의 보러 가기 <span aria-hidden="true">↗</span></a></p>
+      <a class="ad-go" href="{escape(_utm(ad["url"], "course_card"))}" target="_blank" rel="noopener">강의 보러 가기 <span aria-hidden="true">↗</span></a></p>
   </li>"""
 
 
@@ -307,7 +330,7 @@ def _blog_banner(site: dict) -> str:
     if not banner or not banner.get("url"):
         return ""
     return f"""
-<a class="blog-banner" href="{escape(banner["url"])}" target="_blank" rel="noopener">
+<a class="blog-banner" href="{escape(_utm(banner["url"], "blog_banner"))}" target="_blank" rel="noopener">
   <span class="blog-banner-icon" aria-hidden="true">{escape(banner.get("icon", "📝"))}</span>
   <span class="blog-banner-text"><span class="blog-banner-label">{escape(banner.get("label", "AI 정보 블로그"))}</span>
     <span class="blog-banner-title">{escape(banner["title"])}</span></span>
