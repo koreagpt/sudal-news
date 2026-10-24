@@ -33,7 +33,7 @@ on:
         default: ""
   push:                    # 웹툰·디자인을 바꿔 올리면 페이지만 다시 생성
     branches: [main]
-    paths: ["data/webtoons/**", "data/webtoons.json", "static/**", "newsbot/**", "config.json"]
+    paths: ["data/webtoons/**", "data/webtoons.json", "data/hosts.json", "static/**", "newsbot/**", "config.json"]
 
 permissions:
   contents: write
