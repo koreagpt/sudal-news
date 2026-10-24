@@ -806,3 +806,50 @@ body.drawer-open { overflow: hidden; }
 }
 .drawer-title { margin: 22px 0 0; font-family: var(--display); font-weight: 400; font-size: 20px; }
 .drawer-title + .drawer-month h3 { margin-top: 10px; }
+
+/* ---------- 뉴스 아래 협회 블로그 배너 (남색 띠) ---------- */
+.blog-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 6px;
+  padding: 14px 16px;
+  background: var(--org);
+  color: #fff;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 var(--fur-light);
+  text-decoration: none;
+}
+
+.blog-banner:hover { filter: brightness(1.12); }
+
+.blog-banner-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f7dc86;
+  font-size: 22px;
+}
+
+.blog-banner-text { flex: 1; min-width: 0; }
+.blog-banner-label { display: block; margin-bottom: 2px; font-size: 11.5px; opacity: 0.8; }
+.blog-banner-title { display: block; font-size: 15px; font-weight: 700; line-height: 1.35; }
+
+.blog-banner-go {
+  flex: none;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--org);
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .blog-banner-go { padding: 6px 8px; font-size: 12px; }
+}

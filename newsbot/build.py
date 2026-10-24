@@ -301,6 +301,20 @@ def _news_section(news: dict | None, root: str, site: dict) -> str:
 </section>"""
 
 
+def _blog_banner(site: dict) -> str:
+    """뉴스 6건 아래 가로 배너: 협회 블로그 글 하나 (기사 중간 강의 카드와는 다른 모양)."""
+    banner = site.get("blog_banner")
+    if not banner or not banner.get("url"):
+        return ""
+    return f"""
+<a class="blog-banner" href="{escape(banner["url"])}" target="_blank" rel="noopener">
+  <span class="blog-banner-icon" aria-hidden="true">{escape(banner.get("icon", "📝"))}</span>
+  <span class="blog-banner-text"><span class="blog-banner-label">{escape(banner.get("label", "AI 정보 블로그"))}</span>
+    <span class="blog-banner-title">{escape(banner["title"])}</span></span>
+  <span class="blog-banner-go">보러 가기 <span aria-hidden="true">↗</span></span>
+</a>"""
+
+
 def _description(news: dict | None, site: dict) -> str:
     titles = [item["title"] for item in (news or {}).get("items", [])[:3]]
     return " / ".join(titles) if titles else site["tagline"]
@@ -321,6 +335,7 @@ def render_day(site, day, news, webtoons, issue_no, root, url, og_image) -> str:
         + "\n<main>"
         + _webtoon_section(toon, is_today, root)
         + _news_section(news, root, site)
+        + _blog_banner(site)
         + "\n</main>"
         + _footer(site, root)
     )

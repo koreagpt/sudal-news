@@ -26,7 +26,13 @@
         "label": "AI 정보 블로그",
         "url": "https://blog.naver.com/mtckr/224432954999"
       }
-    ]
+    ],
+    "blog_banner": {
+      "label": "한국GPT협회 AI 정보 블로그",
+      "title": "영상 편집 없이? 클로드, ChatGPT로 45초 릴스 광고 만들기",
+      "url": "https://blog.naver.com/mtckr/224432954999",
+      "icon": "🎬"
+    }
   },
   "curation": {
     "count": 6,
