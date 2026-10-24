@@ -119,6 +119,13 @@ def script_instructions(bible: dict) -> str:
 - 감정은 이유와 행동으로 보여 준다. 느낌표·말줄임표를 남발하지 않는다.
 - 한 말풍선은 한 번의 말하기 호흡이다. A→B→A처럼 번갈아 말하면 말풍선을 나누고, 같은 사람이 이어서 하는 말은 한 컷에 두 개까지만.
 
+쉬운 말 규칙 (어른들도 바로 이해하게)
+- 처음 보는 50~60대 독자가 뉴스를 안 읽어도 '무슨 AI 기능 이야기인지, 무엇이 달라졌는지, 그래서 어떻게 하면 되는지'를 웹툰만 보고 알 수 있어야 한다.
+- 2컷에서 오늘의 AI 기능을 쉬운 말로 한 번 풀어 준다(예: '이제 클로드가 일할 때마다 허락을 안 물어본대.').
+- '원문', '그거', '이번엔'처럼 무엇을 가리키는지 앞 대사나 그림으로 설명되지 않은 말을 쓰지 않는다.
+- 마무리 두 줄은 비유 없이 오늘의 요점을 그대로 말한다. 나쁜 예: '승인 누르던 손으로 이번엔 원문을 짚었다.' 좋은 예: '허락 누르는 일은 줄었다.', '결과 확인은 여전히 내 몫.'
+- 인물의 행동과 소품은 대사와 맞아야 한다. 화면 속 결과를 확인하는 이야기면 화면을 보고, 종이를 짚게 하려면 그 종이가 무엇인지 대사로 먼저 나온다.
+
 연기 규칙 (표정·행동)
 - beat: 그 컷에서 독자가 새로 알게 되는 것 하나.
 - acting: 누가 무엇을 보는지(시선), 손이 무엇을 쥐거나 만지는지(접촉), 몸 자세와 표정을 함께 쓴다. 얼굴만으로 감정을 해결하지 않는다.
@@ -291,7 +298,38 @@ def pick_topic(news: dict, topic: int | None = None) -> dict:
     raise RuntimeError("웹툰 소재로 쓸 뉴스가 없습니다.")
 
 
-def write_script(model: str, source: dict, bible: dict, recent: str = "") -> dict:
+CLARITY_INSTRUCTIONS = """너는 이 웹툰을 처음 보는 50~60대 독자다. 원래 뉴스 기사는 읽지 않았다.
+대본의 제목·부제·대사·마무리 두 줄·컷별 행동만 보고 아래를 판단한다. 조금이라도 깊이 생각해야 이해되면 문제로 적는다.
+- 무슨 AI 기능(또는 서비스) 이야기인지 바로 알 수 있는가.
+- 무엇이 달라졌는지 바로 알 수 있는가.
+- 마무리 두 줄이 비유 없이 바로 이해되는가.
+- 설명 없이 나온 영어·전문용어나 무엇을 가리키는지 모를 말('원문', '그거' 등)이 있는가. 있으면 unclear_words에 적는다.
+- 인물의 행동·소품이 대사와 맞는가 (예: 결과를 확인한다면서 설명 없는 종이를 짚음).
+clear는 위 문제가 하나도 없을 때만 true. problems에는 고칠 점을 한 줄씩 구체적으로 적는다."""
+
+CLARITY_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "clear": {"type": "boolean"},
+        "problems": {"type": "array", "items": {"type": "string"}},
+        "unclear_words": {"type": "array", "items": {"type": "string"}},
+    },
+    "required": ["clear", "problems", "unclear_words"],
+    "additionalProperties": False,
+}
+
+
+def check_script(model: str, script: dict) -> dict:
+    """그리기 전에 '처음 보는 어른이 바로 이해하는지' 글로만 검사한다 (그림 값이 들지 않는다)."""
+    lines = [f"제목: {script['title']}", f"부제: {script['subtitle']}"]
+    for number, panel in enumerate(script["panels"], 1):
+        talk = " / ".join(f"{b['speaker']}: {b['text']}" for b in panel["bubbles"])
+        lines.append(f"{number}컷 행동: {panel['acting']} | 대사: {talk}")
+    lines.append(f"마무리: {script['closing_line1']} {script['closing_line2']}")
+    return llm.ask_json(model, CLARITY_INSTRUCTIONS, "\n".join(lines), CLARITY_SCHEMA, "script_clarity", "low")
+
+
+def write_script(model: str, source: dict, bible: dict, recent: str = "", check_model: str | None = None) -> dict:
     lines = [
         f"뉴스 제목: {source.get('title') or source.get('original_title')}",
         f"원제목: {source.get('original_title', '')}",
@@ -302,10 +340,20 @@ def write_script(model: str, source: dict, bible: dict, recent: str = "") -> dic
         lines.append(f"편집자의 4컷 아이디어: {source['idea']}")
     if recent:
         lines.append("최근 회차 (역할·장소·결말을 겹치지 않게):\n" + recent)
-    script = llm.ask_json(model, script_instructions(bible), "\n".join(lines), script_schema(bible), "webtoon_script", "low")
-    if len(script["panels"]) != 4:
-        raise RuntimeError(f"대본의 컷 수가 4개가 아닙니다: {len(script['panels'])}개")
-    return script
+    feedback: list[str] = []
+    for attempt in range(1, 4):  # 이해하기 어려우면 그리기 전에 대본부터 다시 쓴다 (최대 3번)
+        content = "\n".join(lines)
+        if feedback:
+            content += "\n\n지난 대본은 처음 보는 어른이 이해하기 어려웠다. 이 점을 고쳐 새로 쓴다:\n- " + "\n- ".join(feedback)
+        script = llm.ask_json(model, script_instructions(bible), content, script_schema(bible), "webtoon_script", "low")
+        if len(script["panels"]) != 4:
+            raise RuntimeError(f"대본의 컷 수가 4개가 아닙니다: {len(script['panels'])}개")
+        verdict = check_script(check_model or model, script)
+        if verdict["clear"]:
+            return script
+        feedback = verdict["problems"] + [f"설명 없이 나온 말: {word}" for word in verdict["unclear_words"]]
+        print(f"  대본이 이해하기 어려워 다시 씀 ({attempt}회차): {feedback}")
+    return script  # 세 번 다 애매하면 마지막 대본으로 진행 (발행은 멈추지 않는다)
 
 
 def _cast_in(script: dict, bible: dict) -> list[dict]:
@@ -513,7 +561,7 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
         "made_at": datetime.now(KST).isoformat(timespec="minutes"),
     }
 
-    script = script or write_script(settings["script_model"], source, bible, recent_episodes(project, day))
+    script = script or write_script(settings["script_model"], source, bible, recent_episodes(project, day), settings["review_model"])
     status["title"] = script["title"]
     status["script"] = script  # 검수에서 떨어져도 대본은 남겨 둔다
     drafts = project / "data" / "drafts"
