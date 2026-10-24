@@ -532,9 +532,9 @@ html { scroll-behavior: smooth; }
 .redo summary { cursor: pointer; font-weight: 700; color: var(--navy); }
 .redo ol { margin: 8px 0 0; padding-left: 20px; color: var(--ink-soft); }
 
-@media (max-width: 420px) {
-  .org-link { padding: 11px 2px; font-size: 13.5px; letter-spacing: -0.3px; }
-  .org-link span { display: none; }
+@media (max-width: 420px) {  /* 휴대폰: 화살표는 칸 오른쪽 위 모서리에 작게 (메뉴와 같은 모양) */
+  .org-link { position: relative; padding: 13px 10px 9px; font-size: 13.5px; letter-spacing: -0.3px; }
+  .org-link span { position: absolute; top: 3px; right: 6px; font-size: 11px; line-height: 1; opacity: 0.85; }
 }
 
 /* ---------- 협회 강의 카드 (뉴스 사이 하루 1개) ---------- */
