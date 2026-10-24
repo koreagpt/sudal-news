@@ -792,7 +792,17 @@ body.drawer-open { overflow: hidden; }
   white-space: normal;
   word-break: keep-all;
   box-shadow: 2px 2px 0 var(--fur-light);
+  position: relative;
+  padding: 10px 12px 6px;
 }
-.drawer-org .org-link span { display: none; }
+.drawer-org .org-link span {  /* 누르면 이동한다는 표시: 칸 오른쪽 위 작은 화살표 */
+  display: block;
+  position: absolute;
+  top: 3px;
+  right: 6px;
+  font-size: 11px;
+  line-height: 1;
+  opacity: 0.85;
+}
 .drawer-title { margin: 22px 0 0; font-family: var(--display); font-weight: 400; font-size: 20px; }
 .drawer-title + .drawer-month h3 { margin-top: 10px; }
