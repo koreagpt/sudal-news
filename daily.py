@@ -67,8 +67,9 @@ def make_webtoon(config: dict, day: str, news: dict, topic: int | None, save: bo
         previous = news.get("webtoon_status")
         round_no = (previous.get("round", 1) + 1) if previous else 1
         print(f"오늘의 웹툰을 만듭니다 ({round_no}번째).")
+        reuse = previous.get("script") if (previous and not previous.get("ok") and previous.get("title")) else None
         try:
-            status = webtoon.make(PROJECT, config, day, news, topic, save)
+            status = webtoon.make(PROJECT, config, day, news, topic, save, script=reuse)
         except Exception as error:  # 웹툰이 실패해도 뉴스는 저장하고, 웹툰은 다시 만든다
             print(f"[경고] 웹툰 생성 실패: {type(error).__name__}: {error}")
             status = {"ok": False, "problems": [f"{type(error).__name__}: {error}"],
@@ -131,6 +132,7 @@ def main(argv=None) -> int:
     parser.add_argument("--no-save", action="store_true", help="웹툰 시험 실행: 게시하지 않고 data/drafts/에만 남김")
     parser.add_argument("--ad-only", action="store_true", help="오늘 뉴스는 두고 강의 카드만 다시 고르기")
     parser.add_argument("--cast-sheet", action="store_true", help="조연 기준 시트를 새로 그리기 (가끔 한 번)")
+    parser.add_argument("--script-only", action="store_true", help="그림 없이 대본만 써서 보여 주기 (글 검사 시험, 그림 비용 없음)")
     parser.add_argument("--redraw", nargs="+", metavar="DATE", help="지난 웹툰을 대사·제목은 그대로 두고 그림만 새 규칙으로 다시 그리기")
     parser.add_argument("--if-missing", action="store_true", help="오늘 호가 이미 있으면 새로 만들지 않고 페이지만 생성 (예약 재시도용)")
     args = parser.parse_args(argv)
@@ -145,6 +147,16 @@ def main(argv=None) -> int:
         else:
             print(f"{day} 호는 이미 발행됐습니다. 새로 만들지 않고 페이지만 생성합니다.")
             args.build_only = True
+    if args.script_only:
+        news = json.loads((PROJECT / "data" / "news" / f"{day}.json").read_text(encoding="utf-8"))
+        settings = config["webtoon"]
+        script = webtoon.write_script(settings["script_model"], webtoon.pick_topic(news, args.topic),
+                                      webtoon.load_bible(PROJECT, day), webtoon.recent_episodes(PROJECT, day), settings["review_model"])
+        print(f"제목: {script['title']} / 부제: {script['subtitle']}")
+        for number, panel in enumerate(script["panels"], 1):
+            print(f"{number}컷 | " + " / ".join(f"{b['speaker']}: {b['text']}" for b in panel["bubbles"]) + f" | 행동: {panel['acting']}")
+        print(f"마무리: {script['closing_line1']} / {script['closing_line2']}")
+        return 0
     if args.redraw:
         failed = [day for day in args.redraw if not redraw_webtoon(config, day)]
         build(PROJECT, config)
