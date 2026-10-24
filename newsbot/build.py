@@ -99,11 +99,73 @@ def _brand_name(site: dict) -> str:
     return f"{site['publisher']} {site['name']}"
 
 
+def _week_of(day: str) -> tuple[int, int, int, str]:
+    """(연, 월, 주차, 기간) — 1주차는 1~7일, 2주차는 8~14일처럼 날짜로 나눈다."""
+    d = Date.fromisoformat(day)
+    week = (d.day - 1) // 7 + 1
+    first = (week - 1) * 7 + 1
+    last_day = ((Date(d.year + (d.month == 12), d.month % 12 + 1, 1)) - Date(d.year, d.month, 1)).days
+    return d.year, d.month, week, f"{d.month}.{first}~{d.month}.{min(first + 6, last_day)}"
+
+
+def _drawer(site: dict, root: str) -> str:
+    """왼쪽 위 ☰ 메뉴: 지난 일보를 월 → 주차 → 날짜로 모아 보여 준다."""
+    days = site.get("nav_days") or []
+    if not days:
+        return ""
+    current = site.get("current_day") or days[0]["day"]
+    open_week = _week_of(current)[:3]
+    months: dict = {}
+    for item in days:  # 최신순
+        year, month, week, span = _week_of(item["day"])
+        months.setdefault((year, month), {}).setdefault((week, span), []).append(item)
+    blocks = []
+    for (year, month), weeks in months.items():
+        rows = []
+        for (week, span), items in weeks.items():
+            links = "".join(
+                f'<li><a href="{root}d/{item["day"]}/index.html"{' aria-current="page"' if item["day"] == current else ""}>'
+                f'<span class="d-date">{_korean_date(item["day"], long=False)}</span>'
+                f'<span class="d-paper">{escape(item["emoji"])} {escape(item["paper"])}</span>'
+                f'<span class="d-title">{escape(item["title"])}</span></a></li>'
+                for item in items
+            )
+            is_open = " open" if (year, month, week) == open_week else ""
+            rows.append(f'<details{is_open}><summary>{week}주차 <span>{span}</span></summary><ul>{links}</ul></details>')
+        blocks.append(f'<section class="drawer-month"><h3>{year}년 {month}월</h3>{"".join(rows)}</section>')
+    return f"""
+<button type="button" class="menu-btn" aria-label="지난 일보 목록 열기" aria-controls="drawer" aria-expanded="false">
+  <span></span><span></span><span></span>
+</button>
+<div class="drawer-backdrop" hidden></div>
+<nav class="drawer" id="drawer" aria-label="지난 일보" hidden>
+  <div class="drawer-head"><strong>지난 일보</strong><button type="button" class="drawer-close" aria-label="닫기">✕</button></div>
+  {"".join(blocks)}
+  <a class="drawer-all" href="{root}archive/index.html">전체 목록 보기</a>
+</nav>
+<script>
+(function () {{
+  var button = document.querySelector('.menu-btn'), drawer = document.getElementById('drawer'),
+      backdrop = document.querySelector('.drawer-backdrop');
+  var toggle = function (open) {{
+    drawer.hidden = backdrop.hidden = !open;
+    button.setAttribute('aria-expanded', open);
+    document.body.classList.toggle('drawer-open', open);
+    if (open) drawer.querySelector('.drawer-close').focus();
+  }};
+  button.addEventListener('click', function () {{ toggle(true); }});
+  backdrop.addEventListener('click', function () {{ toggle(false); }});
+  drawer.querySelector('.drawer-close').addEventListener('click', function () {{ toggle(false); button.focus(); }});
+  document.addEventListener('keydown', function (event) {{ if (event.key === 'Escape' && !drawer.hidden) toggle(false); }});
+}})();
+</script>"""
+
+
 def _masthead(site: dict, root: str, dateline: str, jump: str = "") -> str:
     publisher = escape(site["publisher"])
     kicker = escape(site.get("kicker", "")).replace(publisher, f"<strong>{publisher}</strong>", 1)
     reporter = site.get("reporter", {})
-    return f"""
+    return _drawer(site, root) + f"""
 <header class="masthead">
   <p class="kicker">{kicker}</p>
   <a class="brand" href="{root}index.html" aria-label="{escape(_brand_name(site))} 첫 화면">
@@ -236,6 +298,7 @@ def _description(news: dict | None, site: dict) -> str:
 
 
 def render_day(site, day, news, webtoons, issue_no, root, url, og_image) -> str:
+    site = {**site, "current_day": day}
     toon, is_today = _webtoon_for(day, webtoons)
     title = f"{_brand_name(site)} · {_korean_date(day, long=False)} AI 뉴스"
     dateline = f'<time datetime="{day}">{_korean_date(day)}</time> · 제{issue_no}호'
@@ -470,6 +533,14 @@ def build(project: Path, config: dict) -> Path:
     webtoons = json.loads((project / "data" / "webtoons.json").read_text(encoding="utf-8"))
     newses = {path.stem: json.loads(path.read_text(encoding="utf-8")) for path in sorted(news_dir.glob("*.json"))}
     days = sorted(newses)
+    nav = []  # ☰ 메뉴의 지난 일보 목록 (최신순)
+    for day in reversed(days):
+        toon, is_today = _webtoon_for(day, webtoons)
+        items = newses[day].get("items", [])
+        host = hosts.host_for(day, project)
+        nav.append({"day": day, "paper": host["paper"], "emoji": host["emoji"],
+                    "title": toon["title"] if (toon and is_today) else (items[0]["title"] if items else "")})
+    site["nav_days"] = nav
 
     if out.exists():
         shutil.rmtree(out)

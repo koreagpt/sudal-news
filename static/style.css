@@ -666,3 +666,115 @@ html { scroll-behavior: smooth; }
   font-size: 11px;
   font-weight: 700;
 }
+
+/* ---------- 왼쪽 위 ☰ 메뉴: 지난 일보 (월 → 주차 → 날짜) ---------- */
+.menu-btn {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 30;
+  display: grid;
+  place-content: center;
+  gap: 4px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 2px 2px 0 var(--fur-light);
+  cursor: pointer;
+}
+
+.menu-btn span { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--ink); }
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(42, 36, 32, 0.35);
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  width: min(320px, 86vw);
+  overflow-y: auto;
+  padding: 16px 16px 32px;
+  background: var(--paper);
+  border-right: 2px solid var(--line);
+  animation: drawer-in 0.18s ease-out;
+}
+
+@keyframes drawer-in { from { transform: translateX(-100%); } to { transform: none; } }
+
+body.drawer-open { overflow: hidden; }
+
+.drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-family: var(--display);
+  font-size: 22px;
+}
+
+.drawer-head strong { font-weight: 400; background: linear-gradient(transparent 58%, var(--marker) 58%); }
+
+.drawer-close {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.drawer-month h3 { margin: 16px 0 8px; font-size: 15px; color: var(--ink-soft); }
+
+.drawer details {
+  margin-bottom: 8px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.drawer summary {
+  padding: 10px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+.drawer summary span { margin-left: 4px; color: var(--muted); font-size: 13px; font-weight: 500; }
+
+.drawer ul { list-style: none; margin: 0; padding: 0 0 4px; border-top: 1.5px solid var(--paper-deep); }
+
+.drawer li a {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.drawer li a:hover { background: var(--paper-deep); }
+.drawer li a[aria-current="page"] { background: var(--paper-deep); box-shadow: inset 4px 0 0 var(--navy); }
+.d-date { font-size: 13px; font-weight: 700; }
+.d-paper { font-size: 13px; color: var(--ink-soft); }
+.d-title { grid-column: 1 / -1; font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.drawer-all {
+  display: block;
+  margin-top: 14px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
