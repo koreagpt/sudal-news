@@ -58,7 +58,7 @@ def compose(day: str) -> EmailMessage:
     message.set_content(
         f"{toon_line}\n\n아래 글을 그대로 복사해서 오픈채팅방에 붙여 넣으세요.\n"
         f"----------------------------------------\n{text}\n----------------------------------------\n\n"
-        f"카톡으로 공유하기(누르면 글이 복사되고 카톡이 열려요): {send_url}\n"
+        f"카톡으로 공유하기(공유하기 / 복사하고 카톡 열기 중 선택): {send_url}\n"
     )
     thumbnail = f"{base}/og/{day}.jpg"
     message.add_alternative(f"""<!doctype html>
@@ -69,7 +69,7 @@ def compose(day: str) -> EmailMessage:
   <a href="{page_url}"><img src="{thumbnail}" alt="오늘 카톡 미리보기 썸네일" width="560" style="width:100%;max-width:560px;border:2px solid #2a2420;border-radius:12px;display:block;"></a>
   <p style="margin:12px 0 14px;font-size:14px;">{escape(toon_line)}</p>
   <a href="{send_url}" style="display:block;text-align:center;background:#fee500;color:#191600;text-decoration:none;font-weight:700;font-size:17px;padding:16px;border:2px solid #2a2420;border-radius:12px;">카카오톡으로 공유하기</a>
-  <p style="margin:8px 0 22px;font-size:12.5px;color:#8a7d71;text-align:center;">누르면 열리는 화면에서 노란 버튼을 누르면 글이 복사되고 카톡이 열려요. 오픈채팅방에 붙여 넣으세요.</p>
+  <p style="margin:8px 0 22px;font-size:12.5px;color:#8a7d71;text-align:center;">누르면 열리는 화면에서 '카카오톡으로 공유하기'(채팅방 바로 고르기) 또는 '복사하고 카톡 열기'(빈 줄 없이 붙여 넣기)를 고르세요.</p>
   <p style="margin:0 0 6px;font-size:14px;font-weight:700;">오픈채팅방에 붙여 넣을 글</p>
   <div style="white-space:pre-wrap;background:#fff;border:2px solid #2a2420;border-radius:12px;padding:14px;font-size:14px;line-height:1.6;">{escape(text)}</div>
   <p style="margin:10px 0 0;font-size:12.5px;color:#8a7d71;">공유 버튼이 안 되면 위 글을 길게 눌러 복사해서 붙여 넣어도 돼요.</p>
