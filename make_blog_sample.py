@@ -40,6 +40,9 @@ BLOG_RULES = """
 - when: '이럴 때 써요' 한두 문장
 - steps: 따라 하기 3~4단계, 단계마다 한 문장
 - prompt: 그대로 복사해서 쓰는 질문 한 개 (실제로 바로 쓸 수 있게 구체적으로, [ ] 칸에 자기 내용을 넣게)
+- result_example: 위 질문을 넣으면 이렇게 나온다는 짧은 예시 결과 (지어낸 회사 이야기로, 5~8줄, 실제 결과처럼 줄바꿈)
+- difficulty: 난이도 하나 — '⭐ 처음 쓰는 분용', '⭐⭐ 조금 써 본 분용', '⭐⭐⭐ 익숙한 분용'
+- minutes: 처음 따라 해 보는 데 걸리는 대략의 시간(분, 숫자)
 - refine: 결과를 다듬을 때 이어서 쓰는 질문 예시 2개
 - cautions: 주의할 점 2~3개 (개인정보·회사 기밀 넣지 않기, 결과는 한 번 확인하기 등)
 - outro: 마무리 한두 문장 (협회 강의를 억지로 홍보하지 말고 '더 배우고 싶다면' 정도로)
@@ -47,12 +50,17 @@ BLOG_RULES = """
 """
 
 
+DIFFICULTY = ["⭐ 처음 쓰는 분용", "⭐⭐ 조금 써 본 분용", "⭐⭐⭐ 익숙한 분용"]
+
+
 def plan_schema(bible: dict) -> dict:
     part = webtoon.script_schema(bible)
     text_list = {"type": "array", "items": {"type": "string"}}
     props = {
         "blog_title": {"type": "string"}, "intro": {"type": "string"}, "when": {"type": "string"},
-        "steps": text_list, "prompt": {"type": "string"}, "refine": text_list, "cautions": text_list,
+        "steps": text_list, "prompt": {"type": "string"}, "result_example": {"type": "string"},
+        "difficulty": {"type": "string", "enum": DIFFICULTY}, "minutes": {"type": "integer"},
+        "refine": text_list, "cautions": text_list,
         "outro": {"type": "string"}, "tags": text_list, "part1": part, "part2": part,
     }
     return {"type": "object", "properties": props, "required": list(props), "additionalProperties": False}
@@ -76,16 +84,21 @@ h2 {{ font-size: 19px; margin: 32px 0 8px; padding-left: 10px; border-left: 4px 
 img {{ width: 100%; border-radius: 8px; margin: 18px 0; display: block; }}
 .prompt {{ background: #f7f3e8; border: 1px solid #e3d9bf; border-radius: 8px; padding: 14px 16px; white-space: pre-wrap; font-size: 15px; }}
 .tags {{ color: #2c6e49; font-size: 14px; margin-top: 28px; }}
+.meta {{ display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 18px; }}
+.meta span {{ background: #eef1f8; color: #2c3553; border-radius: 999px; padding: 4px 12px; font-size: 13.5px; font-weight: 700; }}
+.result {{ background: #fff; border: 1px solid #cfd6e6; border-left: 4px solid #2c3553; border-radius: 8px; padding: 12px 16px; white-space: pre-wrap; font-size: 15px; }}
 .cta {{ display: inline-block; margin-top: 8px; background: #2c3553; color: #fff; text-decoration: none; padding: 10px 14px; border-radius: 8px; font-weight: 700; }}
 </style></head><body><article class="post">
 <p class="note">블로그 자동화 시험판 (게시 안 함) · 주인공 {escape(host['name'])} · {datetime.now(KST):%Y-%m-%d}</p>
 <h1>{escape(plan['blog_title'])}</h1>
 <p class="by">한국GPT협회 AI 정보 블로그</p>
+<p class="meta"><span>{escape(plan['difficulty'])}</span><span>⏱ {plan['minutes']}분이면 돼요</span></p>
 <p>{escape(plan['intro'])}</p>
 <img src="part1.jpg" alt="{escape(plan['part1']['alt'])}">
 <h2>이럴 때 써요</h2><p>{escape(plan['when'])}</p>
 <h2>따라 하기</h2><ol>{steps}</ol>
 <h2>그대로 복사해서 쓰는 질문</h2><div class="prompt">{escape(plan['prompt'])}</div>
+<h2>이렇게 정리돼서 나와요</h2><div class="result">{escape(plan['result_example'])}</div>
 <img src="part2.jpg" alt="{escape(plan['part2']['alt'])}">
 <h2>결과를 다듬고 싶을 때</h2><ul>{refine}</ul>
 <h2>주의할 점</h2><ul>{cautions}</ul>
