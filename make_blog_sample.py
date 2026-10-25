@@ -117,7 +117,8 @@ def main(argv=None) -> int:
     for name in ("part1", "part2"):
         print(f"  {name} 그리는 중: {plan[name]['title']}")
         for round_no in range(1, 3):  # 그림이 검수에서 떨어지면 같은 대본으로 한 번 더
-            status = webtoon.make(PROJECT, config, day, {}, save=False, script=plan[name], source=source)
+            status = webtoon.make(PROJECT, config, day, {}, save=False, script=plan[name], source=source,
+                                  note="AI 사용법을 쉽게 보여 주는 가상 상황입니다.")
             # 시안 파일 이름이 날짜 기준이라, 다음 편을 그리기 전에 바로 옮겨 둔다
             if status.get("ok"):
                 shutil.copy2(PROJECT / "data" / "drafts" / status["draft"], OUT / f"{name}.jpg")

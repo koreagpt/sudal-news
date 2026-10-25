@@ -404,7 +404,7 @@ No other characters at all: no background coworkers, extras or crowds, and no ot
 Page layout: four panels stacked from top to bottom, each a full-width rectangle with a thin dark border and small side margins. Separate the panels with plain cream gutters about 24 pixels tall. Small plain cream margin above the first panel and below the last panel. Keep each location's fixed layout consistent between panels.
 {chr(10).join(panels)}
 
-No text anywhere: no speech bubbles, no captions, no title, no letters, no numbers, no signs, no logos, no watermarks. Phone, laptop and monitor screens and papers show only simple icons, blocks or lines; app icons are plain generic shapes (a speech bubble, a lock, a star), never any real app logo or company wordmark.
+No text anywhere: no speech bubbles, no captions, no title, no letters, no numbers, no signs, no logos, no watermarks. Phone, laptop and monitor screens and papers show only simple icons, blocks or lines; app icons are plain generic shapes (a speech bubble, a lock, a star), never any real app logo or company wordmark. Messy notes are wavy scribble lines only: no question marks, exclamation marks, arrows, numbers or other symbols on papers, notes or screens.
 Device orientation (very important): a phone, tablet or laptop screen always faces the character who is using it. When a character sits or stands behind a device and faces the reader, the reader sees only the plain back of that device (a dark case, a camera lens or a small logo-free mark), never a screen. Show a screen to the reader only in an over-the-shoulder view from behind the user, or when a character deliberately turns the device toward someone. Show where each character looks and what their hands touch; hands and objects connect, nothing floats."""
     if feedback:
         prompt += "\n\nThe previous attempt had these problems. Fix them:\n- " + "\n- ".join(feedback)
@@ -542,7 +542,7 @@ def _og_crop(path: Path) -> list[int]:
 
 
 def make(project: Path, config: dict, day: str, news: dict, topic: int | None = None, save: bool = True,
-         script: dict | None = None, source: dict | None = None) -> dict:
+         script: dict | None = None, source: dict | None = None, note: str | None = None) -> dict:
     """웹툰을 만들어 data/webtoons에 저장하고 결과(성공 여부·시도·문제)를 돌려준다.
 
     1) 대본 → 2) 글자 없는 4컷 작화 → 3) 컷 찾기 → 4) 말풍선 자리 정하기 → 5) 글꼴로 식자 → 6) 검수.
@@ -598,7 +598,7 @@ def make(project: Path, config: dict, day: str, news: dict, topic: int | None = 
             if crowded:
                 break
             page = drafts / f"{day}-try{attempt}.jpg"
-            lettering.compose(art, page, lettered, layout, panels, NOTE, source_name)
+            lettering.compose(art, page, lettered, layout, panels, note or NOTE, source_name)
             verdict = review(settings["review_model"], page, references[0], script, bible, cast_sheet)
             status["acting_notes"] = verdict["acting_notes"] + [f"엑스트라: {extra}" for extra in verdict["extras"]]
             bubble_feedback = verdict["bubble_issues"]
