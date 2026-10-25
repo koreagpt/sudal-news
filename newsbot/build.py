@@ -239,7 +239,7 @@ def _footer(site: dict, root: str) -> str:
   </section>{_crew(site, root)}
   <p class="org"><strong>{publisher}</strong>에서 AI를 배워 보세요</p>{contact}
   <p class="fine">{escape(_brand_name(site))}는 {publisher}가 매일 아침 전하는 AI 뉴스 브리핑입니다.
-  기사의 저작권은 각 언론사에 있으며, 요약은 AI가 작성해 원문과 다를 수 있습니다.{"<br>더 나은 일보를 위해 방문 통계(구글 애널리틱스)를 수집합니다." if site.get("analytics_id") else ""}</p>
+  기사의 저작권은 각 언론사에 있으며, 요약은 AI가 작성해 원문과 다를 수 있습니다.</p>
 </footer>
 </div>
 </body>
