@@ -130,7 +130,7 @@ def messages(day: str) -> list[dict]:
     config = json.loads((PROJECT / "config.json").read_text(encoding="utf-8"))
     site = hosts.site_for(config["site"], day, PROJECT)
     base = site["base_url"].rstrip("/")
-    tag = "?utm_source=kakao&utm_medium=card"  # 카톡 카드로 들어온 방문을 통계에서 따로 보기
+    tag = "?utm_source=kakaocard"  # 카톡 카드로 들어온 방문을 통계에서 따로 보기
     page, archive = f"{base}/d/{day}/{tag}", f"{base}/archive/{tag}"
     news_path = PROJECT / "data" / "news" / f"{day}.json"
     if not news_path.exists():

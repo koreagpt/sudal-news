@@ -386,12 +386,12 @@ def share_text(site: dict, day: str, news: dict) -> str:
     site = hosts.site_for(site, day)
     base = site.get("base_url", "").rstrip("/")
     # 오픈채팅방에서 몇 명이 들어왔는지 방문 통계에서 따로 보이게 꼬리표 (링크 미리보기는 그대로 뜬다)
-    url = f"{base}/d/{day}/?utm_source=kakao&utm_medium=openchat" if base else f"(배포 주소 설정 전) d/{day}/"
+    url = f"{base}/d/{day}/?utm_source=openchat" if base else f"(배포 주소 설정 전) d/{day}/"
     items = news.get("items", [])
     lines = [f"{site['emoji']} {_brand_name(site)} | {_korean_date(day, long=False)}", f"오늘의 AI 뉴스 {len(items)}건", ""]
     lines += [f"{number}. {item['title']}" for number, item in enumerate(items, 1)]
     lines += ["", "👉 4컷 웹툰과 뉴스 요약 보기" if any(item.get("summary") for item in items) else "👉 4컷 웹툰과 뉴스 보기", url]
-    return "\n".join(lines)
+    return "\n".join(lines).strip()  # 끝에 빈 줄·공백이 붙지 않게
 
 
 def _webtoon_panel(site, day, news, webtoons, root) -> str:
@@ -447,7 +447,7 @@ document.querySelectorAll('.copy').forEach(function (button) {
     var area = button.previousElementSibling;
     var done = function () { button.textContent = '복사했어요! 오픈채팅방에 붙여 넣으세요'; setTimeout(function () { button.textContent = '게시글 복사하기'; }, 2500); };
     if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(area.value).then(done);
+      navigator.clipboard.writeText(area.value.trim()).then(done);
     } else { area.select(); document.execCommand('copy'); done(); }
   });
 });
@@ -479,7 +479,7 @@ def render_send(site, day, news, og_image, root="../../") -> str:
     script = """
 <script>
 (function () {
-  var text = document.getElementById('text').textContent;
+  var text = document.getElementById('text').textContent.trim();
   var copyButton = document.getElementById('copy');
   var copy = function (after) {
     var done = function () { copyButton.textContent = '복사했어요! 오픈채팅방에 붙여 넣으세요'; if (after) after(); };
@@ -559,7 +559,7 @@ def render_kakao(site, root="../") -> str:
   document.getElementById('copy').addEventListener('click', function () {
     var area = document.getElementById('code'), button = this;
     var done = function () { button.textContent = '복사했어요!'; };
-    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(area.value).then(done); }
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(area.value.trim()).then(done); }
     else { area.select(); document.execCommand('copy'); done(); }
   });
 })();
