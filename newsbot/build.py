@@ -465,8 +465,8 @@ document.querySelectorAll('.copy').forEach(function (button) {
 def render_send(site, day, news, og_image, root="../../") -> str:
     """운영자용: 아침 메일의 버튼이 여는 페이지.
 
-    휴대폰 공유 창(Web Share)으로 게시글을 그대로 보내서, 오픈채팅방에 직접 쓴 글처럼 올라가고 링크 미리보기도 뜬다.
-    (글 끝 공백은 잘라서 보낸다 — 카톡에서 주소 밑에 빈 줄이 생기지 않게)
+    노란 버튼 한 번에 게시글을 복사하고 카카오톡 앱을 연다. 오픈채팅방에 붙여 넣으면 직접 쓴 글처럼 올라가고 링크 미리보기도 뜬다.
+    (휴대폰 공유 창으로 보내면 카톡이 주소 밑에 빈 줄을 붙여서, 복사해 붙여 넣는 방식을 쓴다)
     """
     text = share_text(site, day, news)
     thumb = f'<img class="send-thumb" src="{root}{og_image}" alt="오늘 카톡 미리보기 썸네일">' if og_image else ""
@@ -474,7 +474,7 @@ def render_send(site, day, news, og_image, root="../../") -> str:
 <section class="send">
   {thumb}
   <button type="button" class="send-kakao" id="share">카카오톡으로 공유하기</button>
-  <p class="send-help">누르고 <strong>카카오톡</strong> → 오픈채팅방을 고르면 직접 쓴 글처럼 올라가요. 여러 방을 한 번에 골라도 돼요.</p>
+  <p class="send-help">누르면 글이 복사되고 카카오톡이 열려요. 오픈채팅방에 들어가 <strong>붙여 넣기</strong>만 하면 돼요.</p>
   <button type="button" class="copy" id="copy">글만 복사하기</button>
   <details class="send-text"><summary>올라갈 글 보기</summary><pre id="text">{escape(text)}</pre></details>
 </section>"""
@@ -492,12 +492,12 @@ def render_send(site, day, news, og_image, root="../../") -> str:
     var area = document.createElement('textarea'); area.value = text; document.body.appendChild(area);
     area.select(); document.execCommand('copy'); document.body.removeChild(area);
   };
-  document.getElementById('share').addEventListener('click', function () {
-    if (navigator.share) {
-      navigator.share({ text: text }).catch(function (error) { if (error && error.name !== 'AbortError') copy(); });
-    } else {  // 공유 창이 없는 앱 안 브라우저 등: 복사로 대신
-      copy(function () { alert('이 화면에서는 공유 창을 열 수 없어 글을 복사했어요.\\n카카오톡 오픈채팅방에 붙여 넣어 주세요.'); });
-    }
+  var shareButton = document.getElementById('share');
+  shareButton.addEventListener('click', function () {
+    copy(function () {
+      shareButton.textContent = '복사했어요! 카톡에서 붙여 넣으세요';
+      setTimeout(function () { location.href = 'kakaotalk://launch'; }, 400);  // 카카오톡 앱 열기 (PC에서는 아무 일도 없음)
+    });
   });
   copyButton.addEventListener('click', function () { copy(); });
 })();
