@@ -10,6 +10,12 @@ on:
     - cron: "23 1 * * *"   # 10:23 (이때까지 오늘 호가 없으면 "아직 발행 안 됨" 메일)
     - cron: "23 3 * * *"   # 12:23 (웹툰이 이때까지 안 됐으면 운영자에게만 알림 메일)
   workflow_dispatch:       # Actions 탭에서 바로 보내 보기 (몇 번이든 보냄)
+    inputs:
+      send:
+        description: "보낼 곳 (both = 메일과 카톡, mail = 메일만, kakao = 카톡만)"
+        default: both
+        type: choice
+        options: [both, mail, kakao]
 
 env:  # 예약 발행 뒤나 예비 예약이면 9시에 하루 한 번만, 손으로 다시 만든 뒤(수동 발행)나 수동 실행이면 바로 새로 보낸다
   ONCE: ${{ (github.event_name == 'schedule' || github.event.workflow_run.event == 'schedule') && '--once' || '' }}
@@ -55,6 +61,7 @@ jobs:
           python-version: "3.12"
 
       - name: 오늘 게시글 메일 보내기
+        if: inputs.send != 'kakao'
         env:
           MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
           MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
@@ -65,7 +72,7 @@ jobs:
       - run: pip install cryptography
 
       - name: 오늘 게시글 카카오톡(나와의 채팅)으로 보내기
-        if: always()  # 메일이 실패해도 카톡은 보낸다
+        if: always() && inputs.send != 'mail'  # 메일이 실패해도 카톡은 보낸다
         continue-on-error: true  # 카톡이 실패해도 메일 기록은 남긴다
         env:
           KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
