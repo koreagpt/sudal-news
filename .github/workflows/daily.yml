@@ -47,6 +47,8 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}  # 없으면 Vercel 배포는 건너뛴다
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
@@ -115,3 +117,10 @@ jobs:
 
       - id: deploy
         uses: actions/deploy-pages@v4
+
+      - name: Vercel에도 배포 (kgpt-news)
+        if: env.VERCEL_TOKEN != '' && inputs.mode != 'webtoontest' && inputs.mode != 'charsheet' && inputs.mode != 'scripttest' && inputs.mode != 'blogtest'
+        working-directory: public
+        run: |
+          npx --yes vercel link --yes --project kgpt-news --token "$VERCEL_TOKEN"
+          npx --yes vercel deploy --prod --yes --token "$VERCEL_TOKEN"
