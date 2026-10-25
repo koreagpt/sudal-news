@@ -212,6 +212,10 @@ def main(argv=None) -> int:
 
     marker = PROJECT / "data" / "kakaoed" / f"{day}.txt"
     if args.once:
+        config = json.loads((PROJECT / "config.json").read_text(encoding="utf-8"))
+        if not config.get("kakao", {}).get("daily", True):  # 매일 자동 카톡은 꺼 둠 (손으로 보낼 때만)
+            print("매일 카톡 보내기가 꺼져 있어 보내지 않습니다. (config.json kakao.daily)")
+            return 0
         if marker.exists():
             print(f"{day} 카카오톡은 이미 보냈습니다.")
             return 0

@@ -152,7 +152,8 @@
     }
   ],
   "kakao": {
-    "format": "card"
+    "format": "card",
+    "daily": false
   },
   "webtoon": {
     "enabled": true,
