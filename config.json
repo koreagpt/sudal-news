@@ -9,7 +9,7 @@
       "employee_no": "GPT-0001",
       "intro": "늘 피곤하지만 AI 뉴스만큼은 매일 아침 꼬박꼬박 챙겨 와요."
     },
-    "base_url": "https://koreagpt.github.io/sudal-news",
+    "base_url": "https://kgpt-news.vercel.app",
     "publisher": "한국GPT협회",
     "publisher_line": "기업강의 · 온라인교육",
     "repo": "koreagpt/sudal-news",

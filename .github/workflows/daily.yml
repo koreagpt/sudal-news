@@ -71,7 +71,7 @@ jobs:
       - name: 뉴스·웹툰·페이지 생성
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
+          # 사이트 주소는 config.json의 base_url (Vercel: kgpt-news.vercel.app)
           MODE: ${{ github.event_name == 'push' && 'build' || github.event_name == 'schedule' && 'scheduled' || inputs.mode || 'full' }}
           TOPIC: ${{ inputs.topic }}
           HOST_TEST: ${{ (inputs.mode == 'webtoontest' || inputs.mode == 'blogtest') && inputs.host != 'auto' && inputs.host || '' }}
