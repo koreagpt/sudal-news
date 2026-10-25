@@ -346,7 +346,8 @@ def _description(news: dict | None, site: dict) -> str:
 def render_day(site, day, news, webtoons, issue_no, root, url, og_image) -> str:
     site = {**site, "current_day": day}
     toon, is_today = _webtoon_for(day, webtoons)
-    title = f"{_brand_name(site)} · {_korean_date(day, long=False)} AI 뉴스"
+    # 카톡 링크 미리보기에서 한 줄로 보이게 짧게: "한국GPT협회 뭉뭉일보 · 10.25"
+    title = f"{_brand_name(site)} · {_korean_date(day, long=False).split(' ')[0]}"
     dateline = f'<time datetime="{day}">{_korean_date(day)}</time> · 제{issue_no}호'
     count = len((news or {}).get("items", []))
     jump = ""
