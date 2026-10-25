@@ -501,9 +501,9 @@ def render_send(site, day, news, og_image, root="../../") -> str:
   });
   // 시험 B: 본문과 주소를 나눠서 넘긴다 (공유 창이 끝에 줄바꿈을 붙이는지 비교용)
   document.getElementById('share-b').addEventListener('click', function () {
-    var lines = text.split('\n'), url = lines.pop().trim();
+    var lines = text.split('\\n'), url = lines.pop().trim();
     if (navigator.share) {
-      navigator.share({ text: lines.join('\n').trim(), url: url }).catch(function (error) { if (error && error.name !== 'AbortError') copy(); });
+      navigator.share({ text: lines.join('\\n').trim(), url: url }).catch(function (error) { if (error && error.name !== 'AbortError') copy(); });
     } else { copy(); }
   });
   copyButton.addEventListener('click', function () { copy(); });
