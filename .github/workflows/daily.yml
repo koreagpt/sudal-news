@@ -17,12 +17,12 @@ on:
   workflow_dispatch:       # Actions 탭(또는 GitHub 앱)에서 수동 실행
     inputs:
       mode:
-        description: "full = 뉴스+웹툰 새로, webtoon = 웹툰만 다시, build = 페이지만 다시, castsheet = 조연 기준 시트 새로, webtoontest = 웹툰 시험(게시 안 함), ad = 강의 카드만 다시, charsheet = 새 사원 캐릭터 시안 그리기(게시 안 함), redraw = 지난 웹툰 그림만 다시(topic에 날짜들), scripttest = 대본만 글로 시험(그림 없음)"
+        description: "full = 뉴스+웹툰 새로, webtoon = 웹툰만 다시, build = 페이지만 다시, castsheet = 조연 기준 시트 새로, webtoontest = 웹툰 시험(게시 안 함), ad = 강의 카드만 다시, charsheet = 새 사원 캐릭터 시안 그리기(게시 안 함), redraw = 지난 웹툰 그림만 다시(topic에 날짜들), scripttest = 대본만 글로 시험(그림 없음), blogtest = 블로그 글 시험판(게시 안 함, topic에 주제)"
         default: full
         type: choice
-        options: [full, webtoon, build, castsheet, webtoontest, ad, charsheet, redraw, scripttest]
+        options: [full, webtoon, build, castsheet, webtoontest, ad, charsheet, redraw, scripttest, blogtest]
       host:
-        description: "webtoontest일 때만: 시험해 볼 당번 (auto = 오늘 당번)"
+        description: "webtoontest·blogtest일 때만: 주인공 당번 (auto = 오늘 당번)"
         required: false
         default: auto
         type: choice
@@ -72,7 +72,7 @@ jobs:
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
           MODE: ${{ github.event_name == 'push' && 'build' || github.event_name == 'schedule' && 'scheduled' || inputs.mode || 'full' }}
           TOPIC: ${{ inputs.topic }}
-          HOST_TEST: ${{ inputs.mode == 'webtoontest' && inputs.host != 'auto' && inputs.host || '' }}
+          HOST_TEST: ${{ (inputs.mode == 'webtoontest' || inputs.mode == 'blogtest') && inputs.host != 'auto' && inputs.host || '' }}
         run: |
           case "$MODE" in
             build)   python daily.py --build-only ;;
@@ -82,6 +82,7 @@ jobs:
             ad) python daily.py --ad-only ;;
             charsheet) python make_character.py $TOPIC && python daily.py --build-only ;;
             redraw) python daily.py --redraw $TOPIC ;;
+            blogtest) python make_blog_sample.py $TOPIC && python daily.py --build-only ;;
             scripttest) python daily.py --script-only ${TOPIC:+--topic "$TOPIC"} && python daily.py --build-only ;;
             scheduled) python daily.py --if-missing ;;
             *)       python daily.py ${TOPIC:+--topic "$TOPIC"} ;;
@@ -89,7 +90,7 @@ jobs:
 
       - name: 오늘 기록 저장
         # 중간에 멈춰도(크레딧 부족 등) 이미 만든 것은 저장한다
-        if: always() && github.event_name != 'push' && inputs.mode != 'build' && inputs.mode != 'webtoontest' && inputs.mode != 'charsheet' && inputs.mode != 'scripttest'
+        if: always() && github.event_name != 'push' && inputs.mode != 'build' && inputs.mode != 'webtoontest' && inputs.mode != 'charsheet' && inputs.mode != 'scripttest' && inputs.mode != 'blogtest'
         run: |
           git config user.name "sudal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
