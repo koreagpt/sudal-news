@@ -853,3 +853,4 @@ body.drawer-open { overflow: hidden; }
 @media (max-width: 420px) {
   .blog-banner-go { padding: 6px 8px; font-size: 12px; }
 }
+.send-test { background: #fff7c2; font-size: 15px; padding: 12px; }

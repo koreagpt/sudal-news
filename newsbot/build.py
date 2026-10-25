@@ -473,6 +473,7 @@ def render_send(site, day, news, og_image, root="../../") -> str:
 <section class="send">
   {thumb}
   <button type="button" class="send-kakao" id="share">카카오톡으로 공유하기</button>
+  <button type="button" class="send-kakao send-test" id="share-b">공유하기 (시험 B: 끝 빈칸 없애기)</button>
   <p class="send-help">누르고 <strong>카카오톡</strong> → 오픈채팅방을 고르면 직접 쓴 글처럼 올라가요.</p>
   <button type="button" class="copy" id="copy">글만 복사하기</button>
   <details class="send-text"><summary>올라갈 글 보기</summary><pre id="text">{escape(text)}</pre></details>
@@ -497,6 +498,13 @@ def render_send(site, day, news, og_image, root="../../") -> str:
     } else {  // 공유 창이 없는 앱 안 브라우저 등: 복사로 대신
       copy(function () { alert('이 화면에서는 공유 창을 열 수 없어 글을 복사했어요.\\n카카오톡 오픈채팅방에 붙여 넣어 주세요.'); });
     }
+  });
+  // 시험 B: 본문과 주소를 나눠서 넘긴다 (공유 창이 끝에 줄바꿈을 붙이는지 비교용)
+  document.getElementById('share-b').addEventListener('click', function () {
+    var lines = text.split('\n'), url = lines.pop().trim();
+    if (navigator.share) {
+      navigator.share({ text: lines.join('\n').trim(), url: url }).catch(function (error) { if (error && error.name !== 'AbortError') copy(); });
+    } else { copy(); }
   });
   copyButton.addEventListener('click', function () { copy(); });
 })();
