@@ -9,6 +9,7 @@ data/drafts/blog/ 에 blog.html(미리보기), blog.json, part1.jpg, part2.jpg �
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import sys
 from datetime import datetime
@@ -49,7 +50,9 @@ BLOG_RULES = """
 - minutes: 처음 따라 해 보는 데 걸리는 대략의 시간(분, 숫자)
 - refine: 결과를 다듬을 때 이어서 쓰는 질문 예시 2개
 - cautions: 주의할 점 2~3개 (개인정보·회사 기밀 넣지 않기, 결과는 한 번 확인하기 등)
-- outro: 마무리 한두 문장 (협회 강의를 억지로 홍보하지 말고 '더 배우고 싶다면' 정도로)
+- outro: 마무리 한두 문장 (강의 홍보·링크는 넣지 않는다. 끝의 AI 요약 일보·협회 링크는 자동으로 붙는다)
+- 강조: intro·when·steps·cautions·outro에서 독자가 꼭 기억할 짧은 구절 3~5곳을 ==구절== 처럼 감싼다 (블로그에서 연두색 배경으로 칠해짐).
+  한 문단에 한 곳까지, 문장 전체가 아니라 핵심 구절만. prompt·result_example·refine에는 쓰지 않는다.
 - tags: 블로그 태그 5~8개 (# 없이)
 """
 
@@ -70,10 +73,15 @@ def plan_schema(bible: dict) -> dict:
     return {"type": "object", "properties": props, "required": list(props), "additionalProperties": False}
 
 
+def _marked(text: str) -> str:
+    """==구절== 을 블로그와 같은 연두색 배경으로 보여 준다."""
+    return re.sub(r"==([^=]+)==", r'<mark>\1</mark>', escape(text))
+
+
 def render(plan: dict, host: dict) -> str:
-    steps = "".join(f"<li>{escape(s)}</li>" for s in plan["steps"])
+    steps = "".join(f"<li>{_marked(s)}</li>" for s in plan["steps"])
     refine = "".join(f"<li>“{escape(s)}”</li>" for s in plan["refine"])
-    cautions = "".join(f"<li>{escape(s)}</li>" for s in plan["cautions"])
+    cautions = "".join(f"<li>{_marked(s)}</li>" for s in plan["cautions"])
     tags = " ".join(f"#{escape(t)}" for t in plan["tags"])
     return f"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -91,23 +99,26 @@ img {{ width: 100%; border-radius: 8px; margin: 18px 0; display: block; }}
 .meta {{ display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 18px; }}
 .meta span {{ background: #eef1f8; color: #2c3553; border-radius: 999px; padding: 4px 12px; font-size: 13.5px; font-weight: 700; }}
 .result {{ background: #fff; border: 1px solid #cfd6e6; border-left: 4px solid #2c3553; border-radius: 8px; padding: 12px 16px; white-space: pre-wrap; font-size: 15px; }}
-.cta {{ display: inline-block; margin-top: 8px; background: #2c3553; color: #fff; text-decoration: none; padding: 10px 14px; border-radius: 8px; font-weight: 700; }}
+mark {{ background: #e3fdc8; color: inherit; }}
+.links a {{ color: #2c3553; word-break: break-all; }}
 </style></head><body><article class="post">
 <p class="note">블로그 자동화 시험판 (게시 안 함) · 주인공 {escape(host['name'])} · {datetime.now(KST):%Y-%m-%d}</p>
 <h1>{escape(plan['blog_title'])}</h1>
 <p class="by">한국GPT협회 AI 정보 블로그</p>
 <p class="meta"><span>{escape(plan['difficulty'])}</span><span>⏱ {plan['minutes']}분이면 돼요</span></p>
-<p>{escape(plan['intro'])}</p>
+<p>{_marked(plan['intro'])}</p>
 <img src="part1.jpg" alt="{escape(plan['part1']['alt'])}">
-<h2>이럴 때 써요</h2><p>{escape(plan['when'])}</p>
+<h2>이럴 때 써요</h2><p>{_marked(plan['when'])}</p>
 <h2>따라 하기</h2><ol>{steps}</ol>
 <h2>그대로 복사해서 쓰는 질문</h2><div class="prompt">{escape(plan['prompt'])}</div>
 <h2>이렇게 정리돼서 나와요</h2><div class="result">{escape(plan['result_example'])}</div>
 <img src="part2.jpg" alt="{escape(plan['part2']['alt'])}">
 <h2>결과를 다듬고 싶을 때</h2><ul>{refine}</ul>
 <h2>주의할 점</h2><ul>{cautions}</ul>
-<h2>마무리</h2><p>{escape(plan['outro'])}</p>
-<a class="cta" href="https://gptkoreaclass.com/">한국GPT협회 온라인 강의 보러 가기</a>
+<h2>마무리</h2><p>{_marked(plan['outro'])}</p>
+<p class="links">매일 아침 AI 소식을 쉽게 받아 보고 싶다면, 한국GPT협회 '오늘의 AI 요약 일보'를 확인해 보세요.<br>
+<a href="https://kgpt-news.vercel.app/index.html">https://kgpt-news.vercel.app/index.html</a></p>
+<p class="links">한국GPT협회<br><a href="https://kgpt.or.kr/">https://kgpt.or.kr/</a></p>
 <p class="tags">{tags}</p>
 </article></body></html>"""
 
