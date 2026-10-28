@@ -118,10 +118,7 @@ mark {{ background: #e3fdc8; color: inherit; }}
 <h2>마무리</h2><p>{_marked(plan['outro'])}</p>
 <p class="links">매일 아침 AI 소식을 쉽게 받아 보고 싶다면, 한국GPT협회 '오늘의 AI 요약 일보'를 확인해 보세요.<br>
 <a href="https://kgpt-news.vercel.app/index.html">https://kgpt-news.vercel.app/index.html</a></p>
-<p class="links">더 배우고 싶다면 한국GPT협회 온라인교육센터를 둘러보세요.<br><a href="https://gptkoreaclass.com/">https://gptkoreaclass.com/</a></p>
-<p class="links">💬 한국GPT협회 전문가 상주 커뮤니티 #1<br><a href="https://open.kakao.com/o/gyO0HNlf">https://open.kakao.com/o/gyO0HNlf</a></p>
-<p class="links">💬 한국GPT협회 전문가 상주 커뮤니티 #2<br><a href="https://open.kakao.com/o/gK7y8btg">https://open.kakao.com/o/gK7y8btg</a></p>
-<p class="tags">{tags}</p>
+<p class="links">더 배우고 싶다면 한국GPT협회 온라인교육센터를 둘러보세요.<br><a href="https://gptkoreaclass.com/">https://gptkoreaclass.com/</a></p><p class="tags">{tags}</p>
 </article></body></html>"""
 
 
