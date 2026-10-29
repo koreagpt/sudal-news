@@ -54,6 +54,8 @@ BLOG_RULES = """
 - 강조: intro·when·steps·cautions·outro에서 독자가 꼭 기억할 짧은 구절 3~5곳을 ==구절== 처럼 감싼다 (블로그에서 연두색 배경으로 칠해짐).
   한 문단에 한 곳까지, 문장 전체가 아니라 핵심 구절만. prompt·result_example·refine에는 쓰지 않는다.
 - tags: 블로그 태그 5~8개 (# 없이)
+- thumb_lines: 썸네일 제목 3줄 (한 줄 9자 안팎, 핵심 키워드가 첫 줄이나 둘째 줄에, 예: ['챗GPT로', '회의록 정리', '5분 만에 끝내기'])
+- thumb_bubble: 썸네일 속 주인공 말풍선 (6자 안팎, 주인공 말투, 예: '회의록 끝!')
 """
 
 
@@ -69,6 +71,7 @@ def plan_schema(bible: dict) -> dict:
         "difficulty": {"type": "string", "enum": DIFFICULTY}, "minutes": {"type": "integer"},
         "refine": text_list, "cautions": text_list,
         "outro": {"type": "string"}, "tags": text_list, "part1": part, "part2": part,
+        "thumb_lines": text_list, "thumb_bubble": {"type": "string"},
     }
     return {"type": "object", "properties": props, "required": list(props), "additionalProperties": False}
 
