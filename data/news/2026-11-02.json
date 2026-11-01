@@ -1,0 +1,242 @@
+{
+  "date": "2026-11-02",
+  "generated_at": "2026-11-01T22:46:54.176627+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "공무원 업무망에 AI 검색…12월엔 한글 초안도",
+      "summary": "행안부가 공무원용 ‘온AI’에 웹 검색 기능을 도입했습니다. 12월부터는 기존 업무자료로 한글 보고서 초안을 쓰는 기능도 제공합니다.",
+      "comment": "초안은 맡겨도, 결재 올리기 전엔 읽어.",
+      "category": "업무활용",
+      "link": "https://zdnet.co.kr/view/?no=20261101130513",
+      "source": "지디넷코리아",
+      "original_title": "행안부, 공무원 업무망에 AI 웹검색 도입…12월 한글 보고서 작성 지원",
+      "lang": "ko",
+      "published": "2026-11-01T04:05:29+00:00"
+    },
+    {
+      "title": "말로 영상 찾고 손짓으로 게임하는 XR 안경",
+      "summary": "169만원짜리 ‘엑스리얼 아우라’의 작동 모습이 공개됐습니다. 탑재된 제미나이에 말로 지시하자 영상과 게임이 실행됐고, 손짓으로 게임을 즐겼습니다.",
+      "comment": "영상 하나 보자고 사기엔 가격부터 봐야겠네.",
+      "category": "서비스·제품",
+      "link": "https://byline.network/2026/11/30-626/",
+      "source": "바이라인네트워크",
+      "original_title": "169만원 XR 글래스 ‘엑스리얼 아우라’, 첫인상은",
+      "lang": "ko",
+      "published": "2026-11-01T22:16:27+00:00"
+    },
+    {
+      "title": "웹사이트 AI 학습 거부, 공통 설정으로 알린다",
+      "summary": "오픈AI·구글·MS·앤트로픽이 웹사이트의 공통 학습 거부 신호를 받아들이겠다고 발표했습니다. 사이트 운영자가 회사별로 따로 설정하는 번거로움을 줄일 계획입니다.",
+      "comment": "사이트 운영자용이야. 내 채팅 설정은 따로 봐.",
+      "category": "정책·사회",
+      "link": "https://zdnet.co.kr/view/?no=20261101134510",
+      "source": "지디넷코리아",
+      "original_title": "\"한 번 설정으로 AI 학습 거부\"…오픈AI·구글·MS·앤트로픽 동참",
+      "lang": "ko",
+      "published": "2026-11-01T05:44:35+00:00"
+    },
+    {
+      "title": "대전시 공무원, AI로 PC 자동복구 프로그램 개발",
+      "summary": "대전시 공무원이 생성형 AI를 써서 PC 자동복구 프로그램을 개발했습니다.",
+      "comment": "글 쓰는 데만 쓰던 AI로 프로그램도 만들었네.",
+      "category": "업무활용",
+      "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBGZ1Azc3BoVWQ1OHpiOENTMTFXNHNRVl91RDh2RV9DZ2RWMGtQLWRuTFhOT2lnRmpxMWpieEVLMVMyRzhOZHFWZTRod0FGNTN6U3RRV2dsMUFMRDctUDdTLdIBeEFVX3lxTE1UUlRoT3lLaUdJb0tLT2lwbk9McGF4a19fUG1JQ0o1OG1mS1c3WDg1Z3NTaU5XV0RYNkR3WXpMTVdrNF9sd3NSblNTWHN3M0FwX1lPZV9mRE53QUQ3S0lBeXp3QzA3SC1qX29aQkZKUkJ4XzhpV3pRRg?oc=5",
+      "source": "뉴시스",
+      "original_title": "대전시 공무원, PC 자동복구 프로그램 개발…생성형 AI 활용",
+      "lang": "ko",
+      "published": "2026-11-01T22:05:51+00:00"
+    },
+    {
+      "title": "제미나이 노트북, 미국·인도에 무료 교재 추가",
+      "summary": "구글이 미국·인도 이용자를 대상으로 제미나이 노트북에 무료 교재 수백 권을 추가했습니다. 교재를 따로 찾아 올리지 않고 시험 준비에 쓸 수 있게 됐습니다.",
+      "comment": "무료라 반가운데, 한국 제공 소식은 아직이네.",
+      "category": "교육",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216863",
+      "source": "AI타임스",
+      "original_title": "구글, '제미나이 노트북'에 무료 교재 수백 권 추가...AI 학습 기능 확대",
+      "lang": "ko",
+      "published": "2026-11-01T07:26:45+00:00"
+    },
+    {
+      "title": "MIT, AI끼리 글 대신 계산 정보 주고받는 기술 개발",
+      "summary": "MIT 연구진이 서로 다른 회사의 AI끼리 내부 계산 정보를 직접 주고받는 기술을 개발했습니다. 연구진은 글로 소통할 때보다 평균 정확도가 40% 높아졌다고 밝혔습니다.",
+      "comment": "AI끼리 잘 통해도, 내게 줄 답은 확인해야지.",
+      "category": "연구·기술",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216860",
+      "source": "AI타임스",
+      "original_title": "MIT, AI 모델끼리 글 없이 소통하는 ‘스웜 텔레파시’ 개발",
+      "lang": "ko",
+      "published": "2026-11-01T06:58:06+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "① 냐옹 대리가 자료를 옮기느라 두 PC 사이를 오가고 ② 온AI 검색으로 업무망에서 자료를 찾고 ③ 12월에 보고서 초안까지 맡긴 뒤 ④ 바로 결재를 올리려는 동료에게 ‘초안이라니까, 읽고 올려’라며 붙잡는 4컷.",
+    "link": "https://zdnet.co.kr/view/?no=20261101130513",
+    "source": "지디넷코리아",
+    "original_title": "행안부, 공무원 업무망에 AI 웹검색 도입…12월 한글 보고서 작성 지원",
+    "lang": "ko",
+    "published": "2026-11-01T04:05:29+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 19,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 100,
+      "kept": 10,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 16,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 4,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 30,
+      "kept": 8,
+      "error": null
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 7,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 50,
+      "kept": 4,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 50,
+      "kept": 5,
+      "error": null
+    },
+    "byline": {
+      "fetched": 20,
+      "kept": 1,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": false,
+    "attempts": 3,
+    "topic": "행안부, 공무원 업무망에 AI 웹검색 도입…12월 한글 보고서 작성 지원",
+    "source": "지디넷코리아",
+    "problems": [
+      "The tuxedo cat must match the character sheet: 1컷: 냐옹의 눈이 둥근 흰자와 검은 동공 위주로 표현되어 기준의 노란빛 초록 눈과 날카로운 눈매가 확인되지 않는다. 얼굴도 기준보다 길고 가늘어 보여 2~4컷과 인상이 다르다."
+    ],
+    "made_at": "2026-11-02T07:51+09:00",
+    "title": "업무망에서 AI 검색",
+    "script": {
+      "title": "업무망에서 AI 검색",
+      "subtitle": "보고서 작성 지원은 아직 예정",
+      "panels": [
+        {
+          "beat": "냐옹은 자료를 찾을 때마다 두 컴퓨터 사이를 오가는 일이 번거롭다.",
+          "shot": "롱샷",
+          "location": "other",
+          "density": "establishing",
+          "characters": [
+            "냐옹",
+            "너구리 대리"
+          ],
+          "acting": "냐옹은 메모지를 흰 앞발로 쥔 채 두 자리 사이에 서서 업무용 컴퓨터를 바라본다. 턱을 조금 들고 귀를 뒤로 젖히며, 꼬리 끝으로 바닥을 가볍게 친다. 너구리는 옆에서 냐옹의 이동을 눈으로 따라간다.",
+          "scene": "공공기관 사무실의 자료 검색 공간에 인터넷용 컴퓨터와 업무용 컴퓨터를 떨어뜨려 배치한다. 크림색 벽과 나무색 책상을 낮은 대비로 그리고, 냐옹의 고정 복장과 털 무늬를 유지한다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "자료 찾느라 또 왔다 갔다네."
+            }
+          ]
+        },
+        {
+          "beat": "공무원 업무망 안에서 AI 웹검색을 쓸 수 있게 됐다.",
+          "shot": "미디엄",
+          "location": "other",
+          "density": "contact",
+          "characters": [
+            "냐옹",
+            "너구리 대리"
+          ],
+          "acting": "너구리는 업무용 컴퓨터 쪽으로 몸을 기울여 화면을 펼친 앞발로 가리킨다. 냐옹은 의자에 앉아 화면을 바라보며 메모지를 내려놓고 마우스에 앞발을 얹는다.",
+          "scene": "두 인물의 옆얼굴과 업무용 컴퓨터 옆면이 보이는 구도다. 화면은 인물 쪽으로 향하고, 배경은 책상 가장자리만 남긴다.",
+          "bubbles": [
+            {
+              "speaker": "너구리 대리",
+              "text": "이젠 업무망에서 AI로 검색해."
+            },
+            {
+              "speaker": "냐옹",
+              "text": "그럼 여기서 찾아보자."
+            }
+          ]
+        },
+        {
+          "beat": "냐옹은 검색 도입과 보고서 작성 지원의 예정 시점을 구분한다.",
+          "shot": "미디엄",
+          "location": "other",
+          "density": "contact",
+          "characters": [
+            "냐옹"
+          ],
+          "acting": "냐옹은 화면의 뉴스 기사를 읽으며 마우스에서 앞발을 잠시 뗀다. 반쯤 내리깐 눈으로 예정 안내를 살피고, 다른 앞발로 턱을 짚는다.",
+          "scene": "냐옹의 얼굴과 화면이 함께 보이는 어깨 너머 사선 구도다. 일반적인 뉴스 기사 화면에 짧은 안내인 '보고서 작성 지원: 12월 예정'만 표시한다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "보고서 작성은 12월 예정이네."
+            }
+          ]
+        },
+        {
+          "beat": "냐옹은 지금 가능한 검색부터 업무망 안에서 시작한다.",
+          "shot": "미디엄",
+          "location": "other",
+          "density": "contact",
+          "characters": [
+            "냐옹",
+            "너구리 대리"
+          ],
+          "acting": "냐옹은 업무용 컴퓨터 앞에 자리를 잡고 두 앞발로 검색어를 입력한다. 너구리가 빈 의자를 가까이 끌어와 앉는 동안, 냐옹의 꼬리 끝은 더 이상 바닥을 치지 않는다.",
+          "scene": "두 사람의 옆얼굴과 키보드 위 앞발이 보이게 잡는다. 멀리 있는 인터넷용 컴퓨터는 흐리게 남기고 업무용 책상에 시선을 모은다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "오늘은 여기서 자료부터 찾자."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "업무망에서 자료를 찾기 시작했다.",
+      "closing_line2": "보고서 작성 지원은 기다린다.",
+      "alt": "냐옹 대리가 자료를 찾느라 두 컴퓨터 사이를 오간다. 너구리가 이제 업무망에서 AI 검색을 할 수 있다고 알려 준다. 냐옹은 기사를 읽고 보고서 작성 지원은 12월 예정임을 확인한다. 두 사람은 업무용 컴퓨터 앞에 나란히 앉아 지금 가능한 자료 검색부터 시작한다."
+    },
+    "acting_notes": [
+      "1컷: 냐옹이 자료나 이동 방향보다 위쪽을 바라보고 서 있어, 자료를 찾느라 오가는 상황이 동작으로 충분히 전달되지 않는다.",
+      "2컷: 너구리 대리가 화면을 가리키면서 시선은 독자 쪽을 향해 있어 냐옹에게 검색 방법을 설명하는 상호작용이 다소 약하다."
+    ],
+    "bubble_issues": [
+      "2컷: 왼쪽 '이젠 업무망에서 AI로 검색해.' 말풍선 꼬리가 너구리 대리가 아니라 모니터 화면을 향해 있어 화자 연결이 불명확하다."
+    ],
+    "round": 3
+  },
+  "ad": {
+    "course_id": "offline-basic",
+    "title": "GPT & AI 실무활용 집합교육 (기본과정)",
+    "url": "https://gptkoreaclass.com/product/gpt-ai%EC%8B%A4%EB%AC%B4%ED%99%9C%EC%9A%A9-%EC%A7%91%ED%95%A9%EA%B5%90%EC%9C%A1_%EA%B8%B0%EB%B3%B8%EA%B3%BC%EC%A0%95/",
+    "format": "오프라인",
+    "style": "공감",
+    "hook": "보고서 첫 줄부터 막막했다면",
+    "pitch": "보고서 쓰기 막막할 때, AI에 어떻게 부탁할지부터 문서 작성을 맡기는 법까지 실습으로 배워요.",
+    "comment": "초안 받았다고 끝난 건 아니야."
+  }
+}
