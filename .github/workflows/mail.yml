@@ -72,7 +72,8 @@ jobs:
       - run: pip install cryptography
 
       - name: 오늘 게시글 카카오톡(나와의 채팅)으로 보내기
-        if: always() && inputs.send != 'mail'  # 메일이 실패해도 카톡은 보낸다
+        # 메일이 실패해도 카톡은 보낸다. 손으로 웹툰을 다시 만든 뒤의 자동 발송에는 카톡을 보내지 않는다 (매일 카톡은 꺼 둠)
+        if: always() && inputs.send != 'mail' && (github.event_name != 'workflow_run' || env.ONCE != '')
         continue-on-error: true  # 카톡이 실패해도 메일 기록은 남긴다
         env:
           KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
