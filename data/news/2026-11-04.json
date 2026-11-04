@@ -1,0 +1,242 @@
+{
+  "date": "2026-11-04",
+  "generated_at": "2026-11-03T23:58:26.759566+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "딥시크, 말로 설명하면 맞춤 도구 만드는 기능 공개",
+      "summary": "딥시크가 원하는 기능을 말로 설명하면 AI용 추가 도구를 만드는 ‘크리에이터 모드’를 공개했습니다. AI가 프로그램을 짜고 설치한 뒤 제대로 작동하는지도 확인합니다.",
+      "comment": "반복해서 하는 일부터 설명해 봐야겠네.",
+      "category": "서비스·제품",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216958",
+      "source": "AI타임스",
+      "original_title": "딥시크, 자연어로 AI 에이전트 기능 확장…플러그인 제작까지 자동화",
+      "lang": "ko",
+      "published": "2026-11-03T08:39:09+00:00"
+    },
+    {
+      "title": "현대차그룹, 핵심 연구조직 외부 AI 사용 일시 중단",
+      "summary": "현대차그룹이 핵심 연구개발 조직에서 외부 생성형 AI 사용을 일시 중단했습니다. 보안성을 다시 검토하기 위한 조치입니다.",
+      "comment": "회사 자료 넣기 전에 사용 규정부터 보자.",
+      "category": "업무활용",
+      "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE45Z1ZRUi1EUTEzM2NqZ0lWb1VYMjM5enhZQzRpUGZhSmczS0dhVS1yaWY4OEN2c1BKbEFSN1JXdTRYVnBrY2JjVWNDQXVXM0xPQ3RjcHhWeF9zb3lKZWFfTdIBeEFVX3lxTE9SYlM2Wm05MF9ULURWMU1ZU2E2WU5SbElmbVdEVUNQbm8zSGpKeWVjblNOT3Y4cHRZYVhWS0pBLU1DTUpVYXhGczhqTTJKRkJGVFQteVVKU1VTWk1PSmhpcEhHTkkyMVJPclBxMlM2T09vREFlaHBZUA?oc=5",
+      "source": "뉴시스",
+      "original_title": "현대차그룹, 핵심 R&D 조직 '외부 생성형 AI' 사용 일시 중단…\"보안성 재검토\"",
+      "lang": "ko",
+      "published": "2026-11-03T09:22:01+00:00"
+    },
+    {
+      "title": "게임에서 배운 영어, AI와 다시 말하는 ‘채터’ 출시",
+      "summary": "플랭귀지가 가상 공간에서 경험한 내용을 AI와 영어로 이야기하는 ‘채터’를 출시했습니다. 중·상급 학습자를 대상으로 시범 운영을 시작합니다.",
+      "comment": "아이가 게임에서 뭘 했는지 영어로 말하겠네.",
+      "category": "교육",
+      "link": "https://zdnet.co.kr/view/?no=20261103181148",
+      "source": "지디넷코리아",
+      "original_title": "\"게임에서 배운 영어, AI와 다시 대화\"…플랭귀지 '채터' 출시",
+      "lang": "ko",
+      "published": "2026-11-03T09:15:01+00:00"
+    },
+    {
+      "title": "일반 서비스로 위장한 불법 딥페이크 앱 발견",
+      "summary": "애플·구글 앱스토어에서 일반 서비스로 위장해 불법 딥페이크 기능을 제공하는 앱들이 발견됐습니다. 관련 앱과 웹사이트는 400개 이상으로 파악됐습니다.",
+      "comment": "앱스토어에 있어도 무슨 기능인지 확인하자.",
+      "category": "정책·사회",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=156855",
+      "source": "테크M",
+      "original_title": "[글로벌] 애플·구글 앱스토어 뚫은 AI 딥페이크.. 400여개 앱·도메인 적발",
+      "lang": "ko",
+      "published": "2026-11-03T06:51:15+00:00"
+    },
+    {
+      "title": "기업 전문업무 재현한 AI 평가, 최고 성적 12%",
+      "summary": "세미애널리시스가 실제 기업의 전문업무를 재현한 AI 평가 ‘GDPx’를 공개했습니다. 최첨단 AI 모델들의 성적은 최고 12%에 그쳤습니다.",
+      "comment": "어려운 업무는 맡긴 뒤에도 직접 확인하자.",
+      "category": "연구·기술",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=216936",
+      "source": "AI타임스",
+      "original_title": "[11월3일] \"AI 성능 높아도 실무는 별개\"…새 벤치마크서 최고 12%에 그쳐",
+      "lang": "ko",
+      "published": "2026-11-03T22:00:00+00:00"
+    },
+    {
+      "title": "정부 행정망에서 ‘솔라 프로4’ 서비스 시작",
+      "summary": "업스테이지의 AI 모델 ‘솔라 프로4’가 범정부 AI 공통기반에서 정식 서비스를 시작했습니다. 국가정보원 보안성 심사를 통과한 행정망 시설에서 운영됩니다.",
+      "comment": "공공기관도 내부망에서 쓸 AI가 늘어나네.",
+      "category": "서비스·제품",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=156850",
+      "source": "테크M",
+      "original_title": "업스테이지 '솔라 프로4' 범정부 AI 공통기반 탑재",
+      "lang": "ko",
+      "published": "2026-11-03T06:47:23+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "① 달몽 사원이 반복 작업 목록을 보며 하품하고 ② 딥시크에 필요한 도구를 말로 설명한 뒤 ③ AI가 프로그램을 짜고 설치·작동 확인까지 하는 모습을 지켜보다가 ④ 완성된 도구를 시험하며 '이제 이 일은 매번 설명 안 해도 되겠네'라고 말한다.",
+    "link": "https://www.aitimes.com/news/articleView.html?idxno=216958",
+    "source": "AI타임스",
+    "original_title": "딥시크, 자연어로 AI 에이전트 기능 확장…플러그인 제작까지 자동화",
+    "lang": "ko",
+    "published": "2026-11-03T08:39:09+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 42,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 100,
+      "kept": 13,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 11,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 11,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 0,
+      "kept": 0,
+      "error": "URLError: <urlopen error timed out>"
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 12,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 100,
+      "kept": 21,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 50,
+      "kept": 6,
+      "error": null
+    },
+    "byline": {
+      "fetched": 20,
+      "kept": 5,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": true,
+    "attempts": 3,
+    "topic": "딥시크, 자연어로 AI 에이전트 기능 확장…플러그인 제작까지 자동화",
+    "source": "AI타임스",
+    "problems": [
+      "4컷: 말풍선이 달몽이 들고 있는 컵의 윗부분과 손 상단 일부를 가려, 컵을 쥔 모습이 명확하지 않다."
+    ],
+    "made_at": "2026-11-04T08:58+09:00",
+    "title": "AI가 만든 지출 계산기",
+    "script": {
+      "title": "AI가 만든 지출 계산기",
+      "subtitle": "말로 설명해 도구를 만들어요",
+      "panels": [
+        {
+          "beat": "달몽은 지출 금액을 매번 계산기에 다시 넣는 일이 번거롭다.",
+          "shot": "롱샷",
+          "location": "pantry",
+          "density": "establishing",
+          "characters": [
+            "달몽",
+            "너구리 대리"
+          ],
+          "acting": "달몽은 반쯤 감긴 눈으로 지출 목록을 보며 한 손으로 하품을 가리고 다른 손으로 노트북 계산기를 누른다. 너구리 대리는 컵을 쥔 채 테이블 옆에서 목록을 내려다본다.",
+          "scene": "부드러운 조명의 탕비실에서 작은 둥근 테이블에 노트북과 지출 목록을 놓는다. 뒤쪽 조리대에는 커피머신과 컵들, 창 옆에는 화분이 보인다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "매번 금액을 다시 누르네…"
+            }
+          ]
+        },
+        {
+          "beat": "인공지능 서비스 딥시크는 말로 설명한 도구를 만들어 준다.",
+          "shot": "미디엄",
+          "location": "pantry",
+          "density": "contact",
+          "characters": [
+            "달몽",
+            "너구리 대리"
+          ],
+          "acting": "너구리 대리는 컵을 내려놓고 노트북 쪽으로 손바닥을 펼치며 설명한다. 달몽은 힘없이 숙인 자세로 화면을 보면서 필요한 도구를 입력한다.",
+          "scene": "두 사람의 얼굴과 노트북 옆면을 함께 담는다. 화면은 달몽 쪽을 향하며, 입력 내용은 ‘지출 목록을 넣으면 합계를 내는 도구를 만들어 줘’이다.",
+          "bubbles": [
+            {
+              "speaker": "너구리 대리",
+              "text": "인공지능 서비스 딥시크래."
+            },
+            {
+              "speaker": "너구리 대리",
+              "text": "말로 시키면 도구도 만든대."
+            }
+          ]
+        },
+        {
+          "beat": "도구가 만들어져도 아는 금액으로 먼저 계산을 시험한다.",
+          "shot": "미디엄",
+          "location": "pantry",
+          "density": "contact",
+          "characters": [
+            "달몽"
+          ],
+          "acting": "달몽은 노트북 화면을 바라보며 한 손으로 시험용 지출 목록을 입력하고 다른 손으로 터치패드를 누른다. 몸을 조금 앞으로 당기되 졸린 눈은 그대로다.",
+          "scene": "달몽의 얼굴이 보이는 어깨 옆 구도로, 화면에 완성된 계산 도구와 시험 값 ‘3,000원’, ‘2,000원’을 보여 준다. 아래에는 ‘합계 5,000원’이 표시된다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "먼저 오천 원이 나와야 해요."
+            }
+          ]
+        },
+        {
+          "beat": "확인을 마친 달몽은 만든 도구로 실제 지출 합계를 구한다.",
+          "shot": "미디엄",
+          "location": "pantry",
+          "density": "contact",
+          "characters": [
+            "달몽",
+            "너구리 대리"
+          ],
+          "acting": "달몽은 실제 지출 목록을 넣고 합계 버튼을 누르며 입꼬리를 살짝 올린다. 너구리 대리는 옆에서 화면을 보고, 달몽의 다른 손은 식기 전에 머그컵을 들어 올린다.",
+          "scene": "노트북 화면은 두 사람 쪽을 향하고 독자에게는 뒷면이 보인다. 테이블 위에서 따로 쓰던 계산기는 닫혀 있다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "이젠 합계 버튼만 누르면 돼요."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "말로 지출 계산기를 만들었다.",
+      "closing_line2": "다음 합계도 이걸로 구한다.",
+      "alt": "탕비실에서 달몽이 지출 금액을 반복해서 계산한다. 너구리 대리는 인공지능 서비스 딥시크가 말로 설명한 도구도 만든다고 알려 준다. 달몽은 지출 계산기를 만들게 하고, 삼천 원과 이천 원의 합계가 오천 원인지 시험한다. 확인을 마친 뒤 실제 지출 목록을 넣고 합계 버튼을 누르며 커피잔을 든다."
+    },
+    "acting_notes": [
+      "4컷: '합계 버튼만 누르면 돼요'라는 대사에 비해 한 손은 컵을 들고 다른 손은 키보드 부근에 놓여 있어, 합계 버튼을 누르는 동작이나 가리키는 연기가 드러나지 않는다. 버튼 조작을 보여 주면 결말의 기능 시연이 더 명확해진다."
+    ],
+    "bubble_issues": [
+      "4컷: 말풍선이 달몽이 들고 있는 컵의 윗부분과 손 상단 일부를 가려, 컵을 쥔 모습이 명확하지 않다."
+    ],
+    "image": "2026-11-04-090230.jpg",
+    "round": 1
+  },
+  "ad": {
+    "course_id": "agent-basic",
+    "title": "기본과정 AI Agent 기초",
+    "url": "https://gptkoreaclass.com/product/ai-agent-basic-1day-class/",
+    "format": "오프라인",
+    "style": "당번 추천",
+    "hook": "일을 맡기는 AI, 기초부터",
+    "pitch": "일을 맡기면 알아서 처리하는 AI가 궁금하셨죠? 기초부터 배우는 오프라인 수업이 있어요.",
+    "comment": "오늘은 좀 지치네. 다음엔 같이 배우자."
+  }
+}
