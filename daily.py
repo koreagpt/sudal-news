@@ -67,7 +67,9 @@ def make_webtoon(config: dict, day: str, news: dict, topic: int | None, save: bo
         previous = news.get("webtoon_status")
         round_no = (previous.get("round", 1) + 1) if previous else 1
         print(f"오늘의 웹툰을 만듭니다 ({round_no}번째).")
-        reuse = previous.get("script") if (previous and not previous.get("ok") and previous.get("title")) else None
+        # 같은 대본으로 세 번 떨어지면 구도 탓일 수 있어 대본부터 새로 쓴다
+        rewrite = round_no % 3 == 1
+        reuse = previous.get("script") if (previous and not previous.get("ok") and previous.get("title") and not rewrite) else None
         try:
             status = webtoon.make(PROJECT, config, day, news, topic, save, script=reuse)
         except Exception as error:  # 웹툰이 실패해도 뉴스는 저장하고, 웹툰은 다시 만든다

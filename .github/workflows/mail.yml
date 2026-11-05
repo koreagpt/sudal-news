@@ -17,8 +17,8 @@ on:
         type: choice
         options: [both, mail, kakao]
 
-env:  # 예약 발행 뒤나 예비 예약이면 9시에 하루 한 번만, 손으로 다시 만든 뒤(수동 발행)나 수동 실행이면 바로 새로 보낸다
-  ONCE: ${{ (github.event_name == 'schedule' || github.event.workflow_run.event == 'schedule') && '--once' || '' }}
+env:  # 예약 발행·자동 재시도 뒤나 예비 예약이면 9시에 하루 한 번만, 손으로 다시 만든 뒤(수동 발행)나 수동 실행이면 바로 새로 보낸다
+  ONCE: ${{ (github.event_name == 'schedule' || github.event.workflow_run.event == 'schedule' || endsWith(github.event.workflow_run.display_title, '· retry')) && '--once' || '' }}
 
 permissions:
   contents: write
