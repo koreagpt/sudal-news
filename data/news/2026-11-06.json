@@ -1,0 +1,241 @@
+{
+  "date": "2026-11-06",
+  "generated_at": "2026-11-05T22:00:24.854765+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "챗GPT로 움직이는 이미지 만든다",
+      "summary": "오픈AI가 ‘이미지2.6’을 공개했습니다. 챗GPT에서 움직이는 이미지인 ‘움짤’을 쉽게 만드는 기능을 선보였습니다.",
+      "comment": "움직이는 인사 이미지, 저도 만들어 볼래요!",
+      "category": "서비스·제품",
+      "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1MMzZya1E3ZmxQTDV1YkpwR2h0R2lHZUZxb0w0U2dGeF81RTRIOWJEYnB5TkROUUw3ak40N3RCNHVwcFlNemZHY2piaUtMaHRmTkxRSUlGNmtWZjl3MVpFeFd5X0U1VnMw?oc=5",
+      "source": "뉴스1",
+      "original_title": "챗GPT로 '움짤' 쉽게 만든다…오픈AI, '이미지2.6' 공개",
+      "lang": "ko",
+      "published": "2026-11-05T06:46:37+00:00"
+    },
+    {
+      "title": "경리나라, 12월부터 챗GPT·클로드와 연결",
+      "summary": "웹케시가 경리나라를 챗GPT·클로드 등과 연결하는 ‘경리나라 MCP’를 12월 출시한다고 밝혔습니다.",
+      "comment": "평소 쓰는 AI에 경리 업무도 연결되네요!",
+      "category": "서비스·제품",
+      "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBXQm1YZ3JjTFdIQ0ZJM2NNU3VBWlBndWozY0NjUWhIU0RyN0otRXlGX2RYOWNYQXNLTEphdElWcXkzcmtXdTY4RHZZWlNaUQ?oc=5",
+      "source": "전자신문",
+      "original_title": "웹케시, '경리나라 MCP' 12월 출시…클로드·챗GPT 등과 연결",
+      "lang": "ko",
+      "published": "2026-11-05T05:23:28+00:00"
+    },
+    {
+      "title": "공무원이 AI로 만든 도구, 서류 작성 한 달→하루",
+      "summary": "전남광주 공무원이 AI를 개발 도구로 써서 시설물 안전관리 시스템을 직접 만들었습니다. 점검 용역 설계내역서 작성 기간을 30일 이상에서 1일 이내로 줄였습니다.",
+      "comment": "매번 오래 걸리는 서류부터 찾아봐야겠어요!",
+      "category": "업무활용",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217068",
+      "source": "AI타임스",
+      "original_title": "전남광주 공무원, AI 활용해 시설물 안전관리 플랫폼 직접 개발",
+      "lang": "ko",
+      "published": "2026-11-05T08:15:09+00:00"
+    },
+    {
+      "title": "네이버애즈, AI가 광고 운영·성과 분석 돕는다",
+      "summary": "네이버가 기존 광고 플랫폼에 AI 기능을 더해 ‘네이버애즈’로 개편한다고 밝혔습니다. AI가 광고 운영과 성과 분석을 지원합니다.",
+      "comment": "광고 처음 맡았을 때 도움받고 싶어요!",
+      "category": "서비스·제품",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=156971",
+      "source": "테크M",
+      "original_title": "\"광고도 AI가 알아서 척척\"...네이버, 광고 플랫폼 '네이버애즈' 새 출발",
+      "lang": "ko",
+      "published": "2026-11-05T04:41:32+00:00"
+    },
+    {
+      "title": "보이스피싱 위험도 알려주는 AI 서비스 도입 추진",
+      "summary": "금융당국이 보이스피싱 위험도를 점수로 알려주는 AI 서비스 도입과 금융회사의 피해금 일부 보상 법제화를 추진합니다. 금융회사 등 580여개사의 보안체계도 전수점검합니다.",
+      "comment": "송금 전 위험을 확인하는 데 도움되겠어요!",
+      "category": "정책·사회",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=156981",
+      "source": "테크M",
+      "original_title": "금융권 정보유출 47만3000건...당국, 580여개사 보안 점수점검 나선다",
+      "lang": "ko",
+      "published": "2026-11-05T06:32:08+00:00"
+    },
+    {
+      "title": "우리은행, 해외송금 서류 읽고 입력하는 AI 도입",
+      "summary": "우리은행이 해외송금 증빙서류를 분석하고 송금 정보를 자동 입력하는 AI 심사 지원 시스템을 도입했습니다. 무역·서비스 대금 송금에 우선 적용하며, 직원이 결과를 확인합니다.",
+      "comment": "서류 입력은 AI가, 마지막 확인은 사람이 하네요!",
+      "category": "업무활용",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=156986",
+      "source": "테크M",
+      "original_title": "우리은행, 해외송금 심사에 AI 도입...서류 분석·정보 입력 자동화",
+      "lang": "ko",
+      "published": "2026-11-05T07:05:33+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "뭉뭉 인턴이 반복 서류 작업 앞에서 달력을 넘기다가, AI로 직접 업무 도구를 만든 공무원 기사를 읽고, 자기 업무의 반복 단계를 적어 본 뒤, 선배에게 ‘우리도 이 서류부터 줄여 볼까요?’ 하고 제안하는 4컷입니다.",
+    "link": "https://www.aitimes.com/news/articleView.html?idxno=217068",
+    "source": "AI타임스",
+    "original_title": "전남광주 공무원, AI 활용해 시설물 안전관리 플랫폼 직접 개발",
+    "lang": "ko",
+    "published": "2026-11-05T08:15:09+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 39,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 100,
+      "kept": 12,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 10,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 8,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 30,
+      "kept": 2,
+      "error": null
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 15,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 100,
+      "kept": 18,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 50,
+      "kept": 8,
+      "error": null
+    },
+    "byline": {
+      "fetched": 0,
+      "kept": 0,
+      "error": "ParseError: undefined entity: line 164, column 62"
+    }
+  },
+  "webtoon_status": {
+    "ok": true,
+    "attempts": 1,
+    "topic": "전남광주 공무원, AI 활용해 시설물 안전관리 플랫폼 직접 개발",
+    "source": "AI타임스",
+    "problems": [],
+    "made_at": "2026-11-06T07:00+09:00",
+    "title": "AI로 서류 작업 줄이기",
+    "script": {
+      "title": "AI로 서류 작업 줄이기",
+      "subtitle": "반복하는 일부터 적어 봤다",
+      "panels": [
+        {
+          "beat": "뭉뭉은 매번 비슷한 서류를 다시 쓰고 있다.",
+          "shot": "롱샷",
+          "location": "other",
+          "density": "establishing",
+          "characters": [
+            "뭉뭉"
+          ],
+          "acting": "뭉뭉은 공용 작업대에 서서 지난 서류와 새 서류를 번갈아 본다. 한 손으로 탁상 달력을 넘기고 다른 손으로 펜을 쥔 채 어깨를 늘어뜨린다.",
+          "scene": "사무실 공용 서류 보관 공간에 낮은 나무 작업대와 서류 선반이 있다. 크림색과 나무색 배경에 남색 서류철을 두고, 뭉뭉의 민트색 맨투맨과 노란 사원증 끈이 보인다.",
+          "bubbles": [
+            {
+              "speaker": "뭉뭉",
+              "text": "이번 달도 같은 서류네요."
+            }
+          ]
+        },
+        {
+          "beat": "공무원이 AI를 활용해 시설 안전 관리 도구를 직접 만들었다는 소식을 접한다.",
+          "shot": "미디엄",
+          "location": "other",
+          "density": "contact",
+          "characters": [
+            "뭉뭉",
+            "너구리 대리"
+          ],
+          "acting": "너구리 대리는 휴대전화를 둘이 볼 수 있도록 들고 기사 내용을 가리킨다. 뭉뭉은 펜을 내려놓고 몸을 가까이 기울여 화면을 본다.",
+          "scene": "두 인물의 얼굴이 보이는 정면 구도로, 휴대전화는 인물들을 향해 있어 독자에게 뒷면만 보인다. 배경은 작업대 모서리만 남긴다.",
+          "bubbles": [
+            {
+              "speaker": "너구리 대리",
+              "text": "공무원이 AI로 만들었대."
+            },
+            {
+              "speaker": "너구리 대리",
+              "text": "시설 안전 관리 도구래."
+            }
+          ]
+        },
+        {
+          "beat": "뭉뭉은 자기 서류에서 반복되는 날짜 입력을 찾아낸다.",
+          "shot": "미디엄",
+          "location": "other",
+          "density": "contact",
+          "characters": [
+            "뭉뭉"
+          ],
+          "acting": "뭉뭉은 두 서류의 날짜 칸을 번갈아 짚어 본다. 몸을 숙여 메모지에 작업 순서를 적고, 반복되는 항목에 동그라미를 친다.",
+          "scene": "작업대 위 두 서류는 날짜 칸만 다르고 나머지 칸 배치는 같다. 메모지에는 ‘열기 → 날짜 입력 → 저장’이라고 짧게 적혀 있다.",
+          "bubbles": [
+            {
+              "speaker": "뭉뭉",
+              "text": "날짜만 바꿔 다시 쓰네요."
+            }
+          ]
+        },
+        {
+          "beat": "막막했던 뭉뭉이 반복 입력을 줄이는 작은 도구를 제안한다.",
+          "shot": "미디엄",
+          "location": "other",
+          "density": "contact",
+          "characters": [
+            "뭉뭉",
+            "너구리 대리"
+          ],
+          "acting": "뭉뭉은 메모지를 너구리 대리 쪽으로 밀며 날짜 입력에 친 동그라미를 짚는다. 귀를 세우고 꼬리를 흔들며 웃고, 너구리 대리는 휴대전화를 내려놓고 메모지 위로 펜을 가져간다.",
+          "scene": "두 사람이 작업대 한쪽에 나란히 서서 같은 메모지를 내려다본다. 서류 더미보다 두 사람의 손과 메모지가 먼저 보이도록 배경을 비운다.",
+          "bubbles": [
+            {
+              "speaker": "뭉뭉",
+              "text": "대리님, 입력부터 줄여 볼까요?"
+            },
+            {
+              "speaker": "너구리 대리",
+              "text": "좋아, 날짜 넣는 것부터 보자."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "반복하는 단계를 적었다.",
+      "closing_line2": "날짜 입력부터 줄여 보기로 했다.",
+      "alt": "공용 서류 작업대에서 뭉뭉이 매달 같은 서류를 쓰며 지친다. 너구리 대리가 공무원이 AI로 시설 안전 관리 도구를 만들었다는 소식을 전한다. 뭉뭉은 서류를 비교하고 날짜 입력이 반복됨을 메모한다. 두 사람은 날짜 입력부터 줄일 방법을 함께 살펴보기로 한다."
+    },
+    "acting_notes": [
+      "1컷: 뭉뭉에게 서류를 잡은 손, 턱 근처에서 펜을 든 손, 달력을 잡은 손이 동시에 보여 손이 세 개처럼 보인다. 서류를 책상에 내려놓거나 달력을 잡은 손을 없애는 수정이 필요하다."
+    ],
+    "bubble_issues": [],
+    "image": "2026-11-06-070135.jpg",
+    "round": 1
+  },
+  "ad": {
+    "course_id": "certificate",
+    "title": "[생성형 AI 활용 전문가] 자격증 과정",
+    "url": "https://gptkoreaclass.com/courses/certificatecourse/",
+    "format": "온라인",
+    "style": "오늘 연결",
+    "hook": "오늘 웹툰처럼 서류부터 줄여 볼까요?",
+    "pitch": "반복하는 서류 일이 있다면, AI로 보고서를 쓰고 업무를 자동화하는 법을 배우는 데 도움이 돼요.",
+    "comment": "저도 매번 쓰는 서류부터 해 볼래요!"
+  }
+}
