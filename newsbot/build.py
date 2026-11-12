@@ -392,6 +392,9 @@ def share_text(site: dict, day: str, news: dict) -> str:
     lines = [f"{site['emoji']} {_brand_name(site)} | {_korean_date(day, long=False)}", f"오늘의 AI 뉴스 {len(items)}건", ""]
     lines += [f"{number}. {item['title']}" for number, item in enumerate(items, 1)]
     lines += ["", "👉 4컷 웹툰과 뉴스 요약 보기" if any(item.get("summary") for item in items) else "👉 4컷 웹툰과 뉴스 보기", url]
+    banner = site.get("blog_banner")
+    if banner and banner.get("url"):  # 기사 목록 아래에 협회 블로그 글 하나 소개
+        lines += ["", f"{banner.get('icon', '📝')} AI 정보 블로그 새 글", banner["title"], banner["url"]]
     return "\n".join(lines).strip()  # 끝에 빈 줄·공백이 붙지 않게
 
 
