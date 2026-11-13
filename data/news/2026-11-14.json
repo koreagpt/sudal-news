@@ -1,0 +1,242 @@
+{
+  "date": "2026-11-14",
+  "generated_at": "2026-11-13T20:01:31.361715+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "구글 검색, 여러 조건 섞인 질문도 비교해 답한다",
+      "summary": "구글이 전 세계 검색에 새 AI 모델 ‘제미나이 4 하이드로젠’을 적용하기 시작했습니다. 여러 조건이 섞인 질문을 이해하고 관련 웹사이트와 이미지, 비교표를 제공하는 기능을 강화했다고 밝혔습니다.",
+      "comment": "조건은 한 번에 물어봐. 답은 확인하고.",
+      "category": "서비스·제품",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217360",
+      "source": "AI타임스",
+      "original_title": "구글 \"검색 역대 최대 AI 모델 업그레이드\"…최신 '하이드로젠' 적용",
+      "lang": "ko",
+      "published": "2026-11-13T09:17:42+00:00"
+    },
+    {
+      "title": "오픈AI, AI 대리구매 돕는 ‘챗GPT 월렛’ 출시",
+      "summary": "오픈AI가 AI의 대리구매를 돕는 ‘챗GPT 월렛’을 출시했습니다.",
+      "comment": "사는 건 맡겨도 지출 확인은 네 몫이야.",
+      "category": "서비스·제품",
+      "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE00SW1EdV9YbXF4VkxXM1FFcnBNS1VHRUgyWTFpak1WTEVlZS1ma1czSjFRV0I4V2ZmME92M2VrY1ZsQ05ycUpTRlFEdU9iZTliU2tnc21YRk56WWRFN1ZjWtIBeEFVX3lxTE56ZVh5WVpsREMwX1h3aWpzTk9YSldaVUpRTlg5NndPeE8zSHJhRUtsRXBRUEFUUVJ4ZVloeDFVTFNLeFlQeUVSRzVsc2dwcHhGMUNlN3J5MndaakpIUTdVMEp0SEt0RWQtNHctV3lvNmR6RVBUd21BRA?oc=5",
+      "source": "뉴시스",
+      "original_title": "오픈AI, AI 대리구매 돕는 챗GPT 월렛 출시",
+      "lang": "ko",
+      "published": "2026-11-13T19:10:07+00:00"
+    },
+    {
+      "title": "MS 365 장애, 메일·회의 도구와 AI 연동 차질",
+      "summary": "MS 365에서 접속 장애가 발생해 아웃룩·팀즈·코파일럿 이용에 차질이 생겼습니다. 챗GPT와 클로드의 업무 연동 기능도 영향을 받았고, 일부 장애는 하루 가까이 이어졌습니다.",
+      "comment": "메일도 AI도 멈추면, 대안은 있어야지.",
+      "category": "업무활용",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217394",
+      "source": "AI타임스",
+      "original_title": "MS 365 전 세계 장애…정부·기업 업무 차질에 챗GPT·클로드도 영향",
+      "lang": "ko",
+      "published": "2026-11-13T09:44:26+00:00"
+    },
+    {
+      "title": "클로드, 제조업 견적·품질 검사 돕는 기능 출시",
+      "summary": "앤트로픽이 제조업용 클로드 추가 기능을 출시했습니다. 견적 산출과 품질 검사, 설비 고장 분석 등 제조 현장의 업무를 지원합니다.",
+      "comment": "견적은 맡겨도 최종 검토는 사람이 해.",
+      "category": "업무활용",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217361",
+      "source": "AI타임스",
+      "original_title": "앤트로픽, 제조업용 '클로드' 출시…오픈AI와 산업별 AI 시장 경쟁 확대",
+      "lang": "ko",
+      "published": "2026-11-13T09:03:44+00:00"
+    },
+    {
+      "title": "AI 활용 음악, 처음으로 멜론 메인 차트 1위",
+      "summary": "인공지능을 활용한 음악이 사상 처음으로 멜론 메인 차트 1위에 올랐습니다.",
+      "comment": "듣는 노래에 AI가 쓰였는지도 보게 되겠네.",
+      "category": "정책·사회",
+      "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5hbllLMTVUX1VCQWttWkRUcTdlU0dQejZrNWdueWlHamFvMzR1NU43eV9zbVVuSFIwRmdEeDNxVFhQb0drbXk0NnRyUXdHbEFYNTV1aFFSQlZjdVNMQUE?oc=5",
+      "source": "YTN",
+      "original_title": "인공지능 활용 음악, 사상 첫 멜론 메인 차트 1위",
+      "lang": "ko",
+      "published": "2026-11-13T14:28:00+00:00"
+    },
+    {
+      "title": "기업 AI 교체, 경험자 70%가 ‘몇 주 이상’",
+      "summary": "AI 교체 경험이 있는 기업 담당자 70%가 교체 작업에 몇 주 이상 걸렸다고 답했습니다. 기존 AI에 맞춘 지시문과 도구, 평가 방식을 다시 조정해야 했습니다.",
+      "comment": "싼 AI로 바꾸기 전에 수정할 일부터 세 봐.",
+      "category": "업무활용",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217379",
+      "source": "AI타임스",
+      "original_title": "AI 모델 바꾼 기업 70% \"몇 주 이상 걸려\"…앱 수정·검증이 걸림돌",
+      "lang": "ko",
+      "published": "2026-11-13T07:51:53+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "1컷 냐옹 대리가 아웃룩으로 보고서를 보내려다 멈추고, 2컷 팀즈로 알리려다 또 막히고, 3컷 AI 연동까지 안 되자, 4컷 옆자리 상사에게 직접 걸어가 ‘보고서 다 썼는데 전송이 안 됩니다’라고 말한다.",
+    "link": "https://www.aitimes.com/news/articleView.html?idxno=217394",
+    "source": "AI타임스",
+    "original_title": "MS 365 전 세계 장애…정부·기업 업무 차질에 챗GPT·클로드도 영향",
+    "lang": "ko",
+    "published": "2026-11-13T09:44:26+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 46,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 100,
+      "kept": 17,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 10,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 7,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 0,
+      "kept": 0,
+      "error": "URLError: <urlopen error timed out>"
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 12,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 100,
+      "kept": 22,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 50,
+      "kept": 7,
+      "error": null
+    },
+    "byline": {
+      "fetched": 20,
+      "kept": 11,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": true,
+    "attempts": 1,
+    "topic": "MS 365 전 세계 장애…정부·기업 업무 차질에 챗GPT·클로드도 영향",
+    "source": "AI타임스",
+    "problems": [],
+    "made_at": "2026-11-14T05:01+09:00",
+    "title": "AI도 멈춰 직접 보고",
+    "script": {
+      "title": "AI도 멈춰 직접 보고",
+      "subtitle": "메일이 막혀 자리에서 일어났다",
+      "panels": [
+        {
+          "beat": "완성한 보고서를 메일로 보내려는데 전송이 되지 않는다.",
+          "shot": "롱샷",
+          "location": "desk",
+          "density": "establishing",
+          "characters": [
+            "냐옹"
+          ],
+          "acting": "냐옹은 모니터를 보며 마우스를 쥔 흰 앞발을 멈춘다. 턱을 살짝 들고 귀를 뒤로 젖히며 꼬리 끝을 바닥에 탁 친다.",
+          "scene": "왼쪽 큰 창에서 따뜻한 빛이 들어오는 책상에 모니터와 덮인 노트북이 놓여 있다. 오른쪽 끝에는 넓은 잎 화분, 왼쪽에는 펜꽂이와 서류 더미, 손 가까이에는 남색 머그컵을 둔다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "보고서가 안 보내지네."
+            }
+          ]
+        },
+        {
+          "beat": "업무 앱과 AI에도 장애가 났다는 소식을 접한다.",
+          "shot": "미디엄",
+          "location": "desk",
+          "density": "contact",
+          "characters": [
+            "냐옹",
+            "너구리 대리"
+          ],
+          "acting": "냐옹은 모니터를 보며 마우스로 업무용 대화 앱을 누른다. 오른쪽 옆자리의 너구리는 자신을 향한 휴대전화 화면의 뉴스를 읽고 냐옹 쪽으로 고개를 돌린다.",
+          "scene": "두 사람의 얼굴이 보이는 구도이며 독자에게는 모니터와 휴대전화의 뒷면이 보인다. 배경은 두 책상 가장자리만 남긴다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "팀즈도 안 되네."
+            },
+            {
+              "speaker": "너구리 대리",
+              "text": "업무 앱이랑 AI도 장애래."
+            }
+          ]
+        },
+        {
+          "beat": "AI 연결도 막힌 것을 확인하고 직접 보고하기로 한다.",
+          "shot": "미디엄",
+          "location": "desk",
+          "density": "contact",
+          "characters": [
+            "냐옹"
+          ],
+          "acting": "냐옹은 모니터에서 시선을 떼고 사무실 안쪽을 바라본다. 한쪽 앞발로 마우스를 놓고 다른 앞발로 의자 팔걸이를 짚어 몸을 일으키며 귀를 바로 세운다.",
+          "scene": "모니터는 냐옹 쪽을 향해 독자에게 뒷면만 보인다. 뒤로 조금 밀린 의자와 책상 모서리로 자리에서 일어나는 동작을 보여 준다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "AI 연결도 안 되네."
+            }
+          ]
+        },
+        {
+          "beat": "전송을 계속 시도하는 대신 팀장에게 진행 상황을 직접 알린다.",
+          "shot": "미디엄",
+          "location": "other",
+          "density": "context",
+          "characters": [
+            "냐옹",
+            "거북 팀장"
+          ],
+          "acting": "냐옹은 팀장 책상 앞에 서서 앞발을 가지런히 모으고 차분히 보고한다. 거북 팀장은 쥐고 있던 펜을 내려놓고 냐옹을 올려다보며 고개를 끄덕인다.",
+          "scene": "사무실 안쪽 팀장 자리로, 낮은 서류 더미와 펜만 둔 나무 책상을 보여 준다. 두 사람의 얼굴과 냐옹이 걸어온 빈 통로가 함께 보이게 잡는다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "팀장님, 보고서는 다 썼습니다."
+            },
+            {
+              "speaker": "냐옹",
+              "text": "전송이 안 돼서 직접 왔습니다."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "보고서 전송은 막혔다.",
+      "closing_line2": "완성됐다는 말은 직접 전했다.",
+      "alt": "냐옹 대리가 완성한 보고서를 보내려지만 메일이 멈춘다. 업무용 대화 앱도 열리지 않자 너구리 대리가 업무 앱과 AI에 장애가 났다는 뉴스를 전한다. AI 연결까지 안 되는 것을 확인한 냐옹은 자리에서 일어난다. 팀장에게 걸어가 보고서는 완성했지만 전송이 안 된다고 직접 알린다."
+    },
+    "acting_notes": [
+      "3컷: 냐옹이 기기 화면이 아니라 오른쪽 위를 보고 있어, AI 연결 실패를 확인하는 행동이 직접적으로 드러나지 않는다. 화면을 확인한 뒤 일어나는 동작임을 조금 더 분명히 하면 좋다.",
+      "4컷: 직접 보고하러 왔지만 냐옹이 빈손으로 서 있어 완성된 보고서의 존재가 시각적으로 드러나지 않는다. 출력물이나 보고서 파일을 든 모습을 추가하면 상황 전달이 더 명확해진다."
+    ],
+    "bubble_issues": [],
+    "image": "2026-11-14-050247.jpg",
+    "round": 1
+  },
+  "ad": {
+    "course_id": "offline-master",
+    "title": "AI 업무자동화 마스터 과정 (중급)",
+    "url": "https://gptkoreaclass.com/%ec%98%a4%ed%94%84%eb%9d%bc%ec%9d%b8%ec%a4%91%ea%b8%89%ea%b5%90%ec%9c%a1/",
+    "format": "오프라인",
+    "style": "당번 추천",
+    "hook": "AI랑 업무 도구 연결하기",
+    "pitch": "업무 도구를 연결해 반복 작업을 자동으로 돌리고 싶으세요? 직접 만들어 보는 오프라인 심화 수업이 있어요.",
+    "comment": "연결했다고 끝은 아니야."
+  }
+}
