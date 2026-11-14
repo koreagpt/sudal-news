@@ -29,9 +29,11 @@
     ],
     "blog_banner": {
       "label": "한국GPT협회 AI 정보 블로그",
-      "title": "챗GPT 한글파일, 변환 없이 읽고 씁니다 (클로드도 가능해요!)",
-      "url": "https://blog.naver.com/mtckr/224467038150",
-      "icon": "📄"
+      "title": "매주 월·수·금, 쉬운 AI 사용법이 올라와요",
+      "url": "https://blog.naver.com/mtckr",
+      "rss": "https://rss.blog.naver.com/mtckr.xml",
+      "category": "생성형 AI 기초 활용법",
+      "icon": "📝"
     },
     "analytics_id": "G-6DGPEH17LP"
   },

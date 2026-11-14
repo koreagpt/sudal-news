@@ -5,7 +5,10 @@ import hashlib
 import json
 import os
 import shutil
+from functools import lru_cache
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.request import Request, urlopen
+from xml.etree import ElementTree
 from datetime import date as Date, datetime
 from html import escape
 from pathlib import Path
@@ -324,11 +327,33 @@ def _news_section(news: dict | None, root: str, site: dict) -> str:
 </section>"""
 
 
+@lru_cache(maxsize=None)
+def _latest_blog_post(rss: str, category: str) -> tuple[str, str] | None:
+    """블로그 새 글 목록(RSS)에서 정한 카테고리의 가장 최근 글 (제목, 주소). 못 읽으면 None."""
+    try:
+        with urlopen(Request(rss, headers={"User-Agent": "Mozilla/5.0"}), timeout=10) as response:
+            root = ElementTree.fromstring(response.read())
+    except Exception as error:
+        print(f"[안내] 블로그 새 글 목록을 읽지 못해 블로그 홈으로 연결합니다: {error}")
+        return None
+    for item in root.iter("item"):
+        if (item.findtext("category") or "").strip() == category:
+            link = (item.findtext("link") or "").split("?")[0].strip()  # 피드 추적 꼬리표는 뺀다
+            title = (item.findtext("title") or "").strip()
+            if link and title:
+                return title, link
+    return None
+
+
 def _blog_banner(site: dict) -> str:
-    """뉴스 6건 아래 가로 배너: 협회 블로그 글 하나 (기사 중간 강의 카드와는 다른 모양)."""
+    """뉴스 6건 아래 가로 배너: 협회 블로그의 'AI 사용법' 카테고리 최신 글 (못 찾으면 블로그 홈)."""
     banner = site.get("blog_banner")
     if not banner or not banner.get("url"):
         return ""
+    if banner.get("rss") and banner.get("category"):
+        latest = _latest_blog_post(banner["rss"], banner["category"])
+        if latest:
+            banner = {**banner, "title": latest[0], "url": latest[1]}
     return f"""
 <a class="blog-banner" href="{escape(_utm(banner["url"], "blog_banner"))}" target="_blank" rel="noopener">
   <span class="blog-banner-icon" aria-hidden="true">{escape(banner.get("icon", "📝"))}</span>
@@ -392,9 +417,6 @@ def share_text(site: dict, day: str, news: dict) -> str:
     lines = [f"{site['emoji']} {_brand_name(site)} | {_korean_date(day, long=False)}", f"오늘의 AI 뉴스 {len(items)}건", ""]
     lines += [f"{number}. {item['title']}" for number, item in enumerate(items, 1)]
     lines += ["", "👉 4컷 웹툰과 뉴스 요약 보기" if any(item.get("summary") for item in items) else "👉 4컷 웹툰과 뉴스 보기", url]
-    banner = site.get("blog_banner")
-    if banner and banner.get("url"):  # 기사 목록 아래에 협회 블로그 글 하나 소개
-        lines += ["", f"{banner.get('icon', '📝')} AI 정보 블로그 새 글", banner["title"], banner["url"]]
     return "\n".join(lines).strip()  # 끝에 빈 줄·공백이 붙지 않게
 
 
