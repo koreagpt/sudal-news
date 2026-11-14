@@ -1,0 +1,243 @@
+{
+  "date": "2026-11-15",
+  "generated_at": "2026-11-14T20:01:26.685604+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "챗GPT, 상품 구매·결제 돕는 지갑 출시",
+      "summary": "오픈AI가 AI에 카드번호를 노출하지 않고 생체인증으로 결제하는 ‘챗GPT 월렛’을 출시했습니다. 미국 거주 18세 이상 챗GPT 프로 가입자 중 조건을 충족한 이용자가 대상입니다.",
+      "comment": "써 보고 싶지만, 국내 이용 조건부터 확인해야겠어요!",
+      "category": "서비스·제품",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217400",
+      "source": "AI타임스",
+      "original_title": "오픈AI, AI 에이전트가 대신 결제하는 '챗GPT 월렛' 출시",
+      "lang": "ko",
+      "published": "2026-11-14T01:41:50+00:00"
+    },
+    {
+      "title": "MS 365 장애 원인은 네트워크 문제",
+      "summary": "MS가 이메일 송수신과 회의 예약 등에 차질을 준 장애의 원인을 밝혔습니다. 과거 네트워크 증설 때 생긴 문제로, 사이버 공격이나 AI와는 무관하다고 설명했습니다.",
+      "comment": "메일이 늦게 갔다면 장애 시간과 겹쳤는지 봐야겠어요!",
+      "category": "서비스·제품",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=157350",
+      "source": "테크M",
+      "original_title": "MS, 대규모 장애 공식 사과...\"네트워크 증설 당시 문제\"",
+      "lang": "ko",
+      "published": "2026-11-14T07:46:33+00:00"
+    },
+    {
+      "title": "폐기물 배출·불법촬영 적발에 AI 활용",
+      "summary": "폐기물 배출과 불법촬영 적발에 인공지능을 쓰는 사례가 소개됐습니다.",
+      "comment": "생활 속에서 AI가 어디에 쓰이는지 궁금해요!",
+      "category": "업무활용",
+      "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1KbzlIN25MVTMxMUozTWhMYTJjUmRqdm1TYjAtMTlzd3NqVkkwUjIyZEp5SEQxNmlKb3pUWXc4ODFqcG1CU1B2aTNUZXZmRnlWTFY3Q1hweENPUUVXMWdB?oc=5",
+      "source": "YTN",
+      "original_title": "폐기물 배출에 불법촬영 적발까지...인공지능으로 '척척'",
+      "lang": "ko",
+      "published": "2026-11-13T22:31:00+00:00"
+    },
+    {
+      "title": "KT ‘믿음 K 3.0 프로’, 오픈라우터 등록",
+      "summary": "KT가 자체 AI 모델 ‘믿음 K 3.0 프로’를 여러 AI 모델을 제공하는 플랫폼 ‘오픈라우터’에 등록했습니다. 업스테이지에 이어 KT도 이름을 올렸습니다.",
+      "comment": "국산 AI도 어떤 답을 하는지 비교해 보고 싶어요!",
+      "category": "서비스·제품",
+      "link": "https://www.inews24.com/view/2026094",
+      "source": "아이뉴스24",
+      "original_title": "업스테이지 이어 KT도 '오픈라우터' 입성…국산 AI 모델 글로벌 진출 확대",
+      "lang": "ko",
+      "published": "2026-11-13T08:04:49+00:00"
+    },
+    {
+      "title": "첨단 AI, 위험 평가·사고 보고 의무 확대",
+      "summary": "뉴욕주가 내년 AI 안전법 시행을 앞두고 대상 기업 등록을 시작했습니다. 호주 정부도 첨단 AI 기업에 독립 평가와 사고 보고를 의무화하는 입법 계획을 발표했습니다.",
+      "comment": "쓰는 AI가 안전 점검을 받는지도 챙겨야겠어요!",
+      "category": "정책·사회",
+      "link": "https://zdnet.co.kr/view/?no=20261113211708",
+      "source": "지디넷코리아",
+      "original_title": "프런티어 AI, 규제 틀 안으로…안전관리 의무화 확산",
+      "lang": "ko",
+      "published": "2026-11-14T04:54:19+00:00"
+    },
+    {
+      "title": "정부 “엔비디아 GPU 26만장 공급 차질 없어”",
+      "summary": "정부가 젠슨 황의 사임에도 엔비디아의 AI용 반도체 26만장 공급에 차질이 없다고 밝혔습니다. 엔비디아와의 협력도 계속한다고 설명했습니다.",
+      "comment": "국내 AI에 쓸 반도체 공급은 계속되는군요!",
+      "category": "정책·사회",
+      "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9qa1RSRFo3czhPLVhKV1FocGdsZGZjclZPTUtkQjJ6Q09hdjdrREx6bWQxRS1EQk9hVEM2enVYWGRvVkh0Q1hzVlA4WlVBaE5QV3Btekt0UHpFYV9TVUw1ZA?oc=5",
+      "source": "한겨레",
+      "original_title": "정부 “엔비디아 GPU 26만장 공급 차질 없어”…젠슨 황 사임에도 협력 계속",
+      "lang": "ko",
+      "published": "2026-11-14T02:57:00+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "뭉뭉 인턴이 사무용품 구매 목록을 정리하다가 챗GPT 월렛 출시 소식을 보고, AI에 결제까지 맡기려다 미국 이용자 대상이라는 조건을 확인한 뒤, 동료에게 기사와 함께 이용 조건부터 확인하자고 알려주는 4컷입니다.",
+    "link": "https://www.aitimes.com/news/articleView.html?idxno=217400",
+    "source": "AI타임스",
+    "original_title": "오픈AI, AI 에이전트가 대신 결제하는 '챗GPT 월렛' 출시",
+    "lang": "ko",
+    "published": "2026-11-14T01:41:50+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 26,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 89,
+      "kept": 12,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 13,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 4,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 30,
+      "kept": 1,
+      "error": null
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 4,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 100,
+      "kept": 6,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 50,
+      "kept": 2,
+      "error": null
+    },
+    "byline": {
+      "fetched": 20,
+      "kept": 1,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": true,
+    "attempts": 1,
+    "topic": "오픈AI, AI 에이전트가 대신 결제하는 '챗GPT 월렛' 출시",
+    "source": "AI타임스",
+    "problems": [],
+    "made_at": "2026-11-15T05:01+09:00",
+    "title": "AI 결제, 나도 될까?",
+    "script": {
+      "title": "AI 결제, 나도 될까?",
+      "subtitle": "미국 이용자 대상인지 확인해요",
+      "panels": [
+        {
+          "beat": "뭉뭉은 사무용품 주문과 결제를 모두 해야 해서 막막하다.",
+          "shot": "롱샷",
+          "location": "pantry",
+          "density": "establishing",
+          "characters": [
+            "뭉뭉",
+            "너구리 대리"
+          ],
+          "acting": "뭉뭉은 둥근 테이블에 앉아 한 손으로 사무용품 구매 목록을 누르고 다른 손으로 휴대전화를 쥔 채 어깨를 늘어뜨린다. 너구리 대리는 커피잔을 들고 뭉뭉을 돌아본다.",
+          "scene": "부드러운 실내 조명의 탕비실로, 벽면 조리대의 커피머신과 컵들, 창 옆 화분이 보인다. 작은 둥근 테이블에는 펜과 종이 구매 목록이 놓여 있고 휴대전화 화면은 뭉뭉을 향한다.",
+          "bubbles": [
+            {
+              "speaker": "뭉뭉",
+              "text": "주문하고 결제까지 언제 하죠?"
+            }
+          ]
+        },
+        {
+          "beat": "챗GPT가 결제까지 대신한다는 소식을 듣고 써 보려 한다.",
+          "shot": "미디엄",
+          "location": "pantry",
+          "density": "contact",
+          "characters": [
+            "뭉뭉",
+            "너구리 대리"
+          ],
+          "acting": "너구리 대리는 커피잔을 내려놓고 자기 휴대전화의 뉴스 기사를 뭉뭉 쪽으로 돌린다. 뭉뭉은 상체를 앞으로 기울여 화면을 보며 빈 앞발을 작게 쥔다.",
+          "scene": "두 인물의 얼굴과 테이블 위 손동작이 함께 보인다. 휴대전화는 뭉뭉을 향하고 독자에게는 기기 뒷면이 보이며 실제 서비스 화면이나 로고는 그리지 않는다.",
+          "bubbles": [
+            {
+              "speaker": "너구리 대리",
+              "text": "챗GPT가 결제도 대신한대."
+            },
+            {
+              "speaker": "뭉뭉",
+              "text": "대리님, 바로 써 볼게요!"
+            }
+          ]
+        },
+        {
+          "beat": "기사를 더 읽은 뭉뭉이 미국 이용자 대상이라는 조건을 발견한다.",
+          "shot": "클로즈업",
+          "location": "pantry",
+          "density": "none",
+          "characters": [
+            "뭉뭉"
+          ],
+          "acting": "뭉뭉은 자기 휴대전화로 전달받은 기사를 읽다가 귀를 쫑긋 세운다. 두 손으로 휴대전화를 꼭 쥐고 이마에 작은 땀방울을 흘린다.",
+          "scene": "뭉뭉의 얼굴과 휴대전화를 가슴 높이까지 담는다. 화면은 뭉뭉을 향해 독자에게는 기기 뒷면만 보인다.",
+          "bubbles": [
+            {
+              "speaker": "뭉뭉",
+              "text": "미국 이용자만 대상이네요."
+            }
+          ]
+        },
+        {
+          "beat": "뭉뭉은 이용 조건을 동료에게 짚어 주고 직접 주문을 이어 간다.",
+          "shot": "미디엄",
+          "location": "pantry",
+          "density": "contact",
+          "characters": [
+            "뭉뭉",
+            "너구리 대리"
+          ],
+          "acting": "뭉뭉은 기사와 이용 대상 문구를 덧붙인 메시지의 전송을 누른 뒤 휴대전화를 내려놓고 구매 목록 옆 펜을 집는다. 너구리 대리는 자기 휴대전화에 도착한 메시지를 읽으며 멋쩍게 웃는다.",
+          "scene": "테이블 양쪽 인물의 얼굴과 구매 목록이 함께 보이는 구도다. 휴대전화 화면은 각각 사용하는 인물을 향하며 배경은 테이블 가장자리만 남긴다.",
+          "bubbles": [
+            {
+              "speaker": "뭉뭉",
+              "text": "대리님, 이 조건도 보세요."
+            },
+            {
+              "speaker": "너구리 대리",
+              "text": "우린 아직 직접 결제해야겠네."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "이용 대상부터 확인했다.",
+      "closing_line2": "기사에 조건도 짚어 보냈다.",
+      "alt": "탕비실에서 사무용품 구매 목록을 보던 뭉뭉이 주문과 결제를 걱정한다. 너구리 대리가 챗GPT의 대신 결제 소식을 알려 주자 써 보려 한다. 그러나 기사를 읽고 미국 이용자 대상이라는 조건을 발견한다. 뭉뭉은 대리에게 기사와 이용 조건을 함께 보내고 직접 주문할 준비를 한다."
+    },
+    "acting_notes": [
+      "2컷: 너구리 대리의 검지가 휴대전화 화면이 아니라 뒷면 카메라 부근을 가리킨다. 화면 내용을 설명하거나 조작하는 동작으로는 부자연스럽다.",
+      "4컷: 뭉뭉은 서류를 펜으로 짚지만 너구리 대리는 눈을 감고 자기 휴대전화를 들고 있어, 제시한 조건을 함께 확인하는 시선 연결이 약하다."
+    ],
+    "bubble_issues": [],
+    "image": "2026-11-15-050233.jpg",
+    "round": 1
+  },
+  "ad": {
+    "course_id": "ms-office-auto",
+    "title": "코드없이 끝내는, MS office 업무자동화",
+    "url": "https://gptkoreaclass.com/courses/ms-office-automation",
+    "format": "온라인",
+    "style": "질문",
+    "hook": "엑셀 작업, 아직 손으로 하세요?",
+    "pitch": "엑셀·PPT·워드에서 반복하는 일을 AI로 자동화하는 법을 배우는 온라인 강의예요.",
+    "comment": "저도 오늘 엑셀 작업에 써 볼래요!"
+  }
+}
