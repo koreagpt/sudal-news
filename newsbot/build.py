@@ -164,7 +164,7 @@ def _drawer(site: dict, root: str) -> str:
         blocks.append(f'<section class="drawer-month"><h3>{year}년 {month}월</h3>{"".join(rows)}</section>')
     org = "".join(  # 맨 위: 하단과 같은 협회 바로가기 버튼
         f'<a class="org-link" href="{escape(_utm(link["url"], "menu"))}" target="_blank" rel="noopener">{escape(link["label"])} <span aria-hidden="true">↗</span></a>'
-        for link in site.get("links", [])
+        for link in _org_links(site)
     )
     org = f'\n  <nav class="drawer-org" aria-label="{escape(site["publisher"])} 바로가기">{org}</nav>' if org else ""
     return f"""
@@ -222,7 +222,7 @@ def _footer(site: dict, root: str) -> str:
     links = "".join(
         f'<a class="org-link" href="{escape(_utm(link["url"], "footer"))}" target="_blank" rel="noopener">'
         f'{escape(link["label"])} <span aria-hidden="true">↗</span></a>'
-        for link in site.get("links", [])
+        for link in _org_links(site)
     )
     contact = f'\n  <nav class="org-links" aria-label="{publisher} 교육 안내">{links}</nav>' if links else ""
     return f"""
@@ -343,6 +343,19 @@ def _latest_blog_post(rss: str, category: str) -> tuple[str, str] | None:
             if link and title:
                 return title, link
     return None
+
+
+def _org_links(site: dict) -> list[dict]:
+    """메뉴·맨 아래 협회 바로가기. latest_blog가 켜진 링크는 배너와 같은 블로그 최신 글로 (못 찾으면 원래 주소)."""
+    banner = site.get("blog_banner") or {}
+    links = []
+    for link in site.get("links", []):
+        if link.get("latest_blog") and banner.get("rss") and banner.get("category"):
+            latest = _latest_blog_post(banner["rss"], banner["category"])
+            if latest:
+                link = {**link, "url": latest[1]}
+        links.append(link)
+    return links
 
 
 def _blog_banner(site: dict) -> str:

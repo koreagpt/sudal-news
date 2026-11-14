@@ -24,7 +24,8 @@
       },
       {
         "label": "AI 정보 블로그",
-        "url": "https://blog.naver.com/mtckr/224432954999"
+        "url": "https://blog.naver.com/mtckr",
+        "latest_blog": true
       }
     ],
     "blog_banner": {
