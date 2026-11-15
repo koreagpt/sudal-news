@@ -1,0 +1,242 @@
+{
+  "date": "2026-11-16",
+  "generated_at": "2026-11-15T20:01:15.319716+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "현대백화점, 챗GPT에 ‘더현대 하이’ 연결",
+      "summary": "현대백화점이 챗GPT에 ‘더현대 하이’를 연결했습니다. 챗GPT에서 대화하며 쇼핑하는 방식입니다.",
+      "comment": "부모님 선물 고를 때 한번 물어봐야겠네.",
+      "category": "서비스·제품",
+      "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE81OXFWd2VBejFIZE90REJUcVRuNDVQamN4WklDU0NicTRhc2xNNlUzYllNZkpnajVlMmdIcFFJVG9keElZb1lRUzJhWFdGcmFOY3fSAVNBVV95cUxNeEl5aUdOa1VtNmdTRVJUdGRPWUtEVnNud0ZiVHdITGI0X21DZnQtV3NQYXhjd1ROSWFmdUdzS2ZHYmJRVHJVQ0ZFRFNraVpCNlhUSQ?oc=5",
+      "source": "서울경제",
+      "original_title": "“부모님 생신 선물 뭐 살까?”…현대백화점, 챗GPT에 ‘더현대 하이’ 연동",
+      "lang": "ko",
+      "published": "2026-11-15T06:18:00+00:00"
+    },
+    {
+      "title": "제미나이, 소비 내역 보고 저축 계획 제안",
+      "summary": "구글이 제미나이에 구글 월렛을 연결해 지출을 분석하고 예산과 저축 계획을 제안하는 기능을 추가했습니다. 미국 이용자에게 순차 제공합니다.",
+      "comment": "국내에서도 되는지는 더 기다려 봐야겠네.",
+      "category": "서비스·제품",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217415",
+      "source": "AI타임스",
+      "original_title": "구글, 제미나이에 '월렛' 연결…개인 소비 분석부터 저축 계획까지",
+      "lang": "ko",
+      "published": "2026-11-15T03:54:46+00:00"
+    },
+    {
+      "title": "금융위, 직원 챗GPT 구독료 지원",
+      "summary": "금융위원회가 직원들에게 챗GPT 구독료를 지원합니다.",
+      "comment": "우리 회사도 구독료 지원해 주면 좋겠다.",
+      "category": "업무활용",
+      "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5Hc3hlajZ4c3ZIWWhyUmhfWk1YNi0xbkc1TURsSF9aVFR6emRNVThyOHUyVnJUQWwyWDl2UHFwaVJYLVZTQTZxRGV0eU95OGc3b3fSAVNBVV95cUxPTkRJeDVpQVlPeWNBQVpzU2xoQmZpSW1rSHhBVFBPSEVsNi05Z2hrZnBFLVRNNVE0MnFjcmRrVkQyLUhDTDJ3ZGxDT2RQNk9rdWVmcw?oc=5",
+      "source": "서울경제",
+      "original_title": "금융위, 직원들에 챗GPT 구독료 지원",
+      "lang": "ko",
+      "published": "2026-11-15T06:58:00+00:00"
+    },
+    {
+      "title": "정부, 올해 국가자격시험 AI 부정행위 전수조사",
+      "summary": "정부가 올해 치러진 국가자격시험에서 AI 부정행위가 있었는지 전수조사에 나섭니다. 제63회 세무사 시험 부정행위자는 합격 취소와 5년간 응시 제한을 받습니다.",
+      "comment": "자격시험 준비 중이면 후속 공지도 챙겨 봐.",
+      "category": "정책·사회",
+      "link": "https://www.etnews.com/20261115000178",
+      "source": "전자신문",
+      "original_title": "정부, 올해 국가자격시험 전수조사 실시…세무사 시험 부정행위자는 5년간 응시 제한",
+      "lang": "ko",
+      "published": "2026-11-15T11:24:10+00:00"
+    },
+    {
+      "title": "메타, 사진 무단 접근으로 이탈리아서 벌금",
+      "summary": "이탈리아 개인정보보호 당국이 메타에 약 1조1886억원의 벌금을 부과했습니다. 페이스북 사진 추천 기능이 명확한 동의 없이 휴대전화 사진과 동영상에 접근했다는 이유입니다.",
+      "comment": "사진 접근 권한, 나도 한번 확인해야겠네.",
+      "category": "정책·사회",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217416",
+      "source": "AI타임스",
+      "original_title": "메타, 사용자 사진 무단 접근으로 이탈리아서 1.2조 벌금",
+      "lang": "ko",
+      "published": "2026-11-15T02:49:30+00:00"
+    },
+    {
+      "title": "KAIST, 입 모양으로 말 읽는 AI 기술 개발",
+      "summary": "KAIST 연구팀이 입 모양으로 말을 알아듣는 AI 기술을 내놓았습니다. 확실한 단어부터 읽고, 헷갈리는 부분은 앞뒤 문맥으로 풀어내는 방식입니다.",
+      "comment": "시끄러워서 못 들은 말을 글로 읽으면 좋겠네.",
+      "category": "연구·기술",
+      "link": "https://www.inews24.com/view/2026260",
+      "source": "아이뉴스24",
+      "original_title": "너의 입 모양만으로도 난 소통한다 [지금은 과학]",
+      "lang": "ko",
+      "published": "2026-11-15T03:00:00+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "① 달몽 사원이 챗GPT 구독 결제 내역을 보며 한숨 쉬고 ② 금융위의 직원 구독료 지원 기사를 발견하고 ③ 회사에 지원을 건의하는 글을 쓰다가 ④ 동료에게 “이 건의문부터 챗GPT한테 다듬어 달라고 할까?” 하고 묻는다.",
+    "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5Hc3hlajZ4c3ZIWWhyUmhfWk1YNi0xbkc1TURsSF9aVFR6emRNVThyOHUyVnJUQWwyWDl2UHFwaVJYLVZTQTZxRGV0eU95OGc3b3fSAVNBVV95cUxPTkRJeDVpQVlPeWNBQVpzU2xoQmZpSW1rSHhBVFBPSEVsNi05Z2hrZnBFLVRNNVE0MnFjcmRrVkQyLUhDTDJ3ZGxDT2RQNk9rdWVmcw?oc=5",
+    "source": "서울경제",
+    "original_title": "금융위, 직원들에 챗GPT 구독료 지원",
+    "lang": "ko",
+    "published": "2026-11-15T06:58:00+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 22,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 100,
+      "kept": 23,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 8,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 4,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 30,
+      "kept": 2,
+      "error": null
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 5,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 100,
+      "kept": 4,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 50,
+      "kept": 6,
+      "error": null
+    },
+    "byline": {
+      "fetched": 20,
+      "kept": 0,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": true,
+    "attempts": 1,
+    "topic": "금융위, 직원들에 챗GPT 구독료 지원",
+    "source": "서울경제",
+    "problems": [
+      "4컷: 왼쪽 달몽의 말풍선이 휴대전화를 쥔 손의 왼쪽과 손목 일부를 가려, 손과 기기의 연결이 명확하지 않다."
+    ],
+    "made_at": "2026-11-16T05:01+09:00",
+    "title": "챗GPT 구독료 지원 건의",
+    "script": {
+      "title": "챗GPT 구독료 지원 건의",
+      "subtitle": "직원 지원 기사 보고 쓴 글",
+      "panels": [
+        {
+          "beat": "달몽이 개인적으로 내는 챗GPT 구독료를 부담스러워한다.",
+          "shot": "롱샷",
+          "location": "home",
+          "density": "establishing",
+          "characters": [
+            "달몽"
+          ],
+          "acting": "달몽은 남색 실내복 차림으로 소파에 구부정하게 앉아 휴대전화를 내려다본다. 한 손으로 전화기를 쥐고 다른 손으로 머그컵 손잡이를 만지며 작게 한숨 쉰다.",
+          "scene": "회색 소파와 초록 체크 쿠션, 왼쪽 스탠드와 창밖 밤 도시를 따뜻한 저채도로 그린다. 달몽의 어깨 너머로 보이는 휴대전화에는 금액 없이 ‘챗봇 구독 결제’만 표시한다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "구독료가 또 나갔네…"
+            }
+          ]
+        },
+        {
+          "beat": "금융위가 직원들의 챗GPT 구독료를 지원한다는 소식을 달몽이 직접 발견한다.",
+          "shot": "미디엄",
+          "location": "commute",
+          "density": "context",
+          "characters": [
+            "달몽"
+          ],
+          "acting": "출근 복장의 달몽이 좌석에 앉아 휴대전화를 읽는다. 반쯤 감긴 눈은 그대로 두고, 화면을 넘기던 둥근 손을 멈춘다.",
+          "scene": "손잡이와 흐르는 창밖 풍경으로 아침 지하철임을 알린다. 휴대전화는 달몽을 향하고 독자에게는 뒷면만 보인다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "금융위는 직원 구독료를 대네."
+            }
+          ]
+        },
+        {
+          "beat": "달몽은 지원을 부러워하는 데서 그치지 않고 자기 회사에 낼 건의문을 쓴다.",
+          "shot": "미디엄",
+          "location": "pantry",
+          "density": "context",
+          "characters": [
+            "달몽"
+          ],
+          "acting": "달몽은 둥근 테이블에 앉아 펼친 수첩을 본다. 한 손으로 수첩을 누르고 다른 손의 펜으로 ‘구독료 지원 건의’ 아래 첫 문장을 쓰다 멈춘다.",
+          "scene": "벽면 조리대의 커피머신과 컵들, 창 옆 화분을 낮은 대비로 배치한다. 수첩에는 제목 아래 짧은 글줄과 고쳐 쓴 흔적만 그린다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "지원받을 이유도 써야겠네…"
+            }
+          ]
+        },
+        {
+          "beat": "달몽은 직접 쓴 지원 건의문을 챗GPT로 다듬어 보기로 한다.",
+          "shot": "미디엄",
+          "location": "pantry",
+          "density": "contact",
+          "characters": [
+            "달몽",
+            "너구리 대리"
+          ],
+          "acting": "달몽은 건의문을 쓴 수첩을 너구리 대리 쪽으로 밀고 입꼬리를 살짝 올린다. 다른 손으로는 휴대전화를 집어 들고, 컵을 쥔 너구리 대리는 수첩을 보며 고개를 끄덕인다.",
+          "scene": "둥근 테이블과 두 인물의 손이 닿는 소품만 남긴다. 휴대전화 화면은 달몽을 향하며 독자에게는 뒷면이 보인다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "챗GPT로 글 좀 다듬을까요?"
+            },
+            {
+              "speaker": "너구리 대리",
+              "text": "응, 건의문부터 써먹자."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "내던 구독료를 다시 봤다.",
+      "closing_line2": "회사에 낼 건의문을 썼다.",
+      "alt": "집에서 챗GPT 구독 결제 내역을 보며 한숨 쉬는 달몽. 출근길에 금융위가 직원 구독료를 지원한다는 기사를 읽는다. 탕비실에서 자기 회사에 낼 지원 건의문을 쓰다가 지원 이유를 고민한다. 너구리 대리에게 수첩을 보여 주며 챗GPT로 글을 다듬자고 묻고, 대리는 고개를 끄덕인다."
+    },
+    "acting_notes": [
+      "3컷: 펜촉은 공책에 닿아 있지만 시선은 공책이 아닌 오른쪽 위를 향한다. 생각하는 동작으로는 가능하나, 실제로 이유를 작성하는 연기는 약하다.",
+      "4컷: 달몽은 너구리 대리를 바라보지만 너구리 대리의 시선은 아래쪽 휴대전화 부근을 향해, 서로 대화하는 눈맞춤은 약하다.",
+      "엑스트라: 2컷: 지하철 좌우 가장자리에 대본에 없는 동물 승객 실루엣이 각각 1명씩 보인다."
+    ],
+    "bubble_issues": [
+      "4컷: 왼쪽 달몽의 말풍선이 휴대전화를 쥔 손의 왼쪽과 손목 일부를 가려, 손과 기기의 연결이 명확하지 않다."
+    ],
+    "image": "2026-11-16-050241.jpg",
+    "round": 1
+  },
+  "ad": {
+    "course_id": "word-hwp-report",
+    "title": "AI로 완성하는 Word, HWP 보고서 자동화",
+    "url": "https://gptkoreaclass.com/courses/word-hwp-report-automation",
+    "format": "온라인",
+    "style": "공감",
+    "hook": "보고서 쓸 때 막막했다면",
+    "pitch": "워드나 한글로 보고서 만들 때, AI에게 요청하는 법부터 문서 작업을 자동으로 하는 법까지 배워요.",
+    "comment": "나도 보고서 아직이야. 같이 배우자."
+  }
+}
