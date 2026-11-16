@@ -1,0 +1,246 @@
+{
+  "date": "2026-11-17",
+  "generated_at": "2026-11-16T20:01:22.336130+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "챗GPT에서 더현대 하이 쇼핑 정보 묻는다",
+      "summary": "현대백화점이 챗GPT에 더현대 하이 쇼핑 서비스를 정식으로 선보였습니다. 챗GPT에서 서비스를 연결하면 선물 추천이나 팝업스토어 위치를 대화로 물어볼 수 있습니다.",
+      "comment": "선물은 추천받아도 가격 비교는 네가 해.",
+      "category": "서비스·제품",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=157387",
+      "source": "테크M",
+      "original_title": "검색 대신 대화로 쇼핑하는 시대...현대백화점, '더현대 하이' 생성형 AI 공략 속도",
+      "lang": "ko",
+      "published": "2026-11-16T05:45:00+00:00"
+    },
+    {
+      "title": "기업은행, 현장 직원이 AI로 업무 프로그램 만든다",
+      "summary": "기업은행이 직원용 AI 개발 도구 ‘제니코드’를 자체 구축했습니다. 직원이 말로 작업을 지시해 자료를 분석하고 필요한 업무 프로그램을 직접 만들도록 돕습니다.",
+      "comment": "반복 작업, 매번 손으로 하기 전에 물어봐.",
+      "category": "업무활용",
+      "link": "https://www.bloter.net/news/articleView.html?idxno=678715",
+      "source": "블로터",
+      "original_title": "직접 아이디어 발굴서 코딩까지…기업은행, 현업 AX 체계 '차별화'",
+      "lang": "ko",
+      "published": "2026-11-16T06:05:16+00:00"
+    },
+    {
+      "title": "네이버 카페, 글과 댓글에서 AI가 답 찾는다",
+      "summary": "네이버가 카페에 AI 답변 기능을 도입합니다. 카페에 쌓인 게시글과 댓글을 분석해 이용자 질문에 맞는 답을 제공하는 방식입니다.",
+      "comment": "남의 경험을 모은 답이지, 정답은 아니야.",
+      "category": "서비스·제품",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=157398",
+      "source": "테크M",
+      "original_title": "네이버, 검색·쇼핑 이어 '카페'까지 AI 입힌다...20여년간 쌓인 'UGC'로 AI에이전트 영토 확장",
+      "lang": "ko",
+      "published": "2026-11-16T06:52:46+00:00"
+    },
+    {
+      "title": "정부, AI 부정행위 막으려 수능장 와이파이 차단 추진",
+      "summary": "정부가 AI를 이용한 시험 부정행위를 막기 위해 수능시험장 내 공공 와이파이 차단을 추진합니다. 수능을 앞두고 범정부 긴급 대응팀도 구성했습니다.",
+      "comment": "차단 추진이지, 확정됐다는 말은 아니야.",
+      "category": "정책·사회",
+      "link": "https://www.inews24.com/view/2026677",
+      "source": "아이뉴스24",
+      "original_title": "[AI 커닝 파장] 정부, 수능시험장 '와이파이 차단' 추진⋯범정부 TF 구성",
+      "lang": "ko",
+      "published": "2026-11-16T06:01:15+00:00"
+    },
+    {
+      "title": "음성 포함 영상 생성 AI 평가서 ‘완 3.0’ 1위",
+      "summary": "아티피셜 애널리시스의 13일 기준 음성 포함 영상 생성 평가에서 알리바바 ‘완 3.0’이 1위를 차지했습니다. 미니맥스 ‘H3’는 3위, 바이트댄스 ‘시댄스 2.5’는 4위입니다.",
+      "comment": "순위만 보지 말고 네 영상으로 비교해 봐.",
+      "category": "연구·기술",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217463",
+      "source": "AI타임스",
+      "original_title": "영상 생성 AI, 1년 만에 판도 역전…중국 모델이 상위권 장악",
+      "lang": "ko",
+      "published": "2026-11-16T09:00:00+00:00"
+    },
+    {
+      "title": "로봇이 물건 잡는 힘 조절하는 AI 공개",
+      "summary": "앤트그룹이 로봇 손끝의 촉각 정보를 읽고 물체를 잡는 힘을 판단하는 AI를 공개했습니다. 열쇠로 자물쇠를 열거나 치약을 짜는 등 섬세한 손동작을 돕습니다.",
+      "comment": "물건은 집는 것보다 안 망가뜨리는 게 일이지.",
+      "category": "연구·기술",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217455",
+      "source": "AI타임스",
+      "original_title": "앤트그룹, 로봇에 '촉각' 더하는 AI 공개…물체 잡는 힘까지 판단",
+      "lang": "ko",
+      "published": "2026-11-16T08:57:15+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "① 냐옹 대리가 반복되는 자료 정리에 한숨 쉬고 ② AI에 필요한 업무 프로그램을 말로 설명한 뒤 ③ 만든 프로그램을 직접 시험하고 ④ 동료가 다른 일도 맡기려 하자 '네 반복 작업은 네가 설명해'라고 선을 긋는다.",
+    "link": "https://www.bloter.net/news/articleView.html?idxno=678715",
+    "source": "블로터",
+    "original_title": "직접 아이디어 발굴서 코딩까지…기업은행, 현업 AX 체계 '차별화'",
+    "lang": "ko",
+    "published": "2026-11-16T06:05:16+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 34,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 0,
+      "kept": 0,
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 9,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 7,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 30,
+      "kept": 7,
+      "error": null
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 12,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 100,
+      "kept": 21,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 50,
+      "kept": 10,
+      "error": null
+    },
+    "byline": {
+      "fetched": 20,
+      "kept": 3,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": true,
+    "attempts": 3,
+    "topic": "직접 아이디어 발굴서 코딩까지…기업은행, 현업 AX 체계 '차별화'",
+    "source": "블로터",
+    "problems": [
+      "4컷: 왼쪽 말풍선이 너구리가 내미는 서류의 오른쪽 부분과 노트북 대부분을 가려, 자료를 맡기려는 행동과 업무 도구가 잘 드러나지 않는다.",
+      "4컷: 오른쪽 말풍선이 냐옹의 팔과 손 부근을 가려, 응답하면서 취하는 손동작을 확인하기 어렵다."
+    ],
+    "made_at": "2026-11-17T05:01+09:00",
+    "title": "자료 정리 도구, AI로 만들기",
+    "script": {
+      "title": "자료 정리 도구, AI로 만들기",
+      "subtitle": "필요한 일을 말로 설명했더니",
+      "panels": [
+        {
+          "beat": "냐옹은 매번 자료를 날짜별로 나누는 일이 번거롭다.",
+          "shot": "롱샷",
+          "location": "meeting",
+          "density": "establishing",
+          "characters": [
+            "냐옹",
+            "너구리 대리"
+          ],
+          "acting": "냐옹은 반쯤 내리깐 눈으로 날짜가 적힌 자료들을 내려다보며 흰 앞발로 한 장씩 분류한다. 귀는 조금 뒤로 젖히고, 너구리는 맞은편에서 자료 더미를 바라본다.",
+          "scene": "긴 나무 테이블과 화이트보드가 있는 회의실이며 벽걸이 화면에는 옅은 도형만 보인다. 테이블에는 날짜별 자료 더미와 덮어 둔 노트북을 놓는다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "매번 날짜별로 나누려니 귀찮네."
+            }
+          ]
+        },
+        {
+          "beat": "AI에 필요한 업무를 설명해 직접 쓸 프로그램을 만들어 본다.",
+          "shot": "미디엄",
+          "location": "meeting",
+          "density": "contact",
+          "characters": [
+            "냐옹",
+            "너구리 대리"
+          ],
+          "acting": "너구리는 펼친 뉴스 기사를 짚으며 냐옹을 바라본다. 냐옹은 노트북을 열어 자기 쪽으로 향하게 하고, 화면을 보며 둥근 앞발로 입력한다.",
+          "scene": "테이블 위 두 사람의 얼굴과 노트북 뒷면이 보인다. 뉴스 기사는 실제 지면이나 로고 없이 단순하게 그린다.",
+          "bubbles": [
+            {
+              "speaker": "너구리 대리",
+              "text": "직원이 AI로 업무 도구도 만든대."
+            },
+            {
+              "speaker": "냐옹",
+              "text": "날짜별로 묶는 프로그램 짜 줘."
+            }
+          ]
+        },
+        {
+          "beat": "날짜가 없는 자료도 빠지지 않는지 직접 시험한다.",
+          "shot": "미디엄",
+          "location": "meeting",
+          "density": "contact",
+          "characters": [
+            "냐옹"
+          ],
+          "acting": "냐옹은 화면을 응시하며 한 앞발로 날짜 칸이 빈 시험용 자료를 들고, 다른 앞발로 터치패드를 누른다. 허리를 조금 앞으로 기울이고 꼬리 끝은 움직이지 않는다.",
+          "scene": "냐옹의 얼굴 일부와 화면이 함께 보이는 어깨 너머 구도다. 화면에는 날짜별 묶음과 별도로 분리된 ‘날짜 없음’ 묶음이 보인다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "날짜 없는 자료도 잘 남았네."
+            }
+          ]
+        },
+        {
+          "beat": "냐옹은 도구를 만든 뒤 동료에게도 자기 업무를 직접 설명하도록 자리를 내준다.",
+          "shot": "미디엄",
+          "location": "meeting",
+          "density": "contact",
+          "characters": [
+            "냐옹",
+            "너구리 대리"
+          ],
+          "acting": "너구리는 자기 자료를 내밀며 냐옹을 바라본다. 냐옹은 눈을 감고 아주 작게 웃으며 노트북을 너구리 앞으로 밀어 주고, 빈 의자를 앞발로 당겨 준다.",
+          "scene": "노트북 화면은 너구리 쪽을 향하고 독자에게는 뒷면이 보인다. 냐옹이 정리한 자료는 한쪽에 가지런히 모여 있다.",
+          "bubbles": [
+            {
+              "speaker": "너구리 대리",
+              "text": "내 자료 정리도 맡아 줄래?"
+            },
+            {
+              "speaker": "냐옹",
+              "text": "네 반복 작업은 네가 설명해."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "내 자료 정리 도구를 만들었다.",
+      "closing_line2": "너구리에게는 자리를 내줬다.",
+      "alt": "회의실에서 냐옹이 날짜별 자료 분류를 번거로워한다. 직원도 AI로 업무 도구를 만든다는 소식에 날짜별 분류 프로그램을 요청한다. 날짜가 없는 시험 자료도 빠지지 않는지 확인한다. 너구리가 자기 일도 부탁하자, 직접 설명하라며 노트북과 자리를 내준다."
+    },
+    "acting_notes": [],
+    "bubble_issues": [
+      "4컷: 왼쪽 말풍선이 너구리가 내미는 서류의 오른쪽 부분과 노트북 대부분을 가려, 자료를 맡기려는 행동과 업무 도구가 잘 드러나지 않는다.",
+      "4컷: 오른쪽 말풍선이 냐옹의 팔과 손 부근을 가려, 응답하면서 취하는 손동작을 확인하기 어렵다."
+    ],
+    "image": "2026-11-17-050423.jpg",
+    "round": 1
+  },
+  "ad": {
+    "course_id": "data-analysis",
+    "title": "AI를 활용한 엑셀 자동화와 데이터 분석",
+    "url": "https://gptkoreaclass.com/courses/data-analysis",
+    "format": "온라인",
+    "style": "공감",
+    "hook": "엑셀 자료 정리, 매번 막막했다면",
+    "pitch": "반복하는 엑셀 작업을 자동으로 처리하고 싶을 때, 챗GPT로 엑셀 자동화와 자료 분석을 배우는 강의예요.",
+    "comment": "매번 손으로 하진 마. 결과는 확인하고."
+  }
+}
