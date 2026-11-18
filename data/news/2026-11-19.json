@@ -1,0 +1,238 @@
+{
+  "date": "2026-11-19",
+  "generated_at": "2026-11-18T20:01:21.737052+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "제미나이, 예약·쇼핑 대신하는 기능 한국에 무료 제공",
+      "summary": "구글이 예약과 쇼핑 등을 대신 처리하는 제미나이 ‘태스크 모드’를 한국 등 6개국에 차례로 무료 제공합니다. 일부 고급 기능은 미국에서 먼저 제공합니다.",
+      "comment": "한국에서 어디까지 되는지 먼저 확인하자.",
+      "category": "서비스·제품",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217531",
+      "source": "AI타임스",
+      "original_title": "구글, 제미나이 '태스크 모드' 한국에도 무료 제공…예약·쇼핑까지 대행",
+      "lang": "ko",
+      "published": "2026-11-18T08:50:37+00:00"
+    },
+    {
+      "title": "삼성 스마트싱스도 챗GPT와 연결",
+      "summary": "삼성 스마트싱스가 챗GPT와 연동됩니다. AI로 가전을 제어하는 기능이 확산하고 있습니다.",
+      "comment": "집 가전도 연결되는지 한번 확인해 봐.",
+      "category": "서비스·제품",
+      "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1qT3hXRXRKckJtMzJqaGdJUjNQUVlTRVdSUncwX2pOSlo5aW51QW8zT2YwOEFKTk50NnhRVVBVMlFIVlRpZjRkWVBmV0lhQQ?oc=5",
+      "source": "전자신문",
+      "original_title": "삼성 스마트싱스도 챗GPT 연동…AI로 가전 제어 확산",
+      "lang": "ko",
+      "published": "2026-11-18T07:00:00+00:00"
+    },
+    {
+      "title": "퍼플렉시티, AI 16개가 일 나누고 결과 확인",
+      "summary": "퍼플렉시티가 여러 AI가 복잡한 업무를 나눠 맡고 서로 결과를 확인하는 기능을 출시했습니다. 오픈AI·앤트로픽·구글의 AI를 동시에 투입하는 방식입니다.",
+      "comment": "서로 확인해도 최종 보고서는 내가 읽어야지.",
+      "category": "업무활용",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217543",
+      "source": "AI타임스",
+      "original_title": "퍼플렉시티, AI 에이전트 16개가 협업·상호 검증하는 기능 출시",
+      "lang": "ko",
+      "published": "2026-11-18T08:28:44+00:00"
+    },
+    {
+      "title": "MS, 업무용 AI 비용과 성과 비교 기능 공개",
+      "summary": "마이크로소프트가 기업에서 쓰는 AI의 비용과 업무 성과를 비교하는 기능을 공개했습니다. 직원과 AI가 함께 일하는 공간도 마련했습니다.",
+      "comment": "구독료만큼 일을 덜어 줬는지 따져야지.",
+      "category": "업무활용",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=157498",
+      "source": "테크M",
+      "original_title": "AI도 인사고과 받는 시대 오나...MS, 에이전트 성과·비용 따진다",
+      "lang": "ko",
+      "published": "2026-11-18T08:43:01+00:00"
+    },
+    {
+      "title": "전남광주 수능장, AI 기기 식별 인력 132명 배치",
+      "summary": "전남광주 교육청이 수능 시험장 86곳에 AI 기기 식별 지원인력 132명을 배치합니다. 초소형 카메라 탐지 장비와 감독교사 법률 대응도 지원합니다.",
+      "comment": "수험생 가족이라면 기기 반입 규정 챙겨 둬.",
+      "category": "교육",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217520",
+      "source": "AI타임스",
+      "original_title": "전남광주, 수능 AI 안경 대응 강화…132명 배치·감독교사 법률지원",
+      "lang": "ko",
+      "published": "2026-11-18T07:57:51+00:00"
+    },
+    {
+      "title": "AI가 잔액 확인부터 외화 매입·이체까지 시연",
+      "summary": "현대카드와 JP모건이 AI로 기업의 외환거래를 자동 처리하는 기술을 시연했습니다. 계좌 잔액을 확인하고 필요한 외화를 사서 자금을 옮기는 기술검증 결과입니다.",
+      "comment": "아직 시연 단계야. 바로 쓰는 서비스는 아니고.",
+      "category": "업무활용",
+      "link": "https://www.etnews.com/20261118000521",
+      "source": "전자신문",
+      "original_title": "현대카드·JP모건, 싱가포르서 AI 외환거래 자동화 공개",
+      "lang": "ko",
+      "published": "2026-11-18T10:35:29+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "① 피곤한 달몽 사원이 AI 구독료 내역을 보다가 ② 비용과 업무 성과를 비교하는 기능 소식을 읽고 ③ AI가 맡은 일과 자신이 다시 고친 일을 적은 뒤 ④ 다음 달에는 회의록 정리부터 맡겨 보기로 한다.",
+    "link": "https://www.techm.kr/news/articleView.html?idxno=157498",
+    "source": "테크M",
+    "original_title": "AI도 인사고과 받는 시대 오나...MS, 에이전트 성과·비용 따진다",
+    "lang": "ko",
+    "published": "2026-11-18T08:43:01+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 40,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 100,
+      "kept": 21,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 8,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 11,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 30,
+      "kept": 3,
+      "error": null
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 13,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 100,
+      "kept": 32,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 50,
+      "kept": 8,
+      "error": null
+    },
+    "byline": {
+      "fetched": 20,
+      "kept": 8,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": true,
+    "attempts": 2,
+    "topic": "AI도 인사고과 받는 시대 오나...MS, 에이전트 성과·비용 따진다",
+    "source": "테크M",
+    "problems": [],
+    "made_at": "2026-11-19T05:01+09:00",
+    "title": "AI 비용, 한 일과 비교",
+    "script": {
+      "title": "AI 비용, 한 일과 비교",
+      "subtitle": "다시 고친 일도 적어 봤다",
+      "panels": [
+        {
+          "beat": "달몽은 AI 이용료를 보고 실제로 얼마나 도움받았는지 막막해한다.",
+          "shot": "롱샷",
+          "location": "meeting",
+          "density": "establishing",
+          "characters": [
+            "달몽",
+            "너구리 대리"
+          ],
+          "acting": "달몽은 반쯤 감긴 눈으로 이용료 내역을 내려다보며 한 손으로 사원증을 만지작거린다. 맞은편 너구리 대리는 휴대전화를 보다가 달몽 쪽으로 고개를 든다.",
+          "scene": "긴 나무 테이블 위에 AI 이용료 내역과 닫힌 수첩이 놓여 있다. 뒤에는 도형만 있는 벽걸이 화면과 화이트보드를 낮은 대비로 그린다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "AI가 돈값은 했나…"
+            }
+          ]
+        },
+        {
+          "beat": "AI도 비용과 업무 성과를 함께 따진다는 소식을 접한다.",
+          "shot": "미디엄",
+          "location": "meeting",
+          "density": "contact",
+          "characters": [
+            "너구리 대리",
+            "달몽"
+          ],
+          "acting": "너구리 대리는 눈썹을 올리며 휴대전화를 달몽 쪽으로 내민다. 달몽은 몸을 조금 기울여 기사를 보고 이용료 종이에서 손을 뗀다.",
+          "scene": "두 인물의 얼굴이 보이는 정면 구도이며, 휴대전화 화면은 두 인물을 향해 독자에게는 뒷면만 보인다.",
+          "bubbles": [
+            {
+              "speaker": "너구리 대리",
+              "text": "AI도 성과랑 비용을 따진대."
+            },
+            {
+              "speaker": "달몽",
+              "text": "쓴 돈만 볼 게 아니네요."
+            }
+          ]
+        },
+        {
+          "beat": "달몽은 맡긴 일과 다시 고친 일을 적으며 도움이 된 업무를 가려낸다.",
+          "shot": "미디엄",
+          "location": "meeting",
+          "density": "contact",
+          "characters": [
+            "달몽"
+          ],
+          "acting": "달몽은 펼친 수첩을 내려다보며 둥근 손으로 펜을 쥔다. 소개 글 항목 옆에 수정 표시를 덧붙이고, 어깨를 조금 늘어뜨린다.",
+          "scene": "얼굴과 수첩이 함께 보이는 높은 구도다. 수첩은 ‘맡긴 일 / 다시 고친 일’로 나누고 ‘회의록 / 이름 수정’, ‘소개 글 / 거의 전부’라고 적는다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "소개 글은 거의 다시 썼네…"
+            }
+          ]
+        },
+        {
+          "beat": "달몽은 수정이 적었던 회의록 정리부터 맡기기로 정한다.",
+          "shot": "미디엄",
+          "location": "meeting",
+          "density": "contact",
+          "characters": [
+            "달몽",
+            "너구리 대리"
+          ],
+          "acting": "달몽은 수첩의 회의록 항목에 동그라미를 치고 너구리 대리를 보며 입꼬리만 살짝 올린다. 너구리 대리는 수첩을 내려다보며 고개를 끄덕인다.",
+          "scene": "수첩 아래쪽에 ‘다음 달: 회의록 정리’가 새로 적혀 있다. 이용료 내역은 수첩 옆에 나란히 놓여 있다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "회의록부터 맡겨볼게요."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "다시 고친 일까지 적었다.",
+      "closing_line2": "다음 달엔 회의록부터 맡긴다.",
+      "alt": "회의실에서 달몽이 AI 이용료를 보며 돈값을 했는지 고민한다. 너구리 대리가 AI의 성과와 비용을 따진다는 뉴스를 보여 준다. 달몽은 맡긴 일과 다시 고친 일을 수첩에 적고, 소개 글은 거의 다시 썼음을 알아챈다. 수정이 적었던 회의록 정리에 동그라미를 치고 다음 달에 맡길 일로 정한다."
+    },
+    "acting_notes": [
+      "3컷: 펜촉이 노트 지면에서 떠 있어 실제로 수정하는 동작보다는 쓰기 직전에 멈춘 자세로 보인다. 수정 중인 연기를 의도했다면 펜촉을 지면에 닿게 하면 더 명확하다."
+    ],
+    "bubble_issues": [],
+    "image": "2026-11-19-050317.jpg",
+    "round": 1
+  },
+  "ad": {
+    "course_id": "leaders",
+    "title": "리더(경영진, 임원)를 위한 GPT & AI 특강",
+    "url": "https://gptkoreaclass.com/courses/leaders",
+    "format": "온라인",
+    "style": "오늘 연결",
+    "hook": "AI에 맡길 일이 늘어난다면",
+    "pitch": "오늘 뉴스처럼 AI가 맡는 일이 늘어나니, 경영진도 알아둘 게 생기네요. 이 강의는 생성형 AI의 기본부터 짚어 드려요.",
+    "comment": "오늘도 새 소식 많네. 하나씩 알아 가자."
+  }
+}
