@@ -120,6 +120,9 @@ jobs:
           path: public
 
       - id: deploy
+        # 예비 주소(GitHub Pages) 배포가 GitHub 쪽 일시 오류로 실패해도(2026-11-25 두 번 발생)
+        # 실제 주소(Vercel) 배포와 웹툰 재시도는 이어서 하도록 실패를 무시한다
+        continue-on-error: true
         uses: actions/deploy-pages@v4
 
       - name: Vercel에도 배포 (kgpt-news)
