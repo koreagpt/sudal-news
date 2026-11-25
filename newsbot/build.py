@@ -431,7 +431,8 @@ def share_text(site: dict, day: str, news: dict) -> str:
     site = hosts.site_for(site, day)
     base = site.get("base_url", "").rstrip("/")
     # 오픈채팅방에서 몇 명이 들어왔는지 방문 통계에서 따로 보이게 꼬리표 (링크 미리보기는 그대로 뜬다)
-    url = f"{base}/d/{day}/?utm_source=openchat" if base else f"(배포 주소 설정 전) d/{day}/"
+    # 2026-11-25부터 그날 날짜도 붙인다(utm_content) — 사용자 지침: 모든 링크에 날짜를 붙여 추적
+    url = f"{base}/d/{day}/?utm_source=openchat&utm_content={day}" if base else f"(배포 주소 설정 전) d/{day}/"
     items = news.get("items", [])
     lines = [f"{site['emoji']} {_brand_name(site)} | {_korean_date(day, long=False)}", f"오늘의 AI 뉴스 {len(items)}건", ""]
     lines += [f"{number}. {item['title']}" for number, item in enumerate(items, 1)]
