@@ -85,11 +85,17 @@ def _analytics(site: dict, url: str) -> str:
 gtag('js', new Date()); gtag('config', '{escape(tag)}');</script>"""
 
 
-def _utm(url: str, medium: str) -> str:
-    """협회 사이트·블로그 쪽 통계에서 '일보에서 들어온 방문'이 보이게 꼬리표를 붙인다."""
+def _utm(url: str, medium: str, day: str | None = None) -> str:
+    """협회 사이트·블로그 쪽 통계에서 '일보에서 들어온 방문'이 보이게 꼬리표를 붙인다.
+
+    day(그날 호 날짜)를 주면 utm_content에 넣어, 받는 사이트 GA의 '세션 수동 광고 콘텐츠'에서
+    몇 월 며칠 호에서 왔는지 보인다 (2026-11-25부터). 지난 호 페이지를 나중에 열어 눌러도 그 호 날짜로 남는다.
+    """
     parts = urlsplit(url)
     query = dict(parse_qsl(parts.query))
     query.update({"utm_source": "sudal_news", "utm_medium": medium, "utm_campaign": "daily_news"})
+    if day:
+        query["utm_content"] = day
     return urlunsplit(parts._replace(query=urlencode(query)))
 
 
@@ -163,7 +169,7 @@ def _drawer(site: dict, root: str) -> str:
             rows.append(f'<details{is_open}><summary>{week}주차 <span>{span}</span></summary><ul>{links}</ul></details>')
         blocks.append(f'<section class="drawer-month"><h3>{year}년 {month}월</h3>{"".join(rows)}</section>')
     org = "".join(  # 맨 위: 하단과 같은 협회 바로가기 버튼
-        f'<a class="org-link" href="{escape(_utm(link["url"], "menu"))}" target="_blank" rel="noopener">{escape(link["label"])} <span aria-hidden="true">↗</span></a>'
+        f'<a class="org-link" href="{escape(_utm(link["url"], "menu", site.get("current_day")))}" target="_blank" rel="noopener">{escape(link["label"])} <span aria-hidden="true">↗</span></a>'
         for link in _org_links(site)
     )
     org = f'\n  <nav class="drawer-org" aria-label="{escape(site["publisher"])} 바로가기">{org}</nav>' if org else ""
@@ -220,7 +226,7 @@ def _footer(site: dict, root: str) -> str:
     publisher = escape(site["publisher"])
     reporter = site.get("reporter", {})
     links = "".join(
-        f'<a class="org-link" href="{escape(_utm(link["url"], "footer"))}" target="_blank" rel="noopener">'
+        f'<a class="org-link" href="{escape(_utm(link["url"], "footer", site.get("current_day")))}" target="_blank" rel="noopener">'
         f'{escape(link["label"])} <span aria-hidden="true">↗</span></a>'
         for link in _org_links(site)
     )
@@ -278,14 +284,14 @@ def _ad_card(ad: dict, root: str, site: dict) -> str:
   <li class="card ad-card">
     <div class="card-meta"><span class="ad-label">협회 강의</span><span class="ad-format">{escape(ad.get("format", ""))}</span></div>
     <p class="ad-hook">{escape(ad["hook"])}</p>
-    <h3><a href="{escape(_utm(ad["url"], "course_card"))}" target="_blank" rel="noopener">{escape(ad["title"])}</a></h3>
+    <h3><a href="{escape(_utm(ad["url"], "course_card", site.get("current_day")))}" target="_blank" rel="noopener">{escape(ad["title"])}</a></h3>
     <p class="summary">{escape(ad["pitch"])}</p>
     <div class="comment">
       <img src="{root}{site.get("face", "static/img/dalmong-face.png")}" alt="{escape(site.get("reporter", {}).get("name", ""))}" width="34" height="34">
       <p>{escape(ad["comment"])}</p>
     </div>
     <p class="source">한국GPT협회 온라인교육
-      <a class="ad-go" href="{escape(_utm(ad["url"], "course_card"))}" target="_blank" rel="noopener">강의 보러 가기 <span aria-hidden="true">↗</span></a></p>
+      <a class="ad-go" href="{escape(_utm(ad["url"], "course_card", site.get("current_day")))}" target="_blank" rel="noopener">강의 보러 가기 <span aria-hidden="true">↗</span></a></p>
   </li>"""
 
 
@@ -368,7 +374,7 @@ def _blog_banner(site: dict) -> str:
         if latest:
             banner = {**banner, "title": latest[0], "url": latest[1]}
     return f"""
-<a class="blog-banner" href="{escape(_utm(banner["url"], "blog_banner"))}" target="_blank" rel="noopener">
+<a class="blog-banner" href="{escape(_utm(banner["url"], "blog_banner", site.get("current_day")))}" target="_blank" rel="noopener">
   <span class="blog-banner-icon" aria-hidden="true">{escape(banner.get("icon", "📝"))}</span>
   <span class="blog-banner-text"><span class="blog-banner-label">{escape(banner.get("label", "AI 정보 블로그"))}</span>
     <span class="blog-banner-title">{escape(banner["title"])}</span></span>
