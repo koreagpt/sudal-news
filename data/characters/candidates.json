@@ -48,6 +48,70 @@
       "attitude": "eager new intern: wide bright eyes, big smile, full of energy",
       "pose": "small and short, about a head shorter than the otter, standing energetically with one paw raised in a small fist, tail up and wagging",
       "expressions": "1) a bright eager smile with sparkling eyes, 2) a flustered face with a small sweat drop, staring at a smartphone held in both paws, 3) a proud excited grin with eyes closed"
+    },
+    {
+      "id": "rabbit-a",
+      "label": "토끼 인턴 A안 — 하얀 토끼·둥근 안경",
+      "species": "rabbit",
+      "look": "a white rabbit with soft fluffy white fur, long upright ears with pale pink insides, a small pink nose, round dark red-brown eyes behind thin round gold-rimmed glasses, round fluffy white tail. Wears a light sky-blue collared shirt under a soft coral-pink knit cardigan, navy slacks, brown loafers, and a white employee ID card on a sky-blue lanyard.",
+      "attitude": "shy but meticulous new intern: slightly hunched shoulders, careful polite posture, big attentive eyes, ears alert",
+      "pose": "small, about a head shorter than the otter, standing politely and holding a small open notebook and a pen against the chest with both paws, feet together",
+      "expressions": "1) a shy small smile with ears slightly lowered, 2) a worried face reading a smartphone held in both paws, ears drooping backward, 3) a relieved happy smile with ears perked straight up and eyes sparkling"
+    },
+    {
+      "id": "rabbit-b",
+      "label": "토끼 인턴 B안 — 갈색 롭이어(귀가 처진 토끼)",
+      "species": "lop-eared rabbit",
+      "look": "a lop-eared rabbit with warm caramel-brown fur, a cream muzzle and cream belly, long floppy ears hanging down beside the cheeks, a small pink nose, big round shiny black eyes, round fluffy cream tail. Wears a white collared shirt under a forest-green knit vest, beige slacks, white sneakers, and a white employee ID card on a sky-blue lanyard. No glasses.",
+      "attitude": "shy but meticulous new intern: slightly hunched shoulders, careful polite posture, big attentive eyes, ears alert",
+      "pose": "small, about a head shorter than the otter, standing politely and holding a small open notebook and a pen against the chest with both paws, feet together",
+      "expressions": "1) a shy small smile with ears slightly lowered, 2) a worried face reading a smartphone held in both paws, ears drooping backward, 3) a relieved happy smile with ears perked straight up and eyes sparkling"
+    },
+    {
+      "id": "rabbit-c",
+      "label": "토끼 인턴 C안 — 회색·흰색 더치 토끼",
+      "species": "rabbit",
+      "look": "a Dutch rabbit with soft gray fur on the ears, around the eyes and on the back, and a white blaze down the face, white muzzle, white chest and white front paws, long upright ears, a small pink nose, big round dark eyes, round fluffy gray tail. Wears a cream-colored knit sweater with a white shirt collar showing, dark brown slacks, white sneakers, and a white employee ID card on a sky-blue lanyard. No glasses.",
+      "attitude": "shy but meticulous new intern: slightly hunched shoulders, careful polite posture, big attentive eyes, ears alert",
+      "pose": "small, about a head shorter than the otter, standing politely and holding a small open notebook and a pen against the chest with both paws, feet together",
+      "expressions": "1) a shy small smile with ears slightly lowered, 2) a worried face reading a smartphone held in both paws, ears drooping backward, 3) a relieved happy smile with ears perked straight up and eyes sparkling"
+    },
+    {
+      "id": "rabbit-a2",
+      "label": "토끼 인턴 A안 수정 — 하얀 토끼·분홍 투명테 안경 (다른 캐릭터와 색 안 겹치게)",
+      "species": "rabbit",
+      "look": "a white rabbit with soft fluffy pure white fur, long upright ears with pale pink insides, a small pink nose, round dark red-brown eyes behind slightly oversized round glasses with clear light-pink plastic frames (not gold, not black), round fluffy white tail. Wears a plain white shirt with a small round collar under a soft coral-orange knit cardigan, dark plum-purple slacks, cream-colored loafers, and a white employee ID card on a lavender-purple lanyard. No navy, no mint, no yellow, no green, no sky-blue anywhere on the outfit.",
+      "attitude": "shy but meticulous new intern: slightly hunched shoulders, careful polite posture, big attentive eyes, ears alert",
+      "pose": "small, about a head shorter than the otter, standing politely and holding a small open notebook and a pen against the chest with both paws, feet together",
+      "expressions": "1) a shy small smile with ears slightly lowered, 2) a worried face reading a smartphone held in both paws, ears drooping backward, 3) a relieved happy smile with ears perked straight up and eyes sparkling",
+      "chosen": "2026-11-26 사용자 선택. 기준 그림 data/reference/rabbit-character.jpg. 아직 hosts.json·bible.json 미등록(투입 시점에 등록).",
+      "profile_ko": {
+        "role": "새 인턴 (뭉뭉 인턴은 이때 사원으로 승진)",
+        "name_candidates": [
+          "깡총 인턴",
+          "토토 인턴",
+          "콩이 인턴"
+        ],
+        "fixed": [
+          "순백색 털, 분홍빛 귀 안쪽, 작은 분홍 코, 동그란 적갈색 눈",
+          "살짝 큰 동그란 분홍 투명테 안경 (금테·검은테 아님)",
+          "둥근 칼라 흰 셔츠 위 코랄 오렌지 니트 카디건",
+          "라벤더색 끈에 매단 흰 사원증",
+          "짙은 자두색(플럼) 바지, 크림색 로퍼",
+          "작은 메모장과 펜을 자주 들고 있음, 둥근 솜꼬리"
+        ],
+        "color_rule": "남색·민트·노랑·초록·하늘색 옷 금지 (달몽 남색, 뭉뭉 민트·노랑, 너구리 초록·하늘색, 냐옹 와인과 겹치지 않게). 테마색 후보: 코랄 #e07a5f, 형광펜 #fbd3c6",
+        "personality": "소심하지만 메모왕. 질문은 작게 '혹시…', 정리는 완벽하게. 실수할까 걱정이 많아 AI 답도 두 번 확인한다. AI 처음 쓰는 사람의 걱정을 대신 말하는 역할.",
+        "acting": "어깨를 살짝 움츠리고 메모장을 가슴에 꼭 안는다. 걱정하면 귀가 뒤로 처지고, 안심하면 귀가 쫑긋 선다.",
+        "voice": "조심스러운 존댓말, 말끝을 흐리거나 '혹시…', '이렇게 해도 될까요?'. 기쁘면 작게 '됐다…!'",
+        "relationships": [
+          "토끼 인턴 → 뭉뭉 사원: 존댓말, '뭉뭉 선배님'",
+          "토끼 인턴 → 달몽 사원: 존댓말, '달몽 선배님'",
+          "토끼 인턴 → 냐옹 대리·너구리 대리: 존댓말, '대리님'",
+          "뭉뭉 사원 → 토끼 인턴: 신나서 챙기는 선배, 짧은 반말 + '○○ 씨'",
+          "냐옹 대리 → 토끼 인턴: 짧고 무심한 반말"
+        ]
+      }
     }
   ]
 }
