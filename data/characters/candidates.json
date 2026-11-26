@@ -78,20 +78,15 @@
     },
     {
       "id": "rabbit-a2",
-      "label": "토끼 인턴 A안 수정 — 하얀 토끼·분홍 투명테 안경 (다른 캐릭터와 색 안 겹치게)",
+      "label": "솜솜 인턴 — 하얀 토끼·분홍 투명테 안경 (확정)",
       "species": "rabbit",
       "look": "a white rabbit with soft fluffy pure white fur, long upright ears with pale pink insides, a small pink nose, round dark red-brown eyes behind slightly oversized round glasses with clear light-pink plastic frames (not gold, not black), round fluffy white tail. Wears a plain white shirt with a small round collar under a soft coral-orange knit cardigan, dark plum-purple slacks, cream-colored loafers, and a white employee ID card on a lavender-purple lanyard. No navy, no mint, no yellow, no green, no sky-blue anywhere on the outfit.",
       "attitude": "shy but meticulous new intern: slightly hunched shoulders, careful polite posture, big attentive eyes, ears alert",
       "pose": "small, about a head shorter than the otter, standing politely and holding a small open notebook and a pen against the chest with both paws, feet together",
       "expressions": "1) a shy small smile with ears slightly lowered, 2) a worried face reading a smartphone held in both paws, ears drooping backward, 3) a relieved happy smile with ears perked straight up and eyes sparkling",
-      "chosen": "2026-11-26 사용자 선택. 기준 그림 data/reference/rabbit-character.jpg. 아직 hosts.json·bible.json 미등록(투입 시점에 등록).",
+      "chosen": "2026-11-26 사용자 선택, 이름 '솜솜 인턴'. 기준 그림 data/reference/rabbit-character.jpg. 아직 hosts.json·bible.json 미등록(투입 시점에 등록, 그때 뭉뭉은 사원으로 승진).",
       "profile_ko": {
         "role": "새 인턴 (뭉뭉 인턴은 이때 사원으로 승진)",
-        "name_candidates": [
-          "깡총 인턴",
-          "토토 인턴",
-          "콩이 인턴"
-        ],
         "fixed": [
           "순백색 털, 분홍빛 귀 안쪽, 작은 분홍 코, 동그란 적갈색 눈",
           "살짝 큰 동그란 분홍 투명테 안경 (금테·검은테 아님)",
@@ -108,9 +103,12 @@
           "토끼 인턴 → 뭉뭉 사원: 존댓말, '뭉뭉 선배님'",
           "토끼 인턴 → 달몽 사원: 존댓말, '달몽 선배님'",
           "토끼 인턴 → 냐옹 대리·너구리 대리: 존댓말, '대리님'",
-          "뭉뭉 사원 → 토끼 인턴: 신나서 챙기는 선배, 짧은 반말 + '○○ 씨'",
+          "뭉뭉 사원 → 토끼 인턴: 신나서 챙기는 선배, 짧은 반말 + '솜솜 씨'",
           "냐옹 대리 → 토끼 인턴: 짧고 무심한 반말"
-        ]
+        ],
+        "name": "솜솜 인턴",
+        "short": "솜솜",
+        "paper": "솜솜일보"
       }
     }
   ]
