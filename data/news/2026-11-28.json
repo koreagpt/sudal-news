@@ -1,0 +1,235 @@
+{
+  "date": "2026-11-28",
+  "generated_at": "2026-11-27T20:01:19.372592+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "내 PC에서 번역·받아쓰기…에이아이고 2.0 출시",
+      "summary": "래블업이 외부 서버로 데이터를 보내지 않고 PC에서 AI를 실행하는 앱을 출시했습니다. 대화, 이미지 생성, 음성 받아쓰기, 실시간 문서 번역을 지원합니다.",
+      "comment": "회사 문서 번역할 때 쓸지 따져봐야겠네.",
+      "category": "서비스·제품",
+      "link": "https://www.etnews.com/20261127000331",
+      "source": "전자신문",
+      "original_title": "래블업, 로컬 AI 앱 'AI:GO 2.0' 출시…PC서 에이전트 실행",
+      "lang": "ko",
+      "published": "2026-11-27T08:11:37+00:00"
+    },
+    {
+      "title": "대신 전화하는 AI, 에스토니아는 식별번호 추진",
+      "summary": "기업들이 본인확인 문제로 AI의 대리 상담을 제한하고 있습니다. 에스토니아 정부는 AI가 누구의 위임을 받았는지 확인할 고유 식별번호를 주는 법안을 제출했습니다.",
+      "comment": "전화 맡기려면 누구 대신인지 확인은 필요하겠네.",
+      "category": "정책·사회",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=157869",
+      "source": "테크M",
+      "original_title": "AI가 건 전화에 난감한 기업들...유럽에선 'AI 신분증' 발급 추진",
+      "lang": "ko",
+      "published": "2026-11-27T05:31:00+00:00"
+    },
+    {
+      "title": "“보험료 10만원대로 바꿔줘”…AI가 설계안 수정",
+      "summary": "신한라이프가 보험설계사의 업무를 돕는 AI 비서를 도입했습니다. 원하는 보험료를 입력하면 보장 항목과 가입금액을 조정한 새 설계안을 보여줍니다.",
+      "comment": "조건 바뀔 때마다 다시 입력하는 일은 줄겠네.",
+      "category": "업무활용",
+      "link": "https://www.bloter.net/news/articleView.html?idxno=679897",
+      "source": "블로터",
+      "original_title": "신한라이프 설계사 10명 중 7명…AI비서 '리코' 뒀다[현장+]",
+      "lang": "ko",
+      "published": "2026-11-27T08:03:23+00:00"
+    },
+    {
+      "title": "개인정보 유출 신고 1019건…긴급 대응 가동",
+      "summary": "올해 10월까지 개인정보 유출 신고가 1019건으로 지난해 전체 447건을 넘었습니다. 개인정보보호위원회는 AI를 쓴 해킹에 맞서 긴급 대응과 점검 지원 체계를 가동한다고 밝혔습니다.",
+      "comment": "공유 폴더 공개 설정부터 다시 확인하자.",
+      "category": "정책·사회",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217882",
+      "source": "AI타임스",
+      "original_title": "AI 기반 해킹 확산에 올해 개인정보유출 신고 전년 2배 훌쩍",
+      "lang": "ko",
+      "published": "2026-11-27T06:17:09+00:00"
+    },
+    {
+      "title": "NIPA, 현장 업무 개선 중심으로 AI 교육 개편",
+      "summary": "정보통신산업진흥원이 실제 업무 개선과 성과를 내는 방향으로 AI 인재 양성 정책을 바꿉니다. 대한제강과 삼양사는 재직자 교육 뒤 생산 공정을 개선하고 비용을 줄였습니다.",
+      "comment": "교육받고 내 업무 하나라도 바꾸면 좋겠어.",
+      "category": "교육",
+      "link": "https://byline.network/2026/11/1126-5/",
+      "source": "바이라인네트워크",
+      "original_title": "NIPA, AI 인재 양성 방향 전환…산업 현장 문제 해결·성과 중심으로",
+      "lang": "ko",
+      "published": "2026-11-27T10:04:26+00:00"
+    },
+    {
+      "title": "애플, 아동 안전 논란에 AI 대화 앱 ‘토키’ 삭제",
+      "summary": "애플이 AI 캐릭터와 대화하는 앱 ‘토키’를 전 세계 앱스토어에서 삭제했습니다. 앞서 미성년자에게 성적으로 부적절한 메시지를 보낸 사례가 탐사보도로 공개됐습니다.",
+      "comment": "아이 쓰는 앱은 대화 내용도 확인해야겠네.",
+      "category": "정책·사회",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217870",
+      "source": "AI타임스",
+      "original_title": "애플, 미니맥스 AI 동반자 '토키' 앱스토어에서 삭제…아동 안전 논란",
+      "lang": "ko",
+      "published": "2026-11-27T05:25:00+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "1컷 달몽 사원이 번역할 회사 문서를 들고 외부 전송을 망설이고, 2컷 PC에서 실행하는 에이아이고를 발견하고, 3컷 문서 번역을 실행한 뒤, 4컷 커피를 내려놓으며 번역문을 원문과 대조한다.",
+    "link": "https://www.etnews.com/20261127000331",
+    "source": "전자신문",
+    "original_title": "래블업, 로컬 AI 앱 'AI:GO 2.0' 출시…PC서 에이전트 실행",
+    "lang": "ko",
+    "published": "2026-11-27T08:11:37+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 39,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 100,
+      "kept": 12,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 11,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 3,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 30,
+      "kept": 12,
+      "error": null
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 8,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 100,
+      "kept": 13,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 50,
+      "kept": 5,
+      "error": null
+    },
+    "byline": {
+      "fetched": 20,
+      "kept": 7,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": true,
+    "attempts": 2,
+    "topic": "래블업, 로컬 AI 앱 'AI:GO 2.0' 출시…PC서 에이전트 실행",
+    "source": "전자신문",
+    "problems": [],
+    "made_at": "2026-11-28T05:01+09:00",
+    "title": "내 PC에서 돌리는 AI",
+    "script": {
+      "title": "내 PC에서 돌리는 AI",
+      "subtitle": "회사 문서 대신 예문부터",
+      "panels": [
+        {
+          "beat": "달몽은 회사 문서를 번역하려다가 외부 전송이 마음에 걸려 멈춘다.",
+          "shot": "롱샷",
+          "location": "desk",
+          "density": "establishing",
+          "characters": [
+            "달몽"
+          ],
+          "acting": "달몽은 반쯤 감긴 눈으로 회사 문서를 내려다본다. 한 손에는 문서를 들고, 다른 손은 사원증을 만지작거리며 등을 느슨하게 구부린다.",
+          "scene": "왼쪽 큰 창의 따뜻한 빛이 창가 책상에 들어온다. 모니터 하나와 닫힌 노트북, 오른쪽 끝 넓은 잎 화분, 왼쪽 펜꽂이와 서류 더미, 남색 머그컵을 낮은 대비로 배치한다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "회사 문서를 밖에 보내긴 좀…"
+            }
+          ]
+        },
+        {
+          "beat": "PC에서 AI를 실행하는 앱이 나왔다는 소식을 접한다.",
+          "shot": "미디엄",
+          "location": "desk",
+          "density": "contact",
+          "characters": [
+            "달몽"
+          ],
+          "acting": "달몽은 회사 문서를 책상에 내려놓고 모니터의 뉴스 기사를 읽는다. 한 손으로 마우스를 잡되, 눈꺼풀과 어깨는 여전히 처져 있다.",
+          "scene": "달몽의 얼굴이 보이는 측면 구도이며 모니터 화면은 달몽 쪽을 향한다. 실제 기사 화면 대신 일반적인 기사 배치만 표현한다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "에이아이고? PC에서 AI를 돌린대."
+            }
+          ]
+        },
+        {
+          "beat": "PC에서 실행된다는 사실만으로 문서의 외부 전송 여부까지 알 수는 없다고 판단한다.",
+          "shot": "미디엄",
+          "location": "desk",
+          "density": "contact",
+          "characters": [
+            "달몽"
+          ],
+          "acting": "달몽은 모니터의 앱 안내를 읽으며 커피잔을 든 손을 멈춘다. 다른 손으로 회사 문서를 자기 쪽으로 당기고, 고개를 조금 기울인다.",
+          "scene": "모니터는 달몽을 향하고 독자에게는 뒷면이 보인다. 책상 위에는 회사 문서와 작은 빈 메모지만 남겨 판단하는 동작을 강조한다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "PC 실행만으론 모르겠네."
+            },
+            {
+              "speaker": "달몽",
+              "text": "밖에 보내는지도 확인해야겠네."
+            }
+          ]
+        },
+        {
+          "beat": "회사 문서는 보류하고 공개 예문으로 먼저 시험할 준비를 한다.",
+          "shot": "미디엄",
+          "location": "desk",
+          "density": "contact",
+          "characters": [
+            "달몽"
+          ],
+          "acting": "달몽은 회사 문서를 덮어 왼쪽 서류 더미에 놓고, 커피잔도 내려놓는다. 짧은 공개 예문을 적은 메모지를 키보드 옆으로 당기며 입꼬리만 살짝 올린다.",
+          "scene": "얼굴과 양손이 함께 보이는 구도로, 덮어 둔 회사 문서와 새로 꺼낸 예문 메모지를 대비한다. 화면은 달몽을 향하며 구체적인 제품 화면이나 번역 결과는 그리지 않는다.",
+          "bubbles": [
+            {
+              "speaker": "달몽",
+              "text": "공개 예문부터 넣어 보자."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "내 PC에서 쓸 AI를 찾았다.",
+      "closing_line2": "회사 문서 대신 예문을 꺼냈다.",
+      "alt": "달몽이 회사 문서를 번역하려다 외부 전송을 망설인다. PC에서 AI를 실행하는 앱 출시 기사를 읽지만, 그것만으로 문서가 외부에 전송되지 않는지는 알 수 없다고 판단한다. 커피를 내려놓고 회사 문서를 덮은 뒤, 공개 예문으로 먼저 시험할 준비를 한다."
+    },
+    "acting_notes": [
+      "4컷: 공개 예문을 입력하겠다는 대사와 달리 양손이 서류와 메모지에 머물러 있어 입력 행동이 잘 드러나지 않는다. 한 손을 키보드에 올리거나 예문과 화면을 번갈아 보는 동작을 주면 의도가 더 명확해진다."
+    ],
+    "bubble_issues": [],
+    "image": "2026-11-28-050351.jpg",
+    "round": 1
+  },
+  "ad": {
+    "course_id": "rnd-problem-solving",
+    "title": "AI와 함께하는 R&D 문제해결 워크플로우",
+    "url": "https://gptkoreaclass.com/courses/rnd-problem-solving",
+    "format": "온라인",
+    "style": "당번 추천",
+    "hook": "회사 기술을 드러내기 어렵다면",
+    "pitch": "기술을 드러내지 않고 조사하는 법을 배워요. 문제를 다시 짚고 해법까지 이어 가야 할 때 도움이 돼요.",
+    "comment": "자료 꺼내기 전에 망설여질 때 있지."
+  }
+}
