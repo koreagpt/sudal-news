@@ -1,0 +1,245 @@
+{
+  "date": "2026-11-29",
+  "generated_at": "2026-11-28T20:01:32.224041+00:00",
+  "mode": "gpt",
+  "model": "gpt-6.1-sol",
+  "items": [
+    {
+      "title": "챗GPT·클로드에 내 장부 연결한다",
+      "summary": "세무특공대가 장부 데이터를 외부 서비스와 연결하는 기능을 개방했습니다. 챗GPT·클로드에 내 장부를 연결하는 방식입니다.",
+      "comment": "장부 연결하기 전에 공개 범위부터 봐.",
+      "category": "업무활용",
+      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9BZGVnNE9iVkpIeFVoMDFMX2JweUU3SExIRG5xTlNaYXpDbnd4YS1KNFVuWk1pN2RvSDJiV215eC1VR01SVF9ONmNtdTVJUmFfUHBYc2RBWmpIUEhNdGlSSGRGMFl0R3VUMHfSAW9BVV95cUxOY0YxLXlhX21TTEp4NWpaakJKTS1CYjhtR2x6LVltUm53RFhGQ3F4WUd2Z3UwVWZXLUxkcVBhMnVXcEI5VU1kc0l1X3RSNEVHbUpHWS1kdWc1Z0s5TThuZWowQWlvYWtKOWo5bERyc1U?oc=5",
+      "source": "머니투데이",
+      "original_title": "세무특공대, 기장 데이터 API 개방…\"챗GPT·클로드에 내 장부 연결\" - 머니투데이",
+      "lang": "ko",
+      "published": "2026-11-28T11:18:57+00:00"
+    },
+    {
+      "title": "대신 서비스 쓰는 AI 비서 ‘피클’, 한 달 40만명",
+      "summary": "AI 비서 ‘피클’을 한 달 새 40만명이 썼습니다. AI가 사람 대신 접속해 서비스를 이용하면서, 플랫폼 기업들도 대응 방식을 고민하고 있습니다.",
+      "comment": "내 AI가 대신 가도 받아줄지는 별개네.",
+      "category": "서비스·제품",
+      "link": "https://byline.network/2026/11/27_2918273/",
+      "source": "바이라인네트워크",
+      "original_title": "한 달 새 40만명 쓴 AI 에이전트 ‘피클’…고민 깊어지는 플랫폼 기업들",
+      "lang": "ko",
+      "published": "2026-11-27T23:52:30+00:00"
+    },
+    {
+      "title": "AI로 목소리 사칭한 사기범, 징역 47개월",
+      "summary": "미국에서 AI로 스트리머 목소리를 흉내 내 약 3억5000만원을 가로챈 남성이 징역 47개월을 선고받았습니다. 피해자는 계약서와 음성 녹음을 믿고 홍보 계약을 맺었습니다.",
+      "comment": "아는 목소리라도 돈 보내기 전엔 확인해.",
+      "category": "정책·사회",
+      "link": "https://zdnet.co.kr/view/?no=20261128162644",
+      "source": "지디넷코리아",
+      "original_title": "AI로 목소리 흉내, 3억5000만원 가로채...미국서 징역 47개월",
+      "lang": "ko",
+      "published": "2026-11-28T07:26:44+00:00"
+    },
+    {
+      "title": "AI 인재 교육, 현장 업무 해결 중심으로 바꾼다",
+      "summary": "정보통신산업진흥원이 실제 업무 개선과 성과를 내는 쪽으로 AI 인재 양성 정책을 개편합니다. 대한제강과 삼양사는 재직자 교육으로 생산 공정을 개선하고 비용을 줄였습니다.",
+      "comment": "교육 들었으면 밀린 일 하나는 줄어야지.",
+      "category": "교육",
+      "link": "https://byline.network/2026/11/1126-5/",
+      "source": "바이라인네트워크",
+      "original_title": "NIPA, AI 인재 양성 방향 전환…산업 현장 문제 해결·성과 중심으로",
+      "lang": "ko",
+      "published": "2026-11-27T10:04:26+00:00"
+    },
+    {
+      "title": "회사 AI, 부서별 사용 권한·지출 한도 정한다",
+      "summary": "회사에서 AI 사용 비용과 데이터를 관리하는 제품들이 나오고 있습니다. 부서별 사용 권한과 지출 한도를 정하거나, 사내 서버·개인 PC에서 AI를 실행하는 방식입니다.",
+      "comment": "AI 쓰기 전에 회사 규정부터 확인해.",
+      "category": "업무활용",
+      "link": "https://www.techm.kr/news/articleView.html?idxno=157887",
+      "source": "테크M",
+      "original_title": "AI 활용 늘수록 비용·보안 고민...관리 수요 공략 나선 IT기업들",
+      "lang": "ko",
+      "published": "2026-11-27T09:12:28+00:00"
+    },
+    {
+      "title": "사카나 AI, 웹 검색·긴 문서 이해 강화한 AI 공개",
+      "summary": "사카나 AI가 웹 검색과 긴 문서 이해 능력을 강화한 ‘나마즈 스몰’을 공개했습니다. 기업이 자체 서버에서도 운영하도록 개발했습니다.",
+      "comment": "회사 안에서 돌릴 선택지도 늘어나네.",
+      "category": "연구·기술",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217892",
+      "source": "AI타임스",
+      "original_title": "사카나 AI, 30B급 추론 모델 '나마즈 스몰' 공개...웹 검색서 120B 모델 압도",
+      "lang": "ko",
+      "published": "2026-11-28T07:38:14+00:00"
+    }
+  ],
+  "webtoon_suggestion": {
+    "idea": "① 냐옹 대리가 부장 목소리로 송금을 요청하는 음성 메시지를 받고 ② 송금 버튼 앞에서 멈춘 뒤 ③ 평소 쓰던 번호로 부장에게 전화해 사실이 아님을 확인하고 ④ '목소리만 듣고 보낼 뻔했네'라며 메시지를 신고하는 4컷.",
+    "link": "https://zdnet.co.kr/view/?no=20261128162644",
+    "source": "지디넷코리아",
+    "original_title": "AI로 목소리 흉내, 3억5000만원 가로채...미국서 징역 47개월",
+    "lang": "ko",
+    "published": "2026-11-28T07:26:44+00:00"
+  },
+  "feeds": {
+    "aitimes": {
+      "fetched": 50,
+      "kept": 18,
+      "error": null
+    },
+    "gnews_kr": {
+      "fetched": 100,
+      "kept": 14,
+      "error": null
+    },
+    "zdnet_kr": {
+      "fetched": 30,
+      "kept": 8,
+      "error": null
+    },
+    "bloter": {
+      "fetched": 50,
+      "kept": 5,
+      "error": null
+    },
+    "etnews": {
+      "fetched": 30,
+      "kept": 6,
+      "error": null
+    },
+    "techm": {
+      "fetched": 50,
+      "kept": 4,
+      "error": null
+    },
+    "inews24": {
+      "fetched": 100,
+      "kept": 4,
+      "error": null
+    },
+    "hankyung_it": {
+      "fetched": 0,
+      "kept": 0,
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    "byline": {
+      "fetched": 20,
+      "kept": 2,
+      "error": null
+    }
+  },
+  "webtoon_status": {
+    "ok": true,
+    "attempts": 3,
+    "topic": "AI로 목소리 흉내, 3억5000만원 가로채...미국서 징역 47개월",
+    "source": "지디넷코리아",
+    "problems": [
+      "2컷: 아래쪽 냐옹의 말풍선이 조작 중인 휴대전화 상단을 가려, 저장된 번호를 확인하는 핵심 행동이 충분히 보이지 않는다.",
+      "4컷: 말풍선에 꼬리가 없어 화자를 명시하는 단서가 약하다. 냐옹 쪽에 배치되어 있으나 꼬리를 추가하면 더 명확하다."
+    ],
+    "made_at": "2026-11-29T05:01+09:00",
+    "title": "AI 목소리에 송금할 뻔",
+    "script": {
+      "title": "AI 목소리에 송금할 뻔",
+      "subtitle": "저장한 번호로 다시 물었다",
+      "panels": [
+        {
+          "beat": "익숙한 팀장 목소리로 급한 송금 요청이 온다.",
+          "shot": "롱샷",
+          "location": "pantry",
+          "density": "establishing",
+          "characters": [
+            "냐옹 대리",
+            "너구리 대리"
+          ],
+          "acting": "냐옹은 휴대전화를 쥔 흰 앞발을 귀 가까이 들고 반쯤 내리깐 눈으로 기기를 본다. 다른 앞발은 둥근 테이블의 남색 머그컵에 얹고, 너구리는 맞은편에서 고개를 든다.",
+          "scene": "크림·베이지색 탕비실에 벽면 커피머신과 컵들, 둥근 테이블, 창 옆 화분을 낮은 대비로 그린다. 휴대전화 화면은 냐옹을 향해 독자에게는 뒷면만 보인다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "팀장님이 급히 송금하라고?"
+            }
+          ]
+        },
+        {
+          "beat": "AI로 목소리를 흉내 낸 사기 소식을 듣고 송금을 멈춘다.",
+          "shot": "미디엄",
+          "location": "pantry",
+          "density": "contact",
+          "characters": [
+            "냐옹 대리",
+            "너구리 대리"
+          ],
+          "acting": "너구리는 읽던 뉴스가 있는 휴대전화를 자신 쪽으로 향해 쥐고 냐옹을 바라본다. 냐옹은 귀를 조금 뒤로 젖히고 자기 휴대전화의 송금 버튼 위에서 앞발을 멈춘다.",
+          "scene": "냐옹의 어깨 너머로 송금 버튼이 있는 일반적인 화면과 두 인물의 얼굴을 함께 보여 준다. 배경은 테이블 가장자리만 남긴다.",
+          "bubbles": [
+            {
+              "speaker": "너구리 대리",
+              "text": "AI로 목소리 속인 사건이래."
+            },
+            {
+              "speaker": "냐옹",
+              "text": "저장한 번호로 확인할게."
+            }
+          ]
+        },
+        {
+          "beat": "평소 저장해 둔 번호로 전화하니 실제 송금 요청이 아니었다.",
+          "shot": "미디엄",
+          "location": "pantry",
+          "density": "contact",
+          "characters": [
+            "냐옹 대리"
+          ],
+          "acting": "냐옹은 저장된 팀장 연락처로 전화를 건 뒤 휴대전화를 귀에 댄다. 시선은 테이블에 내려 두고, 빈 앞발로 머그컵 손잡이를 잡은 채 차분하게 되묻는다.",
+          "scene": "냐옹의 얼굴과 휴대전화를 귀에 댄 자세를 보여 준다. 화면은 보이지 않으며 테이블과 머그컵만 배경에 남긴다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "요청하신 적 없으시다고요?"
+            }
+          ]
+        },
+        {
+          "beat": "돈을 보내는 대신 사칭 메시지를 신고한다.",
+          "shot": "미디엄",
+          "location": "pantry",
+          "density": "contact",
+          "characters": [
+            "냐옹 대리",
+            "너구리 대리"
+          ],
+          "acting": "냐옹은 통화를 마친 뒤 휴대전화의 신고 버튼을 흰 앞발로 누른다. 너구리는 자기 휴대전화를 내려놓고 그 행동을 지켜보며, 냐옹의 꼬리 끝도 차분히 내려간다.",
+          "scene": "냐옹의 어깨 너머로 신고 버튼과 두 인물의 얼굴이 함께 보이게 한다. 실제 제품 화면 대신 단순한 메시지 화면을 그린다.",
+          "bubbles": [
+            {
+              "speaker": "냐옹",
+              "text": "목소리만 듣고 보낼 뻔했네."
+            }
+          ]
+        }
+      ],
+      "closing_line1": "저장한 번호로 확인했다.",
+      "closing_line2": "송금 대신 메시지를 신고했다.",
+      "alt": "탕비실에서 냐옹 대리가 팀장 목소리로 된 급한 송금 요청을 받는다. 너구리가 AI로 목소리를 속인 사기 소식을 말하자 송금 버튼 앞에서 멈춘다. 냐옹은 저장된 번호로 팀장에게 전화해 요청한 적 없다는 답을 듣고, 돈을 보내는 대신 사칭 메시지를 신고한다."
+    },
+    "acting_notes": [
+      "1컷: 급한 송금 요청을 의심하는 상황에 비해 냐옹의 표정이 평소의 무심한 표정에 가깝다. 눈썹이나 눈매에 당혹감·의심을 조금 더 드러내면 좋다.",
+      "4컷: 냐옹이 뒷모습으로만 보여 송금을 피한 안도감과 아찔함이 전달되기 어렵다. 얼굴 일부가 보이는 각도나 어깨가 풀리는 동작으로 감정을 보완하면 좋다."
+    ],
+    "bubble_issues": [
+      "2컷: 아래쪽 냐옹의 말풍선이 조작 중인 휴대전화 상단을 가려, 저장된 번호를 확인하는 핵심 행동이 충분히 보이지 않는다.",
+      "4컷: 말풍선에 꼬리가 없어 화자를 명시하는 단서가 약하다. 냐옹 쪽에 배치되어 있으나 꼬리를 추가하면 더 명확하다."
+    ],
+    "image": "2026-11-29-050453.jpg",
+    "round": 1
+  },
+  "ad": {
+    "course_id": "gpt-ai-standard",
+    "title": "GPT & AI 스탠다드 코스",
+    "url": "https://gptkoreaclass.com/courses/gpt-ai-standard",
+    "format": "온라인",
+    "style": "질문",
+    "hook": "엑셀 작업, 아직 손으로 하세요?",
+    "pitch": "엑셀·PPT 작업에 AI를 어떻게 쓰면 될까요? 이 강의에서 자동화하는 법부터 데이터 분석까지 배워요.",
+    "comment": "AI 배웠으면 엑셀에도 좀 써먹자."
+  }
+}
